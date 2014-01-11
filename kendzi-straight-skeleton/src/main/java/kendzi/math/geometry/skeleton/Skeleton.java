@@ -313,63 +313,20 @@ public class Skeleton {
 
         List<Chain> chains = event.getChains();
         final Point2d center = event.v;
+
         createOppositeEdgeChains(sLav, chains, center);
-
-        // List<ChainEnds> chains = new ArrayList<Skeleton.ChainEnds>();
-
-        // for (SkeletonEvent skeletonEvent : chains2) {
-        //
-        // if (skeletonEvent instanceof VertexSplitEvent) {
-        // SplitEvent splitEvent = (SplitEvent) skeletonEvent;
-        // if (splitEvent.getParent().list().size() < 3) {
-        // throw new
-        // RuntimeException("split event is refering to less then 3 vertex lav");
-        // }
-        // dddd
-        // edgesList.add(new ChainEndsImpl(splitEvent.getParent().e_a,
-        // splitEvent.getParent().e_b, splitEvent.getParent()
-        // .previous(), splitEvent.getParent().next(), splitEvent.getParent()));
-        //
-        // } else if (skeletonEvent instanceof SplitEvent) {
-        // SplitEvent splitEvent = (SplitEvent) skeletonEvent;
-        //
-        // if (splitEvent.getParent().list().size() < 3) {
-        // throw new
-        // RuntimeException("split event is refering to les then 3 vertex lav");
-        // }
-        //
-        // edgesList.add(new ChainEndsImpl(splitEvent.getParent().e_a,
-        // splitEvent.getParent().e_b, splitEvent.getParent()
-        // .previous(), splitEvent.getParent().next(), splitEvent.getParent()));
-        //
-        // // find lav vertex for opposite edge
-        // EdgeEntry oppositeEdge = splitEvent.getOppositeEdge();
-        //
-        // // FIXME what when we share edge between two lavs?
-        // VertexEntry2 nextVertex = findEdgeLav(sLav, oppositeEdge, null);
-        // VertexEntry2 previousVertex = nextVertex.previous();
-        //
-        // edgesList.add(new ChainEndsImpl(splitEvent.getOppositeEdge(),
-        // splitEvent.getOppositeEdge(), previousVertex, nextVertex, null));
-        //
-        // } else if (skeletonEvent instanceof EdgeEvent) {
-        // EdgeEvent edgeEvent = (EdgeEvent) skeletonEvent;
-        // edgesList.add(new ChainEndsImpl(edgeEvent.Va.e_a, edgeEvent.Vb.e_b,
-        // edgeEvent.Va, edgeEvent.Vb, null));
-        // }
-        // }
 
         Comparator<ChainEnds> multiSplitSorter = new Comparator<Skeleton.ChainEnds>() {
 
             @Override
             public int compare(ChainEnds chain1, ChainEnds chain2) {
-                // sort it by chain edges begins
+                /*
+                 * Sort it by chain edges begins, chains are sorted
+                 * CounterClockwise
+                 */
                 double angle1 = AngleUtil.angle(center, chain1.getPreviousEdge().p1);
                 double angle2 = AngleUtil.angle(center, chain2.getPreviousEdge().p1);
 
-                // XXX equals? assert?
-                // FIXME clockwise or anti clockwise?!
-                // XXX chosen CounterClockwise !!!
                 return angle1 > angle2 ? 1 : -1;
             }
         };
@@ -386,14 +343,12 @@ public class Skeleton {
             ChainEnds chainBegin = chains.get(i);
             ChainEnds chainEnd = chains.get((i + 1) % edgeListSize);
 
-            // removeFromLav(chainBegin.getCurrentVertex());
-            // removeFromLav(chainEnd.getCurrentVertex());
-
             VertexEntry2 newVertex = createMultiSplitVertex(chainBegin.getNextEdge(), chainEnd.getPreviousEdge(), center);
 
             // Split and merge lavs...
-            // FIXME
+
             DV.debug(sLav);
+
             VertexEntry2 beginNextVertex = chainBegin.getNextVertex();
             VertexEntry2 endPreviousVertex = chainEnd.getPreviousVertex();
 
@@ -410,19 +365,19 @@ public class Skeleton {
 
                 lav.addLast(newVertex);
 
-                System.out.print(newVertex.v + " ");
+                // System.out.print(newVertex.v + " ");
 
                 for (VertexEntry2 vertex : lavPart) {
                     lav.addLast(vertex);
-                    System.out.print(vertex.v + " ");
+                    // System.out.print(vertex.v + " ");
                 }
-                System.out.println();
-
-                if (lav.size >= 8) {
-                    DV.debug(lav);
-                    // XXX test me
-                    // throw new RuntimeException();
-                }
+                // System.out.println();
+                //
+                // if (lav.size >= 8) {
+                // DV.debug(lav);
+                // // XXX test me
+                // // throw new RuntimeException();
+                // }
                 log.debug("after split: " + lavToString(lav.first()));
                 DV.debug(sLav);
             } else {
@@ -439,73 +394,8 @@ public class Skeleton {
                 DV.debug(sLav);
             }
 
-            // FIXME add split event !!!
+            lastFaceNode = addSplitFaces(lastFaceNode, chainBegin, chainEnd, newVertex);
 
-            if (chainBegin instanceof SingleEdgeChain) {
-                /*
-                 * When chain is generated by opposite edge we need to share
-                 * face between two chains. Number of that chains shares is
-                 * always odd.
-                 */
-                VertexEntry2 beginVertex = beginNextVertex;
-
-                // right face
-                if (lastFaceNode == null) {
-                    beginVertex = createOppositeEdgeVertex(newVertex);
-
-                    DV.debug(beginVertex.rightFace);
-                    // createOppositeEdgeVertex(newVertex)
-                    lastFaceNode = addFaceRight(newVertex, beginVertex);
-                    DV.debug(beginVertex.rightFace);
-                } else {
-                    // addFaceRight(newVertex, beginVertex, lastFaceNode);
-                    // connectList(beginVertex.rightFace, lastFaceNode);
-                    // face queue exist simply assign it to new node
-                    if (newVertex.rightFace != null) {
-                        throw new RuntimeException();
-                    }
-                    newVertex.rightFace = lastFaceNode;
-                    lastFaceNode = null;
-                }
-
-            } else {
-                VertexEntry2 beginVertex = chainBegin.getCurrentVertex();
-                DV.debug(beginVertex.rightFace);
-                // right face
-                addFaceRight(newVertex, beginVertex);
-                DV.debug(beginVertex.rightFace);
-            }
-
-            if (chainEnd instanceof SingleEdgeChain) {
-                VertexEntry2 endVertex = endPreviousVertex;
-
-                // left face
-                if (lastFaceNode == null) {
-                    endVertex = createOppositeEdgeVertex(newVertex);
-
-                    DV.debug(endVertex.leftFace);
-                    lastFaceNode = addFaceLeft(newVertex, endVertex);
-                    DV.debug(endVertex.leftFace);
-                } else {
-                    // do merge
-                    // addFaceLeft(newVertex, endVertex, lastFaceNode);
-
-                    // connectList(endVertex.leftFace, lastFaceNode);
-                    if (newVertex.leftFace != null) {
-                        throw new RuntimeException();
-                    }
-                    newVertex.leftFace = lastFaceNode;
-
-                    lastFaceNode = null;
-                }
-
-            } else {
-                VertexEntry2 endVertex = chainEnd.getCurrentVertex();
-                DV.debug(endVertex.leftFace);
-                // left face
-                addFaceLeft(newVertex, endVertex);
-                DV.debug(endVertex.leftFace);
-            }
             DV.debug(sLav);
             // chainBegin.getNextVertex().remove();
             // chainEnd.getPreviousVertex().remove();
@@ -528,6 +418,75 @@ public class Skeleton {
             }
         }
         DV.debug(sLav);
+    }
+
+    private static FaceNode addSplitFaces(FaceNode lastFaceNode, ChainEnds chainBegin, ChainEnds chainEnd, VertexEntry2 newVertex) {
+        if (chainBegin instanceof SingleEdgeChain) {
+            /*
+             * When chain is generated by opposite edge we need to share face
+             * between two chains. Number of that chains shares is always odd.
+             */
+            VertexEntry2 beginVertex = chainBegin.getNextVertex();
+
+            // right face
+            if (lastFaceNode == null) {
+                beginVertex = createOppositeEdgeVertex(newVertex);
+
+                DV.debug(beginVertex.rightFace);
+                // createOppositeEdgeVertex(newVertex)
+                lastFaceNode = addFaceRight(newVertex, beginVertex);
+                DV.debug(beginVertex.rightFace);
+            } else {
+                // addFaceRight(newVertex, beginVertex, lastFaceNode);
+                // connectList(beginVertex.rightFace, lastFaceNode);
+                // face queue exist simply assign it to new node
+                if (newVertex.rightFace != null) {
+                    throw new RuntimeException();
+                }
+                newVertex.rightFace = lastFaceNode;
+                lastFaceNode = null;
+            }
+
+        } else {
+            VertexEntry2 beginVertex = chainBegin.getCurrentVertex();
+            DV.debug(beginVertex.rightFace);
+            // right face
+            addFaceRight(newVertex, beginVertex);
+            DV.debug(beginVertex.rightFace);
+        }
+
+        if (chainEnd instanceof SingleEdgeChain) {
+            VertexEntry2 endVertex = chainEnd.getPreviousVertex();
+            ;
+
+            // left face
+            if (lastFaceNode == null) {
+                endVertex = createOppositeEdgeVertex(newVertex);
+
+                DV.debug(endVertex.leftFace);
+                lastFaceNode = addFaceLeft(newVertex, endVertex);
+                DV.debug(endVertex.leftFace);
+            } else {
+                // do merge
+                // addFaceLeft(newVertex, endVertex, lastFaceNode);
+
+                // connectList(endVertex.leftFace, lastFaceNode);
+                if (newVertex.leftFace != null) {
+                    throw new RuntimeException();
+                }
+                newVertex.leftFace = lastFaceNode;
+
+                lastFaceNode = null;
+            }
+
+        } else {
+            VertexEntry2 endVertex = chainEnd.getCurrentVertex();
+            DV.debug(endVertex.leftFace);
+            // left face
+            addFaceLeft(newVertex, endVertex);
+            DV.debug(endVertex.leftFace);
+        }
+        return lastFaceNode;
     }
 
     private static VertexEntry2 createOppositeEdgeVertex(VertexEntry2 newVertex) {
