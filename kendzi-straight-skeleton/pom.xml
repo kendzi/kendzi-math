@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>kendzi-straight-skeleton</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<url>http://www.openstreetmap.org.pl/kendzi/Kendzi3d/</url>
+
+	<dependencies>		
+		<dependency>
+			<groupId>kendzi</groupId>
+			<artifactId>kendzi-math-geometry</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>	
+		<dependency>
+			<groupId>kendzi</groupId>
+			<artifactId>kendzi-math-geometry-debug</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>repo</id>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>ignore</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<url>file://${basedir}/../repo</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<parent>
+		<groupId>kendzi</groupId>
+		<artifactId>kendzi-math</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent> 
+</project>
