@@ -1,10 +1,11 @@
 package kendzi.math.geometry.skeleton.events.chains;
 
 import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
-import kendzi.math.geometry.skeleton.Skeleton.SplitEvent;
 import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
-import kendzi.math.geometry.skeleton.Skeleton.VertexSplitEvent;
-public   class SplitChain extends Chain {
+import kendzi.math.geometry.skeleton.events.SplitEvent;
+import kendzi.math.geometry.skeleton.events.VertexSplitEvent;
+
+public class SplitChain extends Chain {
 
     private SplitEvent splitEvent;
 
@@ -36,7 +37,6 @@ public   class SplitChain extends Chain {
     public VertexEntry2 getCurrentVertex() {
         return splitEvent.getParent();
     }
-
 
     public SplitEvent getSplitEvent() {
         return splitEvent;

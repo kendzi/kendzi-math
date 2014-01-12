@@ -3,8 +3,8 @@ package kendzi.math.geometry.skeleton.events.chains;
 import java.util.List;
 
 import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
-import kendzi.math.geometry.skeleton.Skeleton.EdgeEvent;
 import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.events.EdgeEvent;
 
 public class EdgeChain extends Chain {
     private boolean closed;

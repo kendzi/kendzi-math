@@ -6,31 +6,26 @@ import java.awt.Graphics2D;
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
 import kendzi.math.geometry.debug.DrawUtil;
-import kendzi.math.geometry.skeleton.Skeleton;
-import kendzi.math.geometry.skeleton.Skeleton.EdgeEvent;
-import kendzi.math.geometry.skeleton.Skeleton.SkeletonEvent;
-import kendzi.math.geometry.skeleton.Skeleton.SplitEvent;
+import kendzi.math.geometry.skeleton.events.EdgeEvent;
+import kendzi.math.geometry.skeleton.events.SkeletonEvent;
+import kendzi.math.geometry.skeleton.events.SplitEvent;
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
 /**
- *
+ * 
  * @author Tomasz Kędziora (kendzi)
  */
 public class DisplayIntersectEntry extends DisplayObject {
 
-    private  SkeletonEvent intersect;
+    private SkeletonEvent intersect;
 
     private Color color;
 
-
-
-    public DisplayIntersectEntry(SkeletonEvent f , Color pColor) {
+    public DisplayIntersectEntry(SkeletonEvent f, Color pColor) {
         super();
         this.intersect = f;
         this.color = pColor;
     }
-
-
 
     @Override
     public void draw(Graphics2D g2d, EquationDisplay disp, boolean selected) {
@@ -39,13 +34,9 @@ public class DisplayIntersectEntry extends DisplayObject {
             return;
         }
 
+        // Point2d last = this.points.get(this.points.size() - 1);
 
-        //        Point2d last = this.points.get(this.points.size() - 1);
-
-
-
-
-        if (intersect instanceof Skeleton.SplitEvent) {
+        if (intersect instanceof SplitEvent) {
             g2d.setColor(DisplayEventQueue.SPLIT_COLOR);
         } else {
             g2d.setColor(DisplayEventQueue.EDGE_COLOR);
@@ -53,8 +44,7 @@ public class DisplayIntersectEntry extends DisplayObject {
 
         DrawUtil.drawPoint(intersect.v, selected, g2d, disp);
 
-
-        if (intersect instanceof Skeleton.SplitEvent) {
+        if (intersect instanceof SplitEvent) {
             SplitEvent split = (SplitEvent) this.intersect;
 
             if (split.isObsolete()) {
@@ -95,13 +85,7 @@ public class DisplayIntersectEntry extends DisplayObject {
             DrawUtil.drawLine(intersect.v, split.Vb.v, selected, g2d, disp);
         }
 
-
-
-
-
-
     }
-
 
     @Override
     public Object drawObject() {

@@ -8,8 +8,8 @@ import javax.vecmath.Point2d;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
-import kendzi.math.geometry.skeleton.Skeleton;
-import kendzi.math.geometry.skeleton.Skeleton.SkeletonEvent;
+import kendzi.math.geometry.skeleton.events.SkeletonEvent;
+import kendzi.math.geometry.skeleton.events.SplitEvent;
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
 /**
@@ -48,7 +48,7 @@ public class DisplayEventNames extends DisplayObject {
                 g2d.fillOval(-11 + x, -11 + y, 22, 22);
             }
 
-            if (e instanceof Skeleton.SplitEvent) {
+            if (e instanceof SplitEvent) {
 
                 g2d.setColor(SPLIT_COLOR);
             } else {

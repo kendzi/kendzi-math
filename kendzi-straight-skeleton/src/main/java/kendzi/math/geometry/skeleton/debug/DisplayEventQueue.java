@@ -10,12 +10,12 @@ import javax.vecmath.Point2d;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
-import kendzi.math.geometry.skeleton.Skeleton;
-import kendzi.math.geometry.skeleton.Skeleton.SkeletonEvent;
+import kendzi.math.geometry.skeleton.events.SkeletonEvent;
+import kendzi.math.geometry.skeleton.events.SplitEvent;
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
 /**
- *
+ * 
  * @author Tomasz Kędziora (kendzi)
  */
 public class DisplayEventQueue extends DisplayObject {
@@ -24,7 +24,6 @@ public class DisplayEventQueue extends DisplayObject {
 
     public final static Color EDGE_COLOR = Color.PINK;
     public final static Color SPLIT_COLOR = new Color(127, 0, 255);
-
 
     /**
      * @param polygon
@@ -43,33 +42,7 @@ public class DisplayEventQueue extends DisplayObject {
             return;
         }
 
-
-//        Point2d last = this.points.get(this.points.size() - 1);
-
-
-//        g2d.setColor(color.darker());
-//
-//        Iterator<IntersectEntry> iterator = this.points.iterator();
-//
-//        if (iterator.hasNext()) {
-//
-//            IntersectEntry next = iterator.next();
-//
-//            Point2d first = next.v;
-//            Point2d previous = first;
-//            Point2d current = null;
-//
-//            while (iterator.hasNext()) {
-//                IntersectEntry next2 = iterator.next();
-//                current = next2.v;
-//                drawLine(current, previous, selected, g2d, disp);
-//                previous = current;
-//            }
-//            drawLine(previous, first, selected, g2d, disp);
-//        }
-
-
-        for (SkeletonEvent e : this.points ) {
+        for (SkeletonEvent e : this.points) {
 
             Point2d p = e.v;
 
@@ -81,7 +54,7 @@ public class DisplayEventQueue extends DisplayObject {
                 g2d.fillOval(-11 + x, -11 + y, 22, 22);
             }
 
-            if (e instanceof Skeleton.SplitEvent) {
+            if (e instanceof SplitEvent) {
 
                 g2d.setColor(SPLIT_COLOR);
             } else {
@@ -89,23 +62,6 @@ public class DisplayEventQueue extends DisplayObject {
             }
             g2d.fillOval(-10 + x, -10 + y, 20, 20);
         }
-
-//        for (IntersectEntry e : this.points) {
-//
-//            Point2d p = e.v;
-//
-//            g2d.setColor(color);
-//
-//            int x = (int) disp.xPositionToPixel(p.x);
-//            int y = (int) disp.yPositionToPixel(p.y);
-//            // g2d.translate(x, y);
-//            if (selected) {
-//                g2d.setColor(Color.GREEN.brighter());
-//                g2d.fillOval(-11 + x, -11 + y, 22, 22);
-//            }
-//            g2d.setColor(color);
-//            g2d.fillOval(-10 + x, -10 + y, 20, 20);
-//        }
     }
 
     private void drawLine(Point2d current, Point2d previous, boolean selected, Graphics2D g2d, EquationDisplay disp) {
@@ -122,7 +78,6 @@ public class DisplayEventQueue extends DisplayObject {
             g2d.drawLine(x1, y1, x2, y2); // thick
             g2d.setStroke(stroke);
         }
-
     }
 
     @Override

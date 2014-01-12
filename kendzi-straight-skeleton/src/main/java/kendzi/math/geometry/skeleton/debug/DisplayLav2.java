@@ -14,21 +14,20 @@ import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
 /**
- *
+ * 
  * @author Tomasz Kędziora (kendzi)
  */
 public class DisplayLav2 extends DisplayObject {
 
-    private  CircularList<VertexEntry2> lav;
+    private CircularList<VertexEntry2> lav;
 
     private Color color;
-
 
     /**
      * @param LAV
      * @param pColor
      */
-    public DisplayLav2( CircularList<VertexEntry2> lav , Color pColor) {
+    public DisplayLav2(CircularList<VertexEntry2> lav, Color pColor) {
         super();
         this.lav = lav;
         this.color = pColor;
@@ -41,19 +40,10 @@ public class DisplayLav2 extends DisplayObject {
             return;
         }
 
-
-//        Point2d last = this.points.get(this.points.size() - 1);
-
-
         g2d.setColor(color.darker());
 
-
-
-
-
         for (VertexEntry2 v2 : lav) {
-//            VertexEntry v2 = (VertexEntry) LAVi.next();
-            VertexEntry2 v1 = (VertexEntry2) v2.previous();
+            VertexEntry2 v1 = v2.previous();
 
             Point2d p1 = v1.v;
             Point2d p2 = v2.v;
@@ -79,7 +69,7 @@ public class DisplayLav2 extends DisplayObject {
     public void drawPoint(Point2d p, boolean selected, Graphics2D g2d, EquationDisplay disp) {
         int x = (int) disp.xPositionToPixel(p.x);
         int y = (int) disp.yPositionToPixel(p.y);
-        // g2d.translate(x, y);
+
         if (selected) {
             g2d.setColor(Color.GREEN.brighter());
             g2d.fillOval(-11 + x, -11 + y, 22, 22);

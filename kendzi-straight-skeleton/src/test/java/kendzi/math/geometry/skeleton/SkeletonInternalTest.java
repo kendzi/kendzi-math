@@ -14,10 +14,10 @@ import kendzi.math.geometry.line.LineLinear2d;
 import kendzi.math.geometry.ray.Ray2d;
 import kendzi.math.geometry.skeleton.LavUtil.SplitSlavs;
 import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
-import kendzi.math.geometry.skeleton.Skeleton.EdgeEvent;
-import kendzi.math.geometry.skeleton.Skeleton.SkeletonEvent;
 import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.events.EdgeEvent;
 import kendzi.math.geometry.skeleton.events.PickEvent;
+import kendzi.math.geometry.skeleton.events.SkeletonEvent;
 
 import org.junit.Test;
 
@@ -306,7 +306,7 @@ public class SkeletonInternalTest {
         EdgeEvent e2 = debugEdgeEvent("e2", v3, v4);
         EdgeEvent e3 = debugEdgeEvent("e3", v2, v5);
 
-        List<EdgeEvent> edgeCluster = new ArrayList<Skeleton.EdgeEvent>();
+        List<EdgeEvent> edgeCluster = new ArrayList<EdgeEvent>();
         edgeCluster.add(e1);
         edgeCluster.add(e2);
         edgeCluster.add(e3);
@@ -328,7 +328,7 @@ public class SkeletonInternalTest {
         EdgeEvent e2 = debugEdgeEvent("e2", v3, v1);
         EdgeEvent e3 = debugEdgeEvent("e3", v2, v4);
 
-        List<EdgeEvent> edgeCluster = new ArrayList<Skeleton.EdgeEvent>();
+        List<EdgeEvent> edgeCluster = new ArrayList<EdgeEvent>();
         edgeCluster.add(e1);
         edgeCluster.add(e2);
         edgeCluster.add(e3);
@@ -462,29 +462,24 @@ public class SkeletonInternalTest {
     }
 
     private EdgeEvent debugEdgeEvent(final String name, VertexEntry2 v1, VertexEntry2 v2) {
-        EdgeEvent event = new EdgeEvent() {
+        EdgeEvent event = new EdgeEvent(null, 0, v1, v2) {
             @Override
             public String toString() {
                 return name;
             };
         };
 
-        event.Va = v1;
-        event.Vb = v2;
         return event;
     }
 
     private EdgeEvent debugEdgeEvent(final String name, VertexEntry2 v1, VertexEntry2 v2, Point2d point) {
-        EdgeEvent event = new EdgeEvent() {
+        EdgeEvent event = new EdgeEvent(point, 0, v1, v2) {
             @Override
             public String toString() {
                 return name;
             };
         };
 
-        event.Va = v1;
-        event.Vb = v2;
-        event.v = point;
         return event;
     }
 

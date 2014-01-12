@@ -2,7 +2,6 @@ package kendzi.math.geometry.skeleton.events;
 
 import javax.vecmath.Point2d;
 
-import kendzi.math.geometry.skeleton.Skeleton.SkeletonEvent;
 import kendzi.math.geometry.skeleton.events.chains.EdgeChain;
 
 public class PickEvent extends SkeletonEvent {
@@ -11,9 +10,9 @@ public class PickEvent extends SkeletonEvent {
 
     private boolean obsolete;
 
-    public PickEvent(Point2d eventPoint, EdgeChain chain) {
+    public PickEvent(Point2d point, double distance, EdgeChain chain) {
+        super(point, distance);
         this.chain = chain;
-        this.v = eventPoint;
     }
 
     @Override

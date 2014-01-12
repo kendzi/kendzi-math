@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.vecmath.Point2d;
 
-import kendzi.math.geometry.skeleton.Skeleton.SkeletonEvent;
 import kendzi.math.geometry.skeleton.events.chains.Chain;
 
 public class MultiSplitEvent extends SkeletonEvent {
@@ -13,9 +12,9 @@ public class MultiSplitEvent extends SkeletonEvent {
 
     private boolean obsolete;
 
-    public MultiSplitEvent(Point2d eventPoint, List<Chain> chains) {
+    public MultiSplitEvent(Point2d point, double distance, List<Chain> chains) {
+        super(point, distance);
         this.chains = chains;
-        this.v = eventPoint;
     }
 
     @Override

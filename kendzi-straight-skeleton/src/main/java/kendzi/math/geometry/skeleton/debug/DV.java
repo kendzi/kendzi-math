@@ -21,9 +21,9 @@ import kendzi.math.geometry.skeleton.CircularList;
 import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
 import kendzi.math.geometry.skeleton.Skeleton.FaceNode;
 import kendzi.math.geometry.skeleton.Skeleton.FaceQueue;
-import kendzi.math.geometry.skeleton.Skeleton.SkeletonEvent;
 import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
 import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.events.SkeletonEvent;
 
 public class DV {
 
@@ -37,8 +37,6 @@ public class DV {
         }
         debug = true;
     }
-
-
 
     public static void debug(FaceNode fn) {
         if (debug) {
@@ -75,6 +73,7 @@ public class DV {
             }
         }
     }
+
     public static void debug(CircularList<VertexEntry2> l) {
         if (debug) {
             dv.addDebug(new DisplayLav2(l, Color.ORANGE.darker().darker()));
@@ -128,7 +127,6 @@ public class DV {
             dv.addDebug(new DisplayEventNames(processedEvents));
         }
     }
-
 
     public static void clear() {
         if (debug) {
