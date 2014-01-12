@@ -137,15 +137,17 @@ public class SkeletonTest {
         innerList.add(hole);
 
         List<Point2d> expected = new ArrayList<Point2d>();
-        // expected.add(p(-1.500000, -1.500000));
-        // expected.add(p(-1.500000, 1.500000));
-        // expected.add(p(1.500000, -1.500000));
-        // expected.add(p(1.500000, 1.500000));
-        // expected.addAll(polygon);
-        // expected.addAll(hole);
+        expected.addAll(polygon);
+        expected.addAll(hole);
 
-        // polygon.add(new Point2d(1, 1));
-        // polygon.add(new Point2d(-1, 1));
+        expected.add(p(6.3821371859978875, -5.893911100019249));
+        expected.add(p(0.7651208111455217, -5.8321836510415475));
+        expected.add(p(0.6898242249025952, -5.755213752675646));
+        expected.add(p(6.389576876981116, -5.886633146615758));
+        expected.add(p(6.443747494495353, -0.9572661447277495));
+        expected.add(p(6.310953658294117, -0.8215212379272131));
+        expected.add(p(0.7481994722534444, -0.7603900949775717));
+        expected.add(p(0.7446762937827887, -0.7638366801629576));
 
         DV.debug(polygon);
         DV.debug(hole);
@@ -703,6 +705,42 @@ public class SkeletonTest {
         expected.add(p(7.483346, 6.835716));
         expected.add(p(10.068366, 6.829855));
         expected.addAll(polygon);
+
+        DV.debug(polygon);
+
+        SkeletonOutput sk = Skeleton.skeleton(polygon);
+
+        validate(polygon, sk);
+
+        visualizeResults(polygon, sk);
+
+        assertExpectedPoints(expected, getFacePoints(sk));
+    }
+
+    @Test
+    public void skeletonTestB11_b() {
+
+        DV.clear();
+
+        List<Point2d> polygon = new ArrayList<Point2d>();
+
+        polygon.add(new Point2d(4.899343591400031, 14.19306411217788));
+        polygon.add(new Point2d(4.873615853393824, 2.8449682126970464));
+        polygon.add(new Point2d(3.4878348313988496, 2.8481099737474747));
+        polygon.add(new Point2d(3.4812833647560453, -0.04163770013738066));
+        polygon.add(new Point2d(4.964494009365636, -0.04500034901230876));
+        polygon.add(new Point2d(4.95897480112971, -2.4794352197829106));
+        polygon.add(new Point2d(8.807770830090442, -2.4881609878627096));
+        polygon.add(new Point2d(8.823006374999641, 4.231995455388115));
+
+        List<Point2d> expected = new ArrayList<Point2d>(polygon);
+
+        expected.add(p(6.8490390285892975, 3.8595532917064257));
+        expected.add(p(6.315213958119228, 1.396818641879405));
+        expected.add(p(6.844650538271922, 1.9238600368574004));
+        expected.add(p(4.929432935568722, 1.3999604034575501));
+        expected.add(p(6.893254906247293, 1.875034782130368));
+        expected.add(p(6.8877356980830235, -0.5594000893968922));
 
         DV.debug(polygon);
 

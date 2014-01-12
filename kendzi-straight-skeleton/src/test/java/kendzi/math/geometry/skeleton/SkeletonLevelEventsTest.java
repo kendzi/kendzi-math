@@ -183,11 +183,10 @@ public class SkeletonLevelEventsTest {
 
         List<Point2d> expected = new ArrayList<Point2d>(outer);
 
-        expected.add(p(0, 0));
-        expected.add(p(0, 2));
-        expected.add(p(0, -2));
-        expected.add(p(2, 0));
-        expected.add(p(-2, 0));
+        expected.add(p(-3.0000000000000004, -1.854101966249685));
+        expected.add(p(-1.6180339887498951, -1.0000000000000002));
+        expected.add(p(1.6180339887498951, -1.0000000000000002));
+        expected.add(p(3.0000000000000004, -1.854101966249685));
 
         DV.debug(outer);
 
