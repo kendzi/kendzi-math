@@ -36,5 +36,6 @@
 	<modules>
 		<module>kendzi-math-geometry</module>
 		<module>kendzi-math-geometry-debug</module>
+		<module>kendzi-straight-skeleton</module>
 	</modules>
 </project>
