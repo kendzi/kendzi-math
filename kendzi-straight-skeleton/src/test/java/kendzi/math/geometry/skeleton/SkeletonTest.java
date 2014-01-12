@@ -8,22 +8,14 @@ package kendzi.math.geometry.skeleton;
 
 import static kendzi.math.geometry.skeleton.SkeletonTestUtil.*;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JDialog;
 import javax.vecmath.Point2d;
 
 import kendzi.math.geometry.TestUtil;
-import kendzi.math.geometry.debug.DebugDisplay;
-import kendzi.math.geometry.debug.DebugLayer;
 import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
 import kendzi.math.geometry.skeleton.debug.DV;
-import kendzi.swing.ui.panel.equation.EquationDisplay;
-import kendzi.swing.ui.panel.equation.EquationLayer;
-import kendzi.swing.ui.panel.equation.MapComponent;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -869,9 +861,6 @@ public class SkeletonTest {
     @Test
     public void circularAddTest() {
 
-        // DebugLayer dv = createDebugView();
-
-        DebugLayer dv = DebugDisplay.getDebugDisplay().getDebugLayer();
         DV.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
@@ -898,6 +887,9 @@ public class SkeletonTest {
 
     @Test
     public void circularAddTest2() {
+
+        DV.clear();
+
         List<Point2d> polygon = new ArrayList<Point2d>();
 
         polygon.add(new Point2d(50, 50));
@@ -917,70 +909,5 @@ public class SkeletonTest {
         validate(polygon, sk);
 
         assertExpectedPoints(expected, getFacePoints(sk));
-    }
-
-    DebugLayer createDebugView() {
-        // DebugLayer ret1 = null;
-        DebugLayer ret = new DebugLayer();
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                // new UiFrame().setVisible(true);
-                DebugLayer ret = new DebugLayer();
-
-                MapComponent mc = new MapComponent();
-                mc.addLayer(ret);
-
-                JDialog frame = new JDialog();
-                frame.add(mc);
-                frame.pack();
-                frame.setSize(600, 600);
-                //
-                //
-                // // ui.repaint();
-                //
-                frame.setModal(false);
-                frame.setVisible(true);
-            }
-        });
-
-        return ret;
-    }
-
-    /**
-     * @param polygon
-     * @param sk
-     */
-    public void showResult2(final List<Point2d> polygon, SkeletonOutput sk) {
-
-        MapComponent mc = new MapComponent();
-        mc.addLayer(new EquationLayer() {
-
-            @Override
-            public void draw(Graphics2D g2d, EquationDisplay disp) {
-                if (polygon == null) {
-                    return;
-                }
-
-                for (Point2d p : polygon) {
-
-                    g2d.setColor(Color.RED.brighter());
-
-                    int x = (int) disp.xPositionToPixel(p.x);
-                    int y = (int) disp.yPositionToPixel(p.y);
-                    // g2d.translate(x, y);
-                    g2d.fillOval(-10 + x, -10 + y, 20, 20);
-                }
-            }
-        });
-
-        JDialog frame = new JDialog();
-        frame.add(mc);
-        frame.pack();
-        frame.setSize(600, 600);
-
-        frame.setModal(true);
-        frame.setVisible(true);
     }
 }
