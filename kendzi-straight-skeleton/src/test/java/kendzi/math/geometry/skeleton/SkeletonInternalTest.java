@@ -11,6 +11,7 @@ import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
 import kendzi.math.geometry.line.LineLinear2d;
+import kendzi.math.geometry.ray.Ray2d;
 import kendzi.math.geometry.skeleton.LavUtil.SplitSlavs;
 import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
 import kendzi.math.geometry.skeleton.Skeleton.EdgeEvent;

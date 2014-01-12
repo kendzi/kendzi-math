@@ -1,4 +1,4 @@
-package kendzi.math.geometry.skeleton;
+package kendzi.math.geometry.ray;
 
 import static org.junit.Assert.*;
 

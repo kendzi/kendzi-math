@@ -1,10 +1,7 @@
 /*
- * This software is provided "AS IS" without a warranty of any kind.
- * You use it on your own risk and responsibility!!!
- *
- * This file is shared under BSD v3 license.
- * See readme.txt and BSD3 file for details.
- *
+ * This software is provided "AS IS" without a warranty of any kind. You use it
+ * on your own risk and responsibility!!! This file is shared under BSD v3
+ * license. See readme.txt and BSD3 file for details.
  */
 
 package kendzi.math.geometry.ray;
@@ -26,13 +23,6 @@ public class Ray2d extends LineParametric2d {
         super(pA, pU);
     }
 
-
-
-    //    public Ray2d(Point2d p2, Vector2d pV) {
-    //        A = p2;
-    //        U = pV;
-    //    }
-
     public static Point2d collide(Ray2d ray, LineLinear2d line, double epsilon) {
         // FIXME rewrite?
         Point2d collide = LineLinear2d.collide(ray.getLinearForm(), line);
@@ -40,9 +30,9 @@ public class Ray2d extends LineParametric2d {
             return null;
         }
 
-        // Portably there is better way to do this.
-        // this is from graphical .
-
+        /*
+         * Portably there is better way to do this. this is from graphical.
+         */
         Vector2d collideVector = new Vector2d(collide);
         collideVector.sub(ray.A);
 
@@ -53,16 +43,11 @@ public class Ray2d extends LineParametric2d {
         }
 
         return collide;
-
     }
-
-
 
     @Override
     public String toString() {
         return "Ray2d [A=" + A + ", U=" + U + "]";
     }
-
-
 
 }

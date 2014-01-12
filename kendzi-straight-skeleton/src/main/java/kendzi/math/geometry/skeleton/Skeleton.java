@@ -30,8 +30,10 @@ import kendzi.math.geometry.line.LineSegment2d;
 import kendzi.math.geometry.point.Vector2dUtil;
 import kendzi.math.geometry.polygon.PolygonList2d;
 import kendzi.math.geometry.polygon.PolygonUtil;
+import kendzi.math.geometry.ray.Ray2d;
+import kendzi.math.geometry.ray.RayUtil;
+import kendzi.math.geometry.ray.RayUtil.IntersectPoints;
 import kendzi.math.geometry.skeleton.LavUtil.SplitSlavs;
-import kendzi.math.geometry.skeleton.RayUtil.IntersectPoints;
 import kendzi.math.geometry.skeleton.debug.DV;
 import kendzi.math.geometry.skeleton.events.MultiEdgeEvent;
 import kendzi.math.geometry.skeleton.events.MultiSplitEvent;
@@ -1134,70 +1136,6 @@ public class Skeleton {
         return;
     }
 
-    // /**
-    // * @param va
-    // * @param lewa
-    // * @param leftEdge
-    // */
-    // public static void findFaceEdge(VertexEntry2 va, boolean lewa,
-    // List<Point2d> leftEdge) {
-    //
-    // VertexEntry2 leftEdgeVertex = va;
-    // boolean split = false;
-    // while (true) {
-    //
-    // if (leftEdgeVertex.split) {
-    // VertexEntry2 splitVertex = null;
-    // if (lewa) {
-    // splitVertex = leftEdgeVertex.parentVb;
-    // } else {
-    // splitVertex = leftEdgeVertex.parentVa;
-    // }
-    //
-    // if (splitVertex.split) {
-    // // split vertex
-    // // there are two vertex for each split event!
-    // // skip first one
-    //
-    // leftEdgeVertex = splitVertex;
-    //
-    // split = true;
-    // lewa = !lewa;
-    // } else {
-    // // normal vertex don't do anyfing
-    // }
-    // }
-    //
-    // if (!split) {
-    // if (lewa && leftEdgeVertex.parentVb != null) {
-    // leftEdgeVertex = leftEdgeVertex.parentVb;
-    // leftEdge.add(leftEdgeVertex.v);
-    // } else if (!lewa && leftEdgeVertex.parentVa != null) {
-    // leftEdgeVertex = leftEdgeVertex.parentVa;
-    // leftEdge.add(leftEdgeVertex.v);
-    // } else {
-    // break;
-    // }
-    // continue;
-    // } else {
-    //
-    // if (leftEdgeVertex.shrinks != null) {
-    // leftEdgeVertex = leftEdgeVertex.shrinks;
-    // leftEdge.add(leftEdgeVertex.v);
-    //
-    // split = false;
-    // } else {
-    // throw new RuntimeException("Face is not ended");
-    // }
-    // continue;
-    // }
-    // }
-    // }
-
-    private static void addOutputFace(SkeletonOutput output, SkeletonEvent i, VertexEntry2 va) {
-        // System.out.println("adding edge on split event!: " + i.v);
-    }
-
     private static void computeInitEvents(Set<CircularList<VertexEntry2>> sLav, PriorityQueue<SkeletonEvent> queue,
             List<EdgeEntry> edges) {
 
@@ -1841,9 +1779,6 @@ public class Skeleton {
         }
 
         // d
-        // System.out.println("skeleton V_aI and V_bI             Va: " + va.v +
-        // " I: " + I.v);
-        addOutputFace(output, I, va);
 
         // e
         va.processed = true;
@@ -2614,7 +2549,7 @@ public class Skeleton {
         }
     }
 
-    public static class FaceNode extends PathQueueNode {
+    public static class FaceNode extends PathQueueNode<FaceNode> {
         public VertexEntry2 v;
         boolean border;
         String name;
