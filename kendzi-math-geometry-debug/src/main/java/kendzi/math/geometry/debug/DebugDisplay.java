@@ -42,36 +42,13 @@ public class DebugDisplay {
         mc = new MapComponent();
         mc.addLayer(debugLayer);
 
+        DebugDisplay.this.frame = new JDialog();
+        DebugDisplay.this.frame.add(mc);
+        DebugDisplay.this.frame.pack();
+        DebugDisplay.this.frame.setSize(600, 600);
 
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-
-
-//        class PrimeThread extends Thread {
-//
-//            @Override
-//            public void run() {
-
-
-                DebugDisplay.this.frame = new JDialog();
-                DebugDisplay.this.frame.add(mc);
-                DebugDisplay.this.frame.pack();
-                DebugDisplay.this.frame.setSize(600, 600);
-
-                // ui.repaint();
-
-                DebugDisplay.this.frame.setModal(false);
-                DebugDisplay.this.frame.setVisible(true);
-
-//            }
-//        }
-//
-//        PrimeThread p = new PrimeThread();
-//        p.setDaemon(true);
-//        p.setPriority(Thread.MAX_PRIORITY );
-//        p.start();
-
-//        });
-
+        DebugDisplay.this.frame.setModal(false);
+        DebugDisplay.this.frame.setVisible(true);
     }
 
     public void block() {

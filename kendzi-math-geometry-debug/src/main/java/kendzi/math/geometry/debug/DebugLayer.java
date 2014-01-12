@@ -25,7 +25,6 @@ public class DebugLayer extends EquationLayer {
             }
         } catch (java.util.ConcurrentModificationException ce) {
             // FIXME !!!!!!
-            //
         }
 
     }
@@ -36,7 +35,6 @@ public class DebugLayer extends EquationLayer {
     public void addDebug(String pKey, DisplayObject object) {
         addDebug((Object) pKey, object);
     }
-
 
     public void addDebug(Object pKey, DisplayObject object) {
 
@@ -70,15 +68,13 @@ public class DebugLayer extends EquationLayer {
             bounds.maxX -= ratio;
         }
 
-        //XXX
-        DebugDisplay.getDebugDisplay().getMapComponent().setParms(
-                bounds.minX  + bounds.maxX / 2,bounds.minY + bounds.maxY  /2,
-                bounds.minX - 1, bounds.maxX + 1, bounds.minY - 1, bounds.maxY + 1);
+        // XXX
+        DebugDisplay
+                .getDebugDisplay()
+                .getMapComponent()
+                .setParms(bounds.minX + bounds.maxX / 2, bounds.minY + bounds.maxY / 2, bounds.minX - 1, bounds.maxX + 1,
+                        bounds.minY - 1, bounds.maxY + 1);
 
-        //XXX
-        //        DebugDisplay.getDebugDisplay().getMapComponent().setParms(
-        //                bounds.minX  + bounds.maxX / 2,bounds.minY + bounds.maxY  /2,
-        //                bounds.minX - 1, bounds.maxX + 1, bounds.minY - 1, bounds.maxY + 1);
         // XXX do with events!
         DebugDisplay.getDebugDisplay().getMapComponent().repaint(300);
     }
