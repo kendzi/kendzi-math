@@ -1,4 +1,4 @@
-package kendzi.math.geometry.skeleton.debug;
+package kendzi.math.geometry.skeleton.debug.display;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

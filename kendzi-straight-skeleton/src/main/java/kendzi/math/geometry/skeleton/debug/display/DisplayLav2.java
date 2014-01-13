@@ -1,4 +1,4 @@
-package kendzi.math.geometry.skeleton.debug;
+package kendzi.math.geometry.skeleton.debug.display;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -9,8 +9,8 @@ import javax.vecmath.Point2d;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
-import kendzi.math.geometry.skeleton.CircularList;
 import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.circular.CircularList;
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
 /**

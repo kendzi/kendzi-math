@@ -1,4 +1,4 @@
-package kendzi.math.geometry.skeleton;
+package kendzi.math.geometry.skeleton.circular;
 
 import java.util.Iterator;
 

@@ -1,10 +1,8 @@
-package kendzi.math.geometry.skeleton.debug;
+package kendzi.math.geometry.skeleton.debug.display;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
-import java.util.PriorityQueue;
+import java.util.List;
 
 import javax.vecmath.Point2d;
 
@@ -18,37 +16,33 @@ import kendzi.swing.ui.panel.equation.EquationDisplay;
  * 
  * @author Tomasz Kędziora (kendzi)
  */
-public class DisplayEventQueue extends DisplayObject {
+public class DisplayEventNames extends DisplayObject {
 
-    private PriorityQueue<SkeletonEvent> points;
+    private List<SkeletonEvent> events;
 
     public final static Color EDGE_COLOR = Color.PINK;
     public final static Color SPLIT_COLOR = new Color(127, 0, 255);
 
-    /**
-     * @param polygon
-     * @param pColor
-     */
-    public DisplayEventQueue(PriorityQueue<SkeletonEvent> polygon) {
+    public DisplayEventNames(List<SkeletonEvent> events) {
         super();
-        this.points = polygon;
-
+        this.events = events;
     }
 
     @Override
     public void draw(Graphics2D g2d, EquationDisplay disp, boolean selected) {
 
-        if (this.points == null) {
+        if (this.events == null) {
             return;
         }
 
-        for (SkeletonEvent e : this.points) {
-
+        int count = 0;
+        for (SkeletonEvent e : this.events) {
+            count++;
             Point2d p = e.v;
 
             int x = (int) disp.xPositionToPixel(p.x);
             int y = (int) disp.yPositionToPixel(p.y);
-            // g2d.translate(x, y);
+
             if (selected) {
                 g2d.setColor(Color.GREEN.brighter());
                 g2d.fillOval(-11 + x, -11 + y, 22, 22);
@@ -61,34 +55,23 @@ public class DisplayEventQueue extends DisplayObject {
                 g2d.setColor(EDGE_COLOR);
             }
             g2d.fillOval(-10 + x, -10 + y, 20, 20);
+
+            g2d.setColor(Color.BLACK.brighter().brighter());
+
+            g2d.drawString("" + count, x + 12, y);
         }
-    }
 
-    private void drawLine(Point2d current, Point2d previous, boolean selected, Graphics2D g2d, EquationDisplay disp) {
-
-        int x1 = (int) disp.xPositionToPixel(previous.x);
-        int y1 = (int) disp.yPositionToPixel(previous.y);
-        int x2 = (int) disp.xPositionToPixel(current.x);
-        int y2 = (int) disp.yPositionToPixel(current.y);
-
-        if (selected) {
-            Stroke stroke = g2d.getStroke();
-            g2d.setStroke(new BasicStroke(3));
-            g2d.setColor(Color.GREEN.brighter());
-            g2d.drawLine(x1, y1, x2, y2); // thick
-            g2d.setStroke(stroke);
-        }
     }
 
     @Override
     public Object drawObject() {
-        return this.points;
+        return this.events;
     }
 
     @Override
     public DisplayRectBounds getBounds() {
         DisplayRectBounds b = new DisplayRectBounds();
-        for (SkeletonEvent e : this.points) {
+        for (SkeletonEvent e : this.events) {
 
             Point2d p = e.v;
 

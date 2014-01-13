@@ -15,6 +15,7 @@ import kendzi.math.geometry.ray.Ray2d;
 import kendzi.math.geometry.skeleton.LavUtil.SplitSlavs;
 import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
 import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.circular.CircularList;
 import kendzi.math.geometry.skeleton.events.EdgeEvent;
 import kendzi.math.geometry.skeleton.events.PickEvent;
 import kendzi.math.geometry.skeleton.events.SkeletonEvent;

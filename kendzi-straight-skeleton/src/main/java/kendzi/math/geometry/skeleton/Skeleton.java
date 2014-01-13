@@ -33,7 +33,11 @@ import kendzi.math.geometry.polygon.PolygonUtil;
 import kendzi.math.geometry.ray.Ray2d;
 import kendzi.math.geometry.ray.RayUtil;
 import kendzi.math.geometry.ray.RayUtil.IntersectPoints;
-import kendzi.math.geometry.skeleton.debug.DV;
+import kendzi.math.geometry.skeleton.circular.CircularList;
+import kendzi.math.geometry.skeleton.circular.CircularNode;
+import kendzi.math.geometry.skeleton.debug.CanvasDebugger;
+import kendzi.math.geometry.skeleton.debug.EmptyDebugger;
+import kendzi.math.geometry.skeleton.debug.VisualDebugger;
 import kendzi.math.geometry.skeleton.events.EdgeEvent;
 import kendzi.math.geometry.skeleton.events.MultiEdgeEvent;
 import kendzi.math.geometry.skeleton.events.MultiSplitEvent;
@@ -46,6 +50,8 @@ import kendzi.math.geometry.skeleton.events.chains.Chain.ChainType;
 import kendzi.math.geometry.skeleton.events.chains.EdgeChain;
 import kendzi.math.geometry.skeleton.events.chains.SingleEdgeChain;
 import kendzi.math.geometry.skeleton.events.chains.SplitChain;
+import kendzi.math.geometry.skeleton.path.PathQueue;
+import kendzi.math.geometry.skeleton.path.PathQueueNode;
 
 import org.apache.log4j.Logger;
 
@@ -53,8 +59,13 @@ public class Skeleton {
     /** Log. */
     private static final Logger log = Logger.getLogger(Skeleton.class);
     private static final double SPLIT_EPSILON = 1E-10;
+    private static VisualDebugger vd = new EmptyDebugger();
 
     private static boolean debug = true;
+
+    public static void initVisualDebugger() {
+        vd = new CanvasDebugger();
+    }
 
     public static SkeletonOutput skeleton(List<Point2d> polygon) {
         if (polygon == null) {
@@ -72,28 +83,12 @@ public class Skeleton {
         holes = makeClockwise(holes);
 
         if (debug) {
-            polygon = addDebugNames(polygon, "p");
-            if (holes != null) {
-                List<List<Point2d>> newHoles = new ArrayList<List<Point2d>>();
-                int h = 0;
-                for (List<Point2d> hole : holes) {
-                    newHoles.add(addDebugNames(hole, "h" + h + "_p"));
-                    h++;
-                }
-                holes = newHoles;
-            }
+            // add names for points
+            polygon = debugNames(polygon, "p");
+            holes = debugNames(holes);
         }
 
-        DV.clear();
-
-        DV.debug(polygon);
-        DV.debugNames(polygon);
-        if (holes != null) {
-            for (List<Point2d> hole : holes) {
-                DV.debug(hole);
-                DV.debugNames(hole);
-            }
-        }
+        debugPolygons(polygon, holes);
 
         PriorityQueue<SkeletonEvent> queue = new PriorityQueue<SkeletonEvent>(3, distanseComparator);
 
@@ -123,10 +118,10 @@ public class Skeleton {
         computeInitEvents(sLav, queue, edges);
 
         for (CircularList<VertexEntry2> lav : sLav) {
-            DV.debug(lav);
+            vd.debug(lav);
         }
 
-        DV.debug(queue);
+        vd.debug(queue);
 
         int count = 0;
 
@@ -146,7 +141,7 @@ public class Skeleton {
 
             for (SkeletonEvent event : levelEvents) {
 
-                DV.debug(event);
+                vd.debug(event);
 
                 if (event.isObsolete()) {
                     /*
@@ -158,7 +153,7 @@ public class Skeleton {
 
                 processedEvents.add(event);
 
-                DV.debugProcessedEvents(processedEvents);
+                vd.debugProcessedEvents(processedEvents);
 
                 if (event instanceof EdgeEvent) {
                     throw new IllegalStateException("all edge events should be converted to MultiEdgeEvents for given level");
@@ -182,7 +177,7 @@ public class Skeleton {
                     throw new RuntimeException("unknown event type: " + event.getClass());
                 }
             }
-            DV.debug(sLav);
+            vd.debug(sLav);
             processTwoNodeLavs(sLav);
 
             removeEventsUnderHeight(queue, levelHeight);
@@ -191,33 +186,58 @@ public class Skeleton {
         }
 
         for (FaceQueue f : faces) {
-            DV.debug(f);
-
+            vd.debug(f);
         }
 
         addFacesToOutput(faces, output);
 
-        // DV.debug(polygon);
-        // DV.debug(output);
+        // vd.debug(polygon);
+        // vd.debug(output);
 
         return output;
     }
 
+    private static void debugPolygons(List<Point2d> polygon, List<List<Point2d>> holes) {
+        vd.clear();
+        vd.debug(polygon);
+        vd.debugNames(polygon);
+
+        if (holes != null) {
+            for (List<Point2d> hole : holes) {
+                vd.debug(hole);
+                vd.debugNames(hole);
+            }
+        }
+    }
+
+    private static List<List<Point2d>> debugNames(List<List<Point2d>> holes) {
+        if (holes != null) {
+            List<List<Point2d>> newHoles = new ArrayList<List<Point2d>>();
+            int h = 0;
+            for (List<Point2d> hole : holes) {
+                newHoles.add(debugNames(hole, "h" + h + "_p"));
+                h++;
+            }
+            holes = newHoles;
+        }
+        return holes;
+    }
+
     private static void processTwoNodeLavs(Set<CircularList<VertexEntry2>> sLav) {
-        DV.debug(sLav);
+        vd.debug(sLav);
         for (CircularList<VertexEntry2> lav : sLav) {
             if (lav.size() == 2) {
-                DV.debug(lav);
+                vd.debug(lav);
 
                 VertexEntry2 first = lav.first();
                 VertexEntry2 last = first.next();
 
-                DV.debug(first.leftFace);
-                DV.debug(last.rightFace);
+                vd.debug(first.leftFace);
+                vd.debug(last.rightFace);
                 connectList(first.leftFace, last.rightFace);
 
-                DV.debug(last.leftFace);
-                DV.debug(first.rightFace);
+                vd.debug(last.leftFace);
+                vd.debug(first.rightFace);
                 connectList(first.rightFace, last.leftFace);
 
                 first.processed = true;
@@ -227,7 +247,7 @@ public class Skeleton {
                 removeFromLav(last);
             }
         }
-        DV.debug(sLav);
+        vd.debug(sLav);
     }
 
     private static void removeEmptyLav(Set<CircularList<VertexEntry2>> sLav) {
@@ -337,8 +357,8 @@ public class Skeleton {
 
             // Split and merge lavs...
 
-            DV.debug(sLav);
-            DV.debug(center);
+            vd.debug(sLav);
+            vd.debug(center);
 
             VertexEntry2 beginNextVertex = chainBegin.getNextVertex();
             VertexEntry2 endPreviousVertex = chainEnd.getPreviousVertex();
@@ -363,13 +383,13 @@ public class Skeleton {
                 if (log.isDebugEnabled()) {
                     log.debug("after split: " + lavToString(lav.first()));
                 }
-                DV.debug(sLav);
+                vd.debug(sLav);
             } else {
                 /*
                  * if vertex are in different lavs we need to merge them into
                  * one.
                  */
-                DV.debug(sLav);
+                vd.debug(sLav);
                 mergeBeforeBaseVertex(beginNextVertex, endPreviousVertex);
 
                 endPreviousVertex.addNext(newVertex);
@@ -377,17 +397,17 @@ public class Skeleton {
                 if (log.isDebugEnabled()) {
                     log.debug("after merge: " + lavToString(newVertex));
                 }
-                DV.debug(sLav);
+                vd.debug(sLav);
             }
 
             computeEvents(newVertex, queue, edges);
 
             lastFaceNode = addSplitFaces(lastFaceNode, chainBegin, chainEnd, newVertex);
 
-            DV.debug(sLav);
+            vd.debug(sLav);
         }
 
-        DV.debug(sLav);
+        vd.debug(sLav);
 
         // remove all centers of events from lav
         edgeListSize = chains.size();
@@ -410,7 +430,7 @@ public class Skeleton {
             validateLavsEdges(sLav);
         }
 
-        DV.debug(sLav);
+        vd.debug(sLav);
     }
 
     private static void validateLavsEdges(Set<CircularList<VertexEntry2>> sLav) {
@@ -449,11 +469,11 @@ public class Skeleton {
                  */
                 beginVertex = createOppositeEdgeVertex(newVertex);
 
-                DV.debug(beginVertex.rightFace);
+                vd.debug(beginVertex.rightFace);
                 /* same face in two vertex, original and in opposite edge clone */
                 newVertex.rightFace = beginVertex.rightFace;
 
-                DV.debug(beginVertex.rightFace);
+                vd.debug(beginVertex.rightFace);
             } else {
                 // face queue exist simply assign it to new node
                 if (newVertex.rightFace != null) {
@@ -465,10 +485,10 @@ public class Skeleton {
 
         } else {
             VertexEntry2 beginVertex = chainBegin.getCurrentVertex();
-            DV.debug(beginVertex.rightFace);
+            vd.debug(beginVertex.rightFace);
             // right face
             addFaceRight(newVertex, beginVertex);
-            DV.debug(beginVertex.rightFace);
+            vd.debug(beginVertex.rightFace);
         }
 
         if (chainEnd instanceof SingleEdgeChain) {
@@ -483,11 +503,11 @@ public class Skeleton {
                  */
                 endVertex = createOppositeEdgeVertex(newVertex);
 
-                DV.debug(endVertex.leftFace);
+                vd.debug(endVertex.leftFace);
                 /* same face in two vertex, original and in opposite edge clone */
                 newVertex.leftFace = endVertex.leftFace;
 
-                DV.debug(endVertex.leftFace);
+                vd.debug(endVertex.leftFace);
             } else {
                 // face queue exist simply assign it to new node
                 if (newVertex.leftFace != null) {
@@ -500,10 +520,10 @@ public class Skeleton {
 
         } else {
             VertexEntry2 endVertex = chainEnd.getCurrentVertex();
-            DV.debug(endVertex.leftFace);
+            vd.debug(endVertex.leftFace);
             // left face
             addFaceLeft(newVertex, endVertex);
-            DV.debug(endVertex.leftFace);
+            vd.debug(endVertex.leftFace);
         }
         return lastFaceNode;
     }
@@ -847,14 +867,14 @@ public class Skeleton {
     }
 
     private static void debugSteep(PriorityQueue<SkeletonEvent> queue, Set<CircularList<VertexEntry2>> sLav, List<FaceQueue> faces) {
-        DV.debug(queue);
+        vd.debug(queue);
 
         for (CircularList<VertexEntry2> l : sLav) {
-            DV.debug(l);
+            vd.debug(l);
         }
 
         for (FaceQueue f : faces) {
-            DV.debug(f);
+            vd.debug(f);
         }
     }
 
@@ -918,7 +938,7 @@ public class Skeleton {
 
     }
 
-    private static List<Point2d> addDebugNames(List<Point2d> polygon, String name) {
+    private static List<Point2d> debugNames(List<Point2d> polygon, String name) {
         List<Point2d> ret = new ArrayList<Point2d>();
         int i = 0;
         for (Point2d point : polygon) {
@@ -980,10 +1000,10 @@ public class Skeleton {
         }
 
         for (VertexEntry2 v_i : lav) {
-            v_i.e_a = (EdgeEntry) v_i.e_b.previous;
+            v_i.e_a = v_i.e_b.previous();
         }
 
-        DV.debug(lav);
+        vd.debug(lav);
 
         /* new */
         for (VertexEntry2 v : lav) {
@@ -995,7 +1015,7 @@ public class Skeleton {
             v.e_a.bisectorNext = v.bisector;
             v.e_b.bisectorPrevious = v.bisector;
 
-            DV.debug(v.bisector);
+            vd.debug(v.bisector);
 
             FaceQueue rightFace = new FaceQueue();
             rightFace.border = true;
@@ -1012,7 +1032,7 @@ public class Skeleton {
 
         for (VertexEntry2 v : lav) {
 
-            VertexEntry2 next = (VertexEntry2) v.previous;
+            VertexEntry2 next = v.previous();
 
             FaceNode rightFace = next.rightFace;
 
@@ -1026,7 +1046,7 @@ public class Skeleton {
     private static void addFacesToOutput(List<FaceQueue> faces, SkeletonOutput output) {
 
         for (FaceQueue face : faces) {
-            if (face.size > 0) {
+            if (face.getSize() > 0) {
                 List<Point2d> faceList = new ArrayList<Point2d>();
 
                 for (FaceNode fn : face) {
@@ -1112,7 +1132,7 @@ public class Skeleton {
 
     private static void computeEvents(VertexEntry2 vertex, PriorityQueue<SkeletonEvent> queue, List<EdgeEntry> edges) {
 
-        DV.debug(vertex.list());
+        vd.debug(vertex.list());
 
         Double distanceSquared = computeCloserEdgeEvent(vertex, queue);
 
@@ -1380,23 +1400,23 @@ public class Skeleton {
         VertexEntry2 firstNext = firstLav.next();
         VertexEntry2 secondNext = secondLav.next();
 
-        DV.debug(firstNext.list());
-        DV.debug(secondNext.list());
+        vd.debug(firstNext.list());
+        vd.debug(secondNext.list());
 
         CircularList<VertexEntry2> newLaw = new CircularList<VertexEntry2>();
 
         moveAllVertexToLavEnd(secondNext, newLaw);
         moveAllVertexToLavEnd(firstNext, newLaw);
 
-        DV.debug(newLaw);
+        vd.debug(newLaw);
         return newLaw;
     }
 
     protected static VertexEntry2 findOppositeEdgeLav(Set<CircularList<VertexEntry2>> sLav, EdgeEntry oppositeEdge, Point2d center) {
 
         List<VertexEntry2> edgeLavs = findEdgeLavs(sLav, oppositeEdge, null);
-        DV.debug(edgeLavs.get(0).v);
-        DV.debug(edgeLavs.get(0).list());
+        vd.debug(edgeLavs.get(0).v);
+        vd.debug(edgeLavs.get(0).list());
         return choseOppositeEdgeLav(edgeLavs, oppositeEdge, center);
     }
 
@@ -1503,13 +1523,13 @@ public class Skeleton {
     }
 
     private static void addFaceBack(VertexEntry2 newVertex, VertexEntry2 va, VertexEntry2 vb) {
-        DV.debug(va.rightFace);
+        vd.debug(va.rightFace);
         // back face
         FaceNode fn = new FaceNode();
         fn.v = newVertex;
         va.rightFace.addPush(fn);
-        DV.debug(fn);
-        DV.debug(vb.leftFace);
+        vd.debug(fn);
+        vd.debug(vb.leftFace);
         connectList(fn, vb.leftFace);
 
     }
@@ -1547,7 +1567,7 @@ public class Skeleton {
 
     private static void connectList(FaceNode rightFace, FaceNode leftFace) {
 
-        DV.debug((FaceQueue) rightFace.list());
+        vd.debug((FaceQueue) rightFace.list());
 
         if (((FaceQueue) leftFace.list()).border) {
             leftFace.addQueue(rightFace);

@@ -15,7 +15,7 @@ import kendzi.math.geometry.bbox.Bbox2d;
 import kendzi.math.geometry.polygon.PolygonList2d;
 import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
 import kendzi.math.geometry.skeleton.debug.DV;
-import kendzi.math.geometry.skeleton.debug.DisplaySkeletonOut;
+import kendzi.math.geometry.skeleton.debug.display.DisplaySkeletonOut;
 
 public class SkeletonTestUtil {
 

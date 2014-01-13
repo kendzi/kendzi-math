@@ -1,4 +1,4 @@
-package kendzi.math.geometry.skeleton;
+package kendzi.math.geometry.skeleton.path;
 
 public class PathQueueNode<T extends PathQueueNode<T>> {
 

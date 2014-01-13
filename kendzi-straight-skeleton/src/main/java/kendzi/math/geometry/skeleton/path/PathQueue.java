@@ -1,10 +1,11 @@
-package kendzi.math.geometry.skeleton;
+package kendzi.math.geometry.skeleton.path;
 
 import java.util.Iterator;
 
 public class PathQueue<T extends PathQueueNode<T>> implements Iterable<T> {
-    int size = 0;
-    PathQueueNode<T> first = null;
+
+    private int size = 0;
+    private PathQueueNode<T> first = null;
 
     public void addPush(PathQueueNode<T> node, PathQueueNode<T> newNode) {
         if (newNode.list != null) {
@@ -149,6 +150,10 @@ public class PathQueue<T extends PathQueueNode<T>> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return new PathQueueIterator();
+    }
+
+    public int getSize() {
+        return size;
     }
 
 }

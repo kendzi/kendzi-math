@@ -17,12 +17,18 @@ import kendzi.math.geometry.debug.DisplayPolygon;
 import kendzi.math.geometry.debug.DisplayPolygonNames;
 import kendzi.math.geometry.line.LineParametric2d;
 import kendzi.math.geometry.line.LineSegment2d;
-import kendzi.math.geometry.skeleton.CircularList;
 import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
 import kendzi.math.geometry.skeleton.Skeleton.FaceNode;
 import kendzi.math.geometry.skeleton.Skeleton.FaceQueue;
 import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
 import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.circular.CircularList;
+import kendzi.math.geometry.skeleton.debug.display.DisplayEventNames;
+import kendzi.math.geometry.skeleton.debug.display.DisplayEventQueue;
+import kendzi.math.geometry.skeleton.debug.display.DisplayFaceNode;
+import kendzi.math.geometry.skeleton.debug.display.DisplayIntersectEntry;
+import kendzi.math.geometry.skeleton.debug.display.DisplayLav2;
+import kendzi.math.geometry.skeleton.debug.display.DisplaySkeletonOut;
 import kendzi.math.geometry.skeleton.events.SkeletonEvent;
 
 public class DV {

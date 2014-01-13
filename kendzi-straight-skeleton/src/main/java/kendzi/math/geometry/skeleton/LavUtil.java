@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.circular.CircularList;
 
 import org.apache.log4j.Logger;
 

@@ -1,4 +1,4 @@
-package kendzi.math.geometry.skeleton;
+package kendzi.math.geometry.skeleton.circular;
 
 public class CircularNode {
     CircularNode next;
