@@ -1,7 +1,7 @@
 package kendzi.math.geometry.skeleton.events.chains;
 
-import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
-import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.circular.Edge;
+import kendzi.math.geometry.skeleton.circular.Vertex;
 import kendzi.math.geometry.skeleton.events.SplitEvent;
 import kendzi.math.geometry.skeleton.events.VertexSplitEvent;
 
@@ -14,27 +14,27 @@ public class SplitChain extends Chain {
     }
 
     @Override
-    public EdgeEntry getPreviousEdge() {
-        return splitEvent.getParent().e_a;
+    public Edge getPreviousEdge() {
+        return splitEvent.getParent().previousEdge;
     }
 
     @Override
-    public EdgeEntry getNextEdge() {
-        return splitEvent.getParent().e_b;
+    public Edge getNextEdge() {
+        return splitEvent.getParent().nextEdge;
     }
 
     @Override
-    public VertexEntry2 getPreviousVertex() {
+    public Vertex getPreviousVertex() {
         return splitEvent.getParent().previous();
     }
 
     @Override
-    public VertexEntry2 getNextVertex() {
+    public Vertex getNextVertex() {
         return splitEvent.getParent().next();
     }
 
     @Override
-    public VertexEntry2 getCurrentVertex() {
+    public Vertex getCurrentVertex() {
         return splitEvent.getParent();
     }
 
@@ -42,7 +42,7 @@ public class SplitChain extends Chain {
         return splitEvent;
     }
 
-    public EdgeEntry getOppositeEdge() {
+    public Edge getOppositeEdge() {
         if (!(splitEvent instanceof VertexSplitEvent)) {
             return splitEvent.getOppositeEdge();
         }

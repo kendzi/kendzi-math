@@ -1,17 +1,17 @@
 package kendzi.math.geometry.skeleton.events.chains;
 
-import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
-import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.circular.Edge;
+import kendzi.math.geometry.skeleton.circular.Vertex;
 
-public class SingleEdgeChain  extends Chain {
+public class SingleEdgeChain extends Chain {
 
-    private EdgeEntry oppositeEdge;
+    private Edge oppositeEdge;
 
-    private VertexEntry2 nextVertex;
+    private Vertex nextVertex;
 
-    private VertexEntry2 previousVertex;
+    private Vertex previousVertex;
 
-    public SingleEdgeChain(EdgeEntry oppositeEdge, VertexEntry2 nextVertex) {
+    public SingleEdgeChain(Edge oppositeEdge, Vertex nextVertex) {
         this.oppositeEdge = oppositeEdge;
         this.nextVertex = nextVertex;
         /*
@@ -23,27 +23,27 @@ public class SingleEdgeChain  extends Chain {
     }
 
     @Override
-    public EdgeEntry getPreviousEdge() {
+    public Edge getPreviousEdge() {
         return oppositeEdge;
     }
 
     @Override
-    public EdgeEntry getNextEdge() {
+    public Edge getNextEdge() {
         return oppositeEdge;
     }
 
     @Override
-    public VertexEntry2 getPreviousVertex() {
+    public Vertex getPreviousVertex() {
         return previousVertex;
     }
 
     @Override
-    public VertexEntry2 getNextVertex() {
+    public Vertex getNextVertex() {
         return nextVertex;
     }
 
     @Override
-    public VertexEntry2 getCurrentVertex() {
+    public Vertex getCurrentVertex() {
         return null;
     }
 

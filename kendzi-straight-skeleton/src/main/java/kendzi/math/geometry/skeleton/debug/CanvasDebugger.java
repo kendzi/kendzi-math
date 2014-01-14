@@ -17,12 +17,10 @@ import kendzi.math.geometry.debug.DisplayPolygon;
 import kendzi.math.geometry.debug.DisplayPolygonNames;
 import kendzi.math.geometry.line.LineParametric2d;
 import kendzi.math.geometry.line.LineSegment2d;
-import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
-import kendzi.math.geometry.skeleton.Skeleton.FaceNode;
-import kendzi.math.geometry.skeleton.Skeleton.FaceQueue;
 import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
-import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
 import kendzi.math.geometry.skeleton.circular.CircularList;
+import kendzi.math.geometry.skeleton.circular.Edge;
+import kendzi.math.geometry.skeleton.circular.Vertex;
 import kendzi.math.geometry.skeleton.debug.display.DisplayEventNames;
 import kendzi.math.geometry.skeleton.debug.display.DisplayEventQueue;
 import kendzi.math.geometry.skeleton.debug.display.DisplayFaceNode;
@@ -30,6 +28,8 @@ import kendzi.math.geometry.skeleton.debug.display.DisplayIntersectEntry;
 import kendzi.math.geometry.skeleton.debug.display.DisplayLav2;
 import kendzi.math.geometry.skeleton.debug.display.DisplaySkeletonOut;
 import kendzi.math.geometry.skeleton.events.SkeletonEvent;
+import kendzi.math.geometry.skeleton.path.FaceNode;
+import kendzi.math.geometry.skeleton.path.FaceQueue;
 
 public class CanvasDebugger implements VisualDebugger {
     private static DebugLayer dv = DebugDisplay.getDebugDisplay().getDebugLayer();;
@@ -64,9 +64,9 @@ public class CanvasDebugger implements VisualDebugger {
     }
 
     @Override
-    public void debug(Set<CircularList<VertexEntry2>> set) {
+    public void debug(Set<CircularList<Vertex>> set) {
 
-        for (CircularList<VertexEntry2> circularList : set) {
+        for (CircularList<Vertex> circularList : set) {
             if (circularList.size() > 0) {
                 debug(circularList);
             }
@@ -74,7 +74,7 @@ public class CanvasDebugger implements VisualDebugger {
     }
 
     @Override
-    public void debug(CircularList<VertexEntry2> l) {
+    public void debug(CircularList<Vertex> l) {
 
         dv.addDebug(new DisplayLav2(l, Color.ORANGE.darker().darker()));
     }
@@ -141,9 +141,9 @@ public class CanvasDebugger implements VisualDebugger {
     }
 
     @Override
-    public void debug(EdgeEntry edge) {
+    public void debug(Edge edge) {
 
-        dv.addDebug(new DisplayLineSegment2d(edge.p1, edge.p2, Color.GRAY.darker()));
+        dv.addDebug(new DisplayLineSegment2d(edge.getBegin(), edge.getEnd(), Color.GRAY.darker()));
     }
 
 }

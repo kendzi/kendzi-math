@@ -15,22 +15,24 @@ import javax.vecmath.Point2d;
 
 import kendzi.math.geometry.TestUtil;
 import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
-import kendzi.math.geometry.skeleton.debug.DV;
+import kendzi.math.geometry.skeleton.debug.VisualDebugger;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class SkeletonTest {
 
+    private static VisualDebugger vd;
+
     @Before
     public void init() {
-        TestUtil.initVisualDebugger();
+        vd = TestUtil.initVisualDebugger();
     }
 
     @Test
     public void skeletonTest5() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -50,7 +52,7 @@ public class SkeletonTest {
         expected.add(p(1.000000, 0.000000));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -66,7 +68,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTest_hole_1() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> inner = new ArrayList<Point2d>();
 
@@ -92,8 +94,8 @@ public class SkeletonTest {
         expected.addAll(outer);
         expected.addAll(inner);
 
-        DV.debug(outer);
-        DV.debug(inner);
+        vd.debug(outer);
+        vd.debug(inner);
 
         SkeletonOutput sk = Skeleton.skeleton(outer, innerList);
 
@@ -110,7 +112,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTest_hole_2() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
         List<Point2d> hole = new ArrayList<Point2d>();
@@ -141,8 +143,8 @@ public class SkeletonTest {
         expected.add(p(0.7481994722534444, -0.7603900949775717));
         expected.add(p(0.7446762937827887, -0.7638366801629576));
 
-        DV.debug(polygon);
-        DV.debug(hole);
+        vd.debug(polygon);
+        vd.debug(hole);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon, innerList);
 
@@ -159,7 +161,7 @@ public class SkeletonTest {
     // @Test
     public void skeletonTest6_1() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> inner = new ArrayList<Point2d>();
 
@@ -181,8 +183,8 @@ public class SkeletonTest {
         // polygon.add(new Point2d(1, 1));
         // polygon.add(new Point2d(-1, 1));
 
-        DV.debug(outer);
-        DV.debug(inner);
+        vd.debug(outer);
+        vd.debug(inner);
 
         SkeletonOutput sk = Skeleton.skeleton(outer, innerList);
 
@@ -196,7 +198,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTest6_9() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -212,7 +214,7 @@ public class SkeletonTest {
         expected.add(p(204.771536, 110.281518));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -226,7 +228,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTest7() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -242,7 +244,7 @@ public class SkeletonTest {
         expected.add(p(0.500000, 0.207107));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -256,7 +258,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTest8() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -278,7 +280,7 @@ public class SkeletonTest {
         expected.add(p(1.582159, 0.602529));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -292,7 +294,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB1() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -330,7 +332,7 @@ public class SkeletonTest {
         expected.add(p(11.147441, 1.349289));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -344,7 +346,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB2() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -380,7 +382,7 @@ public class SkeletonTest {
         expected.add(p(11.147441, 1.349289));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -394,7 +396,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB3__() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -414,7 +416,7 @@ public class SkeletonTest {
         expected.add(p(2.251879, 3.903281));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -428,7 +430,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB4__() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -444,7 +446,7 @@ public class SkeletonTest {
         expected.add(p(2.812173, 0.146026));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -458,7 +460,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB5__() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -474,7 +476,7 @@ public class SkeletonTest {
         expected.add(p(2.795365, 1.297294));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -488,7 +490,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB6__() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -508,7 +510,7 @@ public class SkeletonTest {
         expected.add(p(2.345444, 1.248630));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -522,7 +524,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB7__() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -540,7 +542,7 @@ public class SkeletonTest {
         expected.add(p(6.380715, -11.177062));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -554,7 +556,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB8__() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -570,7 +572,7 @@ public class SkeletonTest {
         expected.add(p(6.380715, -11.177062));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -584,7 +586,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTest9() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -606,7 +608,7 @@ public class SkeletonTest {
         expected.add(p(175.597143, 106.588481));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -620,7 +622,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB10() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -646,7 +648,7 @@ public class SkeletonTest {
         expected.add(p(16.331903, 6.498860));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -660,7 +662,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB11() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -698,7 +700,7 @@ public class SkeletonTest {
         expected.add(p(10.068366, 6.829855));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -712,7 +714,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB11_b() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -734,7 +736,7 @@ public class SkeletonTest {
         expected.add(p(6.893254906247293, 1.875034782130368));
         expected.add(p(6.8877356980830235, -0.5594000893968922));
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -748,7 +750,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB12() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -786,7 +788,7 @@ public class SkeletonTest {
         expected.add(p(11.965243, 8.224617));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -800,7 +802,7 @@ public class SkeletonTest {
     @Test
     public void skeletonTestB13() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -825,7 +827,7 @@ public class SkeletonTest {
         polygon.add(new Point2d(-10.417861267451112, 30.500462317733504));
         polygon.add(new Point2d(-10.354819907553885, -0.021387367337700525));
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         List<Point2d> expected = new ArrayList<Point2d>();
         expected.add(p(-5.225081993006608, 23.070007924404237));
@@ -861,7 +863,7 @@ public class SkeletonTest {
     @Test
     public void circularAddTest() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 
@@ -874,7 +876,7 @@ public class SkeletonTest {
         expected.add(p(75.000000, 75.000000));
         expected.addAll(polygon);
 
-        DV.debug(polygon);
+        vd.debug(polygon);
 
         SkeletonOutput sk = Skeleton.skeleton(polygon);
 
@@ -888,7 +890,7 @@ public class SkeletonTest {
     @Test
     public void circularAddTest2() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> polygon = new ArrayList<Point2d>();
 

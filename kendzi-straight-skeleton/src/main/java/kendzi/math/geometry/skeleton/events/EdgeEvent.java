@@ -2,24 +2,24 @@ package kendzi.math.geometry.skeleton.events;
 
 import javax.vecmath.Point2d;
 
-import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.circular.Vertex;
 
 public class EdgeEvent extends SkeletonEvent {
 
-    public VertexEntry2 Va;
-    public VertexEntry2 Vb;
+    public Vertex Va;
+    public Vertex Vb;
 
-    public EdgeEvent(Point2d point, double distance, VertexEntry2 previousVertex, VertexEntry2 nextVertex) {
+    public EdgeEvent(Point2d point, double distance, Vertex previousVertex, Vertex nextVertex) {
         super(point, distance);
         Va = previousVertex;
         Vb = nextVertex;
     }
 
-    public VertexEntry2 getLeftVertex() {
+    public Vertex getLeftVertex() {
         return Va;
     }
 
-    public VertexEntry2 getRightVertex() {
+    public Vertex getRightVertex() {
         return Vb;
     }
 
@@ -29,8 +29,8 @@ public class EdgeEvent extends SkeletonEvent {
      */
     @Override
     public String toString() {
-        return "EdgeEvent [v=" + this.v + ", Va=" + (this.Va != null ? this.Va.v : "null") + ", Vb="
-                + (this.Vb != null ? this.Vb.v : "null") + ", distance=" + this.distance + "]";
+        return "EdgeEvent [v=" + this.v + ", Va=" + (this.Va != null ? this.Va.point : "null") + ", Vb="
+                + (this.Vb != null ? this.Vb.point : "null") + ", distance=" + this.distance + "]";
     }
 
     @Override

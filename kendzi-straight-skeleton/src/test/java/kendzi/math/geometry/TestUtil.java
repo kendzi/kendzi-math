@@ -3,13 +3,15 @@ package kendzi.math.geometry;
 import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
-import kendzi.math.geometry.skeleton.debug.DV;
+import kendzi.math.geometry.skeleton.Skeleton;
+import kendzi.math.geometry.skeleton.debug.EmptyDebugger;
+import kendzi.math.geometry.skeleton.debug.VisualDebugger;
 
 /**
  * import static kendzi.math.geometry.TestUtil.*;
  * 
  * @author Tomasz Kedziora (Kendzi)
- *
+ * 
  */
 public class TestUtil {
     public static Vector2d v(double x, double y) {
@@ -20,9 +22,10 @@ public class TestUtil {
         return new Point2d(x, y);
     }
 
-    public static void initVisualDebugger() {
+    public static VisualDebugger initVisualDebugger() {
         if (System.getProperty("ui") != null) {
-            DV.enableDebug();
+            return Skeleton.initVisualDebugger();
         }
+        return new EmptyDebugger();
     }
 }

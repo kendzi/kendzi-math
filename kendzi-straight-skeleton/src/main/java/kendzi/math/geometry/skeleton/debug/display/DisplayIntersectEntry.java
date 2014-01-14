@@ -53,12 +53,12 @@ public class DisplayIntersectEntry extends DisplayObject {
                 g2d.setColor(Color.GRAY.darker());
             }
 
-            DrawUtil.drawPoint(split.getParent().v, selected, g2d, disp);
+            DrawUtil.drawPoint(split.getParent().point, selected, g2d, disp);
 
-            DrawUtil.drawLine(intersect.v, split.getParent().v, selected, g2d, disp);
+            DrawUtil.drawLine(intersect.v, split.getParent().point, selected, g2d, disp);
 
             g2d.setColor(Color.GRAY);
-            DrawUtil.drawLine(split.oppositeEdge.p1, split.oppositeEdge.p2, selected, g2d, disp);
+            DrawUtil.drawLine(split.oppositeEdge.getBegin(), split.oppositeEdge.getEnd(), selected, g2d, disp);
         }
 
         if (intersect instanceof EdgeEvent) {
@@ -70,9 +70,9 @@ public class DisplayIntersectEntry extends DisplayObject {
                 g2d.setColor(Color.GRAY.darker());
             }
 
-            DrawUtil.drawPoint(split.Va.v, selected, g2d, disp);
+            DrawUtil.drawPoint(split.Va.point, selected, g2d, disp);
 
-            DrawUtil.drawLine(intersect.v, split.Va.v, selected, g2d, disp);
+            DrawUtil.drawLine(intersect.v, split.Va.point, selected, g2d, disp);
 
             if (split.Vb.processed) {
                 g2d.setColor(Color.GRAY.brighter());
@@ -80,9 +80,9 @@ public class DisplayIntersectEntry extends DisplayObject {
                 g2d.setColor(Color.GRAY.darker());
             }
 
-            DrawUtil.drawPoint(split.Vb.v, selected, g2d, disp);
+            DrawUtil.drawPoint(split.Vb.point, selected, g2d, disp);
 
-            DrawUtil.drawLine(intersect.v, split.Vb.v, selected, g2d, disp);
+            DrawUtil.drawLine(intersect.v, split.Vb.point, selected, g2d, disp);
         }
 
     }

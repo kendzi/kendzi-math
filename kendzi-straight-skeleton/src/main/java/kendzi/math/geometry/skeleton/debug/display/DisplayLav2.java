@@ -9,8 +9,8 @@ import javax.vecmath.Point2d;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
-import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
 import kendzi.math.geometry.skeleton.circular.CircularList;
+import kendzi.math.geometry.skeleton.circular.Vertex;
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
 /**
@@ -19,7 +19,7 @@ import kendzi.swing.ui.panel.equation.EquationDisplay;
  */
 public class DisplayLav2 extends DisplayObject {
 
-    private CircularList<VertexEntry2> lav;
+    private CircularList<Vertex> lav;
 
     private Color color;
 
@@ -27,7 +27,7 @@ public class DisplayLav2 extends DisplayObject {
      * @param LAV
      * @param pColor
      */
-    public DisplayLav2(CircularList<VertexEntry2> lav, Color pColor) {
+    public DisplayLav2(CircularList<Vertex> lav, Color pColor) {
         super();
         this.lav = lav;
         this.color = pColor;
@@ -42,21 +42,21 @@ public class DisplayLav2 extends DisplayObject {
 
         g2d.setColor(color.darker());
 
-        for (VertexEntry2 v2 : lav) {
-            VertexEntry2 v1 = v2.previous();
+        for (Vertex v2 : lav) {
+            Vertex v1 = v2.previous();
 
-            Point2d p1 = v1.v;
-            Point2d p2 = v2.v;
+            Point2d p1 = v1.point;
+            Point2d p2 = v2.point;
 
             g2d.setColor(color);
             drawLine(p1, p2, selected, g2d, disp);
         }
 
-        for (VertexEntry2 v2 : lav) {
+        for (Vertex v2 : lav) {
 
             g2d.setColor(color);
 
-            drawPoint(v2.v, selected, g2d, disp);
+            drawPoint(v2.point, selected, g2d, disp);
         }
     }
 

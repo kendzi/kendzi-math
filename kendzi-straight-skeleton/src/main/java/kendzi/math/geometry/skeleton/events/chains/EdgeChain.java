@@ -2,8 +2,8 @@ package kendzi.math.geometry.skeleton.events.chains;
 
 import java.util.List;
 
-import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
-import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.circular.Edge;
+import kendzi.math.geometry.skeleton.circular.Vertex;
 import kendzi.math.geometry.skeleton.events.EdgeEvent;
 
 public class EdgeChain extends Chain {
@@ -11,7 +11,7 @@ public class EdgeChain extends Chain {
     @Deprecated
     private boolean split;
     private List<EdgeEvent> edgeList;
-    private EdgeEntry oppositeEdge;
+    private Edge oppositeEdge;
 
     public EdgeChain(List<EdgeEvent> edgeList) {
         this.edgeList = edgeList;
@@ -38,36 +38,36 @@ public class EdgeChain extends Chain {
         this.edgeList = edgeList;
     }
 
-    public EdgeEntry getOppositeEdge() {
+    public Edge getOppositeEdge() {
         return oppositeEdge;
     }
 
-    public void setOppositeEdge(EdgeEntry oppositeEdge) {
+    public void setOppositeEdge(Edge oppositeEdge) {
         this.oppositeEdge = oppositeEdge;
     }
 
     @Override
-    public EdgeEntry getPreviousEdge() {
-        return edgeList.get(0).Va.e_a;
+    public Edge getPreviousEdge() {
+        return edgeList.get(0).Va.previousEdge;
     }
 
     @Override
-    public EdgeEntry getNextEdge() {
-        return edgeList.get(edgeList.size() - 1).Vb.e_b;
+    public Edge getNextEdge() {
+        return edgeList.get(edgeList.size() - 1).Vb.nextEdge;
     }
 
     @Override
-    public VertexEntry2 getPreviousVertex() {
+    public Vertex getPreviousVertex() {
         return edgeList.get(0).Va;
     }
 
     @Override
-    public VertexEntry2 getNextVertex() {
+    public Vertex getNextVertex() {
         return edgeList.get(edgeList.size() - 1).Vb;
     }
 
     @Override
-    public VertexEntry2 getCurrentVertex() {
+    public Vertex getCurrentVertex() {
         return null;
     }
 

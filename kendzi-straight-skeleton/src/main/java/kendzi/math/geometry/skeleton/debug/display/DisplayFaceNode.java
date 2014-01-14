@@ -8,8 +8,8 @@ import javax.vecmath.Point2d;
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
 import kendzi.math.geometry.debug.DrawUtil;
-import kendzi.math.geometry.skeleton.Skeleton.FaceNode;
-import kendzi.math.geometry.skeleton.Skeleton.FaceQueue;
+import kendzi.math.geometry.skeleton.path.FaceNode;
+import kendzi.math.geometry.skeleton.path.FaceQueue;
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
 /**
@@ -60,8 +60,8 @@ public class DisplayFaceNode extends DisplayObject {
                 continue;
             }
 
-            Point2d p1 = v1.v.v;
-            Point2d p2 = v2.v.v;
+            Point2d p1 = v1.v.point;
+            Point2d p2 = v2.v.point;
 
             g2d.setColor(color);
             DrawUtil.drawLine(p1, p2, selected, g2d, disp);
@@ -73,7 +73,7 @@ public class DisplayFaceNode extends DisplayObject {
 
             g2d.setColor(color);
 
-            DrawUtil.drawPoint(v2.v.v, selected, g2d, disp);
+            DrawUtil.drawPoint(v2.v.point, selected, g2d, disp);
         }
     }
 

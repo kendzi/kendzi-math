@@ -1,10 +1,10 @@
-package kendzi.math.geometry.skeleton;
+package kendzi.math.geometry.skeleton.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
 import kendzi.math.geometry.skeleton.circular.CircularList;
+import kendzi.math.geometry.skeleton.circular.Vertex;
 
 import org.apache.log4j.Logger;
 
@@ -22,14 +22,14 @@ public class LavUtil {
      *            vertex 2
      * @return if two vertex are in the same lav
      */
-    public static boolean isSameLav(VertexEntry2 v1, VertexEntry2 v2) {
+    public static boolean isSameLav(Vertex v1, Vertex v2) {
         if (v1.list() == null || v2.list() == null) {
             return false;
         }
         return v1.list() == v2.list();
     }
 
-    public static void removeFromLav(VertexEntry2 vertex) {
+    public static void removeFromLav(Vertex vertex) {
         if (vertex == null || vertex.list() == null) {
             // if removed or not in list, skip
             return;
@@ -48,30 +48,24 @@ public class LavUtil {
      *            end vertex
      * @return list of vertex in the middle between start and end vertex
      */
-    public static List<VertexEntry2> cutLavPart(VertexEntry2 startVertex, VertexEntry2 endVertex) {
+    public static List<Vertex> cutLavPart(Vertex startVertex, Vertex endVertex) {
 
         if (log.isDebugEnabled()) {
-            log.debug("cutLavPart: startVertex: " + startVertex.v + ", endVertex: " + endVertex.v + ", lav: "
+            log.debug("cutLavPart: startVertex: " + startVertex.point + ", endVertex: " + endVertex.point + ", lav: "
                     + lavToString(startVertex));
         }
 
-        // if (!isSameLav(startVertex, endVertex)) {
-        // throw new
-        // IllegalArgumentException("end vertex can't be found in start vertex lav");
-        // }
-
-        List<VertexEntry2> ret = new ArrayList<Skeleton.VertexEntry2>();
+        List<Vertex> ret = new ArrayList<Vertex>();
 
         int size = startVertex.list().size();
 
-        VertexEntry2 next = startVertex;
+        Vertex next = startVertex;
 
         for (int i = 0; i < size - 1; i++) {
 
-            VertexEntry2 current = next;
+            Vertex current = next;
 
             next = current.next();
-
 
             current.remove();
 
@@ -85,14 +79,14 @@ public class LavUtil {
         throw new IllegalStateException("end vertex can't be found in start vertex lav");
     }
 
-    public static String lavToString(VertexEntry2 startVertex) {
+    public static String lavToString(Vertex startVertex) {
         StringBuffer sb = new StringBuffer();
 
         int size = startVertex.list().size();
-        VertexEntry2 next = startVertex;
+        Vertex next = startVertex;
 
         for (int i = 0; i < size - 1; i++) {
-            sb.append(next.v);
+            sb.append(next.point);
             sb.append(", ");
 
             next = next.next();
@@ -111,10 +105,10 @@ public class LavUtil {
      *            split index
      * @return two new lavs created from split
      */
-    public static SplitSlavs splitLav(VertexEntry2 vertex, int splitIndex) {
+    public static SplitSlavs splitLav(Vertex vertex, int splitIndex) {
 
-        CircularList<VertexEntry2> newLawLeft = new CircularList<VertexEntry2>();
-        CircularList<VertexEntry2> newLawRight = new CircularList<VertexEntry2>();
+        CircularList<Vertex> newLawLeft = new CircularList<Vertex>();
+        CircularList<Vertex> newLawRight = new CircularList<Vertex>();
 
         int sizeLav = vertex.list().size();
 
@@ -124,11 +118,11 @@ public class LavUtil {
         }
 
         // skip first vertex, it will be skip in result
-        VertexEntry2 nextVertex = vertex.next();
+        Vertex nextVertex = vertex.next();
 
         for (int i = 1; i < sizeLav; i++) {
 
-            VertexEntry2 currentVertex = nextVertex;
+            Vertex currentVertex = nextVertex;
             nextVertex = nextVertex.next();
 
             currentVertex.remove();
@@ -144,18 +138,18 @@ public class LavUtil {
     }
 
     public static class SplitSlavs {
-        private CircularList<VertexEntry2> newLawLeft = new CircularList<VertexEntry2>();
-        private CircularList<VertexEntry2> newLawRight = new CircularList<VertexEntry2>();
+        private CircularList<Vertex> newLawLeft = new CircularList<Vertex>();
+        private CircularList<Vertex> newLawRight = new CircularList<Vertex>();
 
-        public CircularList<VertexEntry2> getNewLawLeft() {
+        public CircularList<Vertex> getNewLawLeft() {
             return newLawLeft;
         }
 
-        public CircularList<VertexEntry2> getNewLawRight() {
+        public CircularList<Vertex> getNewLawRight() {
             return newLawRight;
         }
 
-        public SplitSlavs(CircularList<VertexEntry2> newLawLeft, CircularList<VertexEntry2> newLawRight) {
+        public SplitSlavs(CircularList<Vertex> newLawLeft, CircularList<Vertex> newLawRight) {
             this.newLawLeft = newLawLeft;
             this.newLawRight = newLawRight;
         }
@@ -171,10 +165,10 @@ public class LavUtil {
      * @param newLaw
      *            new lav
      */
-    public static void moveAllVertexToLavEnd(VertexEntry2 vertex, CircularList<VertexEntry2> newLaw) {
+    public static void moveAllVertexToLavEnd(Vertex vertex, CircularList<Vertex> newLaw) {
         int size = vertex.list().size();
         for (int i = 0; i < size; i++) {
-            VertexEntry2 ver = vertex;
+            Vertex ver = vertex;
             vertex = vertex.next();
             ver.remove();
             newLaw.addLast(ver);
@@ -190,17 +184,17 @@ public class LavUtil {
      * @param merged
      *            vertex from lav where vertex will be removed
      */
-    public static void mergeBeforeBaseVertex(VertexEntry2 base, VertexEntry2 merged) {
+    public static void mergeBeforeBaseVertex(Vertex base, Vertex merged) {
 
         if (log.isDebugEnabled()) {
-            log.debug("base: " + base.v + ", merged: " + merged.v + ", lavs: base" + lavToString(base) + " merged"
+            log.debug("base: " + base.point + ", merged: " + merged.point + ", lavs: base" + lavToString(base) + " merged"
                     + lavToString(merged));
         }
 
         int size = merged.list().size();
 
         for (int i = 0; i < size; i++) {
-            VertexEntry2 nextMerged = merged.next();
+            Vertex nextMerged = merged.next();
             nextMerged.remove();
 
             base.addPrevious(nextMerged);

@@ -2,8 +2,8 @@ package kendzi.math.geometry.skeleton.events;
 
 import javax.vecmath.Point2d;
 
-import kendzi.math.geometry.skeleton.Skeleton.EdgeEntry;
-import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
+import kendzi.math.geometry.skeleton.circular.Edge;
+import kendzi.math.geometry.skeleton.circular.Vertex;
 
 /**
  * @author kendzi
@@ -11,15 +11,15 @@ import kendzi.math.geometry.skeleton.Skeleton.VertexEntry2;
  */
 public class VertexSplitEvent extends SplitEvent {
 
-    public VertexSplitEvent(Point2d point, double distance, VertexEntry2 parent) {
+    public VertexSplitEvent(Point2d point, double distance, Vertex parent) {
         super(point, distance, parent, null);
     }
 
-    public EdgeEntry getOppositeEdgePrevious() {
+    public Edge getOppositeEdgePrevious() {
         return oppositeEdge;
     }
 
-    public EdgeEntry getOppositeEdgeNext() {
+    public Edge getOppositeEdgeNext() {
         return oppositeEdge.next();
     }
 
@@ -29,12 +29,12 @@ public class VertexSplitEvent extends SplitEvent {
      */
     @Override
     public String toString() {
-        return "VertexSplitEvent [v=" + this.v + ", parent=" + (this.getParent() != null ? this.getParent().v : "null")
+        return "VertexSplitEvent [v=" + this.v + ", parent=" + (this.getParent() != null ? this.getParent().point : "null")
                 + ", distance=" + this.getDistance() + "]";
     }
 
     @Override
-    public EdgeEntry getOppositeEdge() {
+    public Edge getOppositeEdge() {
         throw new RuntimeException("XXX");
     }
 

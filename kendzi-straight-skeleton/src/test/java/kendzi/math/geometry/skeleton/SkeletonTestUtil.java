@@ -11,14 +11,16 @@ import java.util.Set;
 
 import javax.vecmath.Point2d;
 
+import kendzi.math.geometry.TestUtil;
 import kendzi.math.geometry.bbox.Bbox2d;
 import kendzi.math.geometry.polygon.PolygonList2d;
 import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
-import kendzi.math.geometry.skeleton.debug.DV;
+import kendzi.math.geometry.skeleton.debug.VisualDebugger;
 import kendzi.math.geometry.skeleton.debug.display.DisplaySkeletonOut;
 
 public class SkeletonTestUtil {
 
+    private static VisualDebugger vd = TestUtil.initVisualDebugger();
 
     public static void assertOutlineInSkelet(List<Point2d> polygon, SkeletonOutput sk) {
         Set<Point2d> outline = new HashSet<Point2d>(polygon);
@@ -96,10 +98,10 @@ public class SkeletonTestUtil {
     }
 
     public static void visualizeResults(List<Point2d> polygon, SkeletonOutput sk) {
-        DV.debug(polygon);
-        DV.debug(new DisplaySkeletonOut(sk));
+        vd.debug(polygon);
+        vd.debug(new DisplaySkeletonOut(sk));
 
-        DV.block();
+        vd.block();
     }
 
     public static void writeExpectedOutput(List<Point2d> polygon, SkeletonOutput sk) {

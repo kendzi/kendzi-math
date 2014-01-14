@@ -15,22 +15,24 @@ import javax.vecmath.Point2d;
 
 import kendzi.math.geometry.TestUtil;
 import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
-import kendzi.math.geometry.skeleton.debug.DV;
+import kendzi.math.geometry.skeleton.debug.VisualDebugger;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class SkeletonLevelEventsTest {
 
+    private static VisualDebugger vd;
+
     @Before
     public void init() {
-        TestUtil.initVisualDebugger();
+        vd = TestUtil.initVisualDebugger();
     }
 
     @Test
     public void skeleton_pickEvent() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> outer = new ArrayList<Point2d>();
 
@@ -43,7 +45,7 @@ public class SkeletonLevelEventsTest {
         expected.add(p(0, 0));
         expected.addAll(outer);
 
-        DV.debug(outer);
+        vd.debug(outer);
 
         SkeletonOutput sk = Skeleton.skeleton(outer, null);
 
@@ -59,7 +61,7 @@ public class SkeletonLevelEventsTest {
     @Test
     public void skeleton_multiEdgeEvent() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> outer = new ArrayList<Point2d>();
 
@@ -76,7 +78,7 @@ public class SkeletonLevelEventsTest {
         expected.add(p(4.39444872, 0));
         expected.addAll(outer);
 
-        DV.debug(outer);
+        vd.debug(outer);
 
         SkeletonOutput sk = Skeleton.skeleton(outer, null);
 
@@ -92,7 +94,7 @@ public class SkeletonLevelEventsTest {
     @Test
     public void skeletonTest_cross_T1() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> outer = new ArrayList<Point2d>();
 
@@ -113,7 +115,7 @@ public class SkeletonLevelEventsTest {
         expected.add(p(2, 0));
         expected.add(p(0, 0));
         expected.add(p(0, 2));
-        DV.debug(outer);
+        vd.debug(outer);
 
         SkeletonOutput sk = Skeleton.skeleton(outer, null);
 
@@ -129,7 +131,7 @@ public class SkeletonLevelEventsTest {
     @Test
     public void skeletonTest_cross_X1() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> outer = new ArrayList<Point2d>();
 
@@ -154,7 +156,7 @@ public class SkeletonLevelEventsTest {
         expected.add(p(2, 0));
         expected.add(p(-2, 0));
 
-        DV.debug(outer);
+        vd.debug(outer);
 
         SkeletonOutput sk = Skeleton.skeleton(outer, null);
 
@@ -170,7 +172,7 @@ public class SkeletonLevelEventsTest {
     @Test
     public void skeletonTest_double_split() {
 
-        DV.clear();
+        vd.clear();
 
         List<Point2d> outer = new ArrayList<Point2d>();
 
@@ -188,7 +190,7 @@ public class SkeletonLevelEventsTest {
         expected.add(p(1.6180339887498951, -1.0000000000000002));
         expected.add(p(3.0000000000000004, -1.854101966249685));
 
-        DV.debug(outer);
+        vd.debug(outer);
 
         SkeletonOutput sk = Skeleton.skeleton(outer, null);
 
