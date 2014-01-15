@@ -6,8 +6,13 @@
 	<artifactId>kendzi-math</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
- 
+
 	<url>http://www.openstreetmap.org.pl/kendzi/Kendzi3d/</url>
+	
+	<scm>
+		<connection>scm:git:https://github.com/kendzi/kendzi-math.git</connection>
+		<developerConnection>scm:git:https://github.com/kendzi/kendzi-math.git</developerConnection>
+	</scm>
 
 	<properties>
 		<java.version>1.6</java.version>
