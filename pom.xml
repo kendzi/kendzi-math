@@ -10,13 +10,17 @@
 	<url>http://www.openstreetmap.org.pl/kendzi/Kendzi3d/</url>
 	
 	<scm>
-		<connection>scm:git:https://github.com/kendzi/kendzi-math.git</connection>
-		<developerConnection>scm:git:https://github.com/kendzi/kendzi-math.git</developerConnection>
+		<connection>scm:git:git://github.com/kendzi/kendzi-math.git</connection>
+		<developerConnection>scm:git:git://github.com/kendzi/kendzi-math.git</developerConnection>
+		<url>http://github.com/kendzi/kendzi-math</url>
+<!-- 		<tag>HEAD</tag> -->
 	</scm>
 
 	<properties>
 		<java.version>1.6</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ 
+  		<github.global.server>github</github.global.server> 
 	</properties>
 
 	<dependencies>
