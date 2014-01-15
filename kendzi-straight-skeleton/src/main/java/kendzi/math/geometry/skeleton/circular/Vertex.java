@@ -11,13 +11,13 @@ import kendzi.math.geometry.skeleton.path.FaceNode;
  */
 public class Vertex extends CircularNode {
 
-    public Point2d point;
+    private Point2d point;
 
-    public double distance;
+    private double distance;
 
-    public boolean processed;
+    private boolean processed;
 
-    public Ray2d bisector;
+    private Ray2d bisector;
 
     /**
      * Previous edge.
@@ -32,6 +32,21 @@ public class Vertex extends CircularNode {
     public FaceNode leftFace;
 
     public FaceNode rightFace;
+
+    public Vertex(Point2d point, double distance, Ray2d bisector, Edge previousEdge, Edge nextEdge) {
+        super();
+        this.point = point;
+        this.distance = distance;
+        this.bisector = bisector;
+        this.previousEdge = previousEdge;
+        this.nextEdge = nextEdge;
+
+        processed = false;
+    }
+
+    public Vertex() {
+        // TODO Auto-generated constructor stub
+    }
 
     /*
      * (non-Javadoc)
@@ -52,4 +67,46 @@ public class Vertex extends CircularNode {
     public Vertex previous() {
         return (Vertex) super.previous();
     }
+
+    public Point2d getPoint() {
+        return point;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public boolean isProcessed() {
+        return processed;
+    }
+
+    public Ray2d getBisector() {
+        return bisector;
+    }
+
+    public Edge getPreviousEdge() {
+        return previousEdge;
+    }
+
+    public Edge getNextEdge() {
+        return nextEdge;
+    }
+
+    public FaceNode getLeftFace() {
+        return leftFace;
+    }
+
+    public FaceNode getRightFace() {
+        return rightFace;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
+    }
+
+    @Deprecated
+    public void setBisector(Ray2d bisector) {
+        this.bisector = bisector;
+    }
+
 }

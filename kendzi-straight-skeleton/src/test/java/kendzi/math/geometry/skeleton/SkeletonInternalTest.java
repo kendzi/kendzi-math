@@ -528,13 +528,13 @@ public class SkeletonInternalTest {
 
     private Vertex debugVertex(final String name1, Point2d p) {
 
-        Vertex v = new Vertex() {
+        Vertex v = new Vertex(p, 0, null, null, null) {
             @Override
             public String toString() {
                 return name1;
             }
+
         };
-        v.point = p;
         return v;
     }
 

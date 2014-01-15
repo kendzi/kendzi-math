@@ -34,8 +34,6 @@ public class DisplayIntersectEntry extends DisplayObject {
             return;
         }
 
-        // Point2d last = this.points.get(this.points.size() - 1);
-
         if (intersect instanceof SplitEvent) {
             g2d.setColor(DisplayEventQueue.SPLIT_COLOR);
         } else {
@@ -53,9 +51,9 @@ public class DisplayIntersectEntry extends DisplayObject {
                 g2d.setColor(Color.GRAY.darker());
             }
 
-            DrawUtil.drawPoint(split.getParent().point, selected, g2d, disp);
+            DrawUtil.drawPoint(split.getParent().getPoint(), selected, g2d, disp);
 
-            DrawUtil.drawLine(intersect.v, split.getParent().point, selected, g2d, disp);
+            DrawUtil.drawLine(intersect.v, split.getParent().getPoint(), selected, g2d, disp);
 
             g2d.setColor(Color.GRAY);
             DrawUtil.drawLine(split.oppositeEdge.getBegin(), split.oppositeEdge.getEnd(), selected, g2d, disp);
@@ -64,25 +62,25 @@ public class DisplayIntersectEntry extends DisplayObject {
         if (intersect instanceof EdgeEvent) {
             EdgeEvent split = (EdgeEvent) this.intersect;
 
-            if (split.Va.processed) {
+            if (split.getPreviousVertex().isProcessed()) {
                 g2d.setColor(Color.GRAY.brighter());
             } else {
                 g2d.setColor(Color.GRAY.darker());
             }
 
-            DrawUtil.drawPoint(split.Va.point, selected, g2d, disp);
+            DrawUtil.drawPoint(split.getPreviousVertex().getPoint(), selected, g2d, disp);
 
-            DrawUtil.drawLine(intersect.v, split.Va.point, selected, g2d, disp);
+            DrawUtil.drawLine(intersect.v, split.getPreviousVertex().getPoint(), selected, g2d, disp);
 
-            if (split.Vb.processed) {
+            if (split.getNextVertex().isProcessed()) {
                 g2d.setColor(Color.GRAY.brighter());
             } else {
                 g2d.setColor(Color.GRAY.darker());
             }
 
-            DrawUtil.drawPoint(split.Vb.point, selected, g2d, disp);
+            DrawUtil.drawPoint(split.getNextVertex().getPoint(), selected, g2d, disp);
 
-            DrawUtil.drawLine(intersect.v, split.Vb.point, selected, g2d, disp);
+            DrawUtil.drawLine(intersect.v, split.getNextVertex().getPoint(), selected, g2d, disp);
         }
 
     }

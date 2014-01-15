@@ -27,13 +27,13 @@ public class SplitEvent extends SkeletonEvent {
      */
     @Override
     public String toString() {
-        return "SplitEvent [v=" + this.v + ", parent=" + (this.parent != null ? this.parent.point : "null") + ", distance="
+        return "SplitEvent [v=" + this.v + ", parent=" + (this.parent != null ? this.parent.getPoint() : "null") + ", distance="
                 + this.distance + "]";
     }
 
     @Override
     public boolean isObsolete() {
-        return parent.processed;
+        return parent.isProcessed();
     }
 
     public Edge getOppositeEdge() {

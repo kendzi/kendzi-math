@@ -29,7 +29,7 @@ public class VertexSplitEvent extends SplitEvent {
      */
     @Override
     public String toString() {
-        return "VertexSplitEvent [v=" + this.v + ", parent=" + (this.getParent() != null ? this.getParent().point : "null")
+        return "VertexSplitEvent [v=" + this.v + ", parent=" + (this.getParent() != null ? this.getParent().getPoint() : "null")
                 + ", distance=" + this.getDistance() + "]";
     }
 

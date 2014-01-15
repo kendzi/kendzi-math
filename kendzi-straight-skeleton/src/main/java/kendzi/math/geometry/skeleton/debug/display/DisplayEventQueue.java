@@ -48,7 +48,7 @@ public class DisplayEventQueue extends DisplayObject {
 
             int x = (int) disp.xPositionToPixel(p.x);
             int y = (int) disp.yPositionToPixel(p.y);
-            // g2d.translate(x, y);
+
             if (selected) {
                 g2d.setColor(Color.GREEN.brighter());
                 g2d.fillOval(-11 + x, -11 + y, 22, 22);

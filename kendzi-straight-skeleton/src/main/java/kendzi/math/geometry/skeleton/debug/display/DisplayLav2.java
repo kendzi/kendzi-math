@@ -45,8 +45,8 @@ public class DisplayLav2 extends DisplayObject {
         for (Vertex v2 : lav) {
             Vertex v1 = v2.previous();
 
-            Point2d p1 = v1.point;
-            Point2d p2 = v2.point;
+            Point2d p1 = v1.getPoint();
+            Point2d p2 = v2.getPoint();
 
             g2d.setColor(color);
             drawLine(p1, p2, selected, g2d, disp);
@@ -56,7 +56,7 @@ public class DisplayLav2 extends DisplayObject {
 
             g2d.setColor(color);
 
-            drawPoint(v2.point, selected, g2d, disp);
+            drawPoint(v2.getPoint(), selected, g2d, disp);
         }
     }
 

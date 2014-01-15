@@ -3,10 +3,8 @@ package kendzi.math.geometry.skeleton.circular;
 import java.util.Iterator;
 
 public class CircularList<T extends CircularNode> implements Iterable<T> {
-    int size = 0;
-    T first = null;
-
-
+    private int size = 0;
+    private T first = null;
 
     public void addNext(T node, T newNode) {
         if (newNode.list != null) {
@@ -97,14 +95,11 @@ public class CircularList<T extends CircularNode> implements Iterable<T> {
         return this.first;
     }
 
-
-
     public class CircularListIterator implements Iterator<T> {
 
         int i = 0;
 
         T current = CircularList.this.first;
-
 
         @Override
         public boolean hasNext() {
@@ -126,16 +121,10 @@ public class CircularList<T extends CircularNode> implements Iterable<T> {
 
     }
 
-//    /**
-//     * Make one round around list. Start from first element end on last.
-//     * @return interator
-//     */
-//    public CircularListIterator roundIterator() {
-//        return new CircularListIterator();
-//    }
     /**
      * Make one round around list. Start from first element end on last.
-     * @return interator
+     * 
+     * @return iterator
      */
     @Override
     public Iterator<T> iterator() {
@@ -143,4 +132,3 @@ public class CircularList<T extends CircularNode> implements Iterable<T> {
     }
 
 }
-

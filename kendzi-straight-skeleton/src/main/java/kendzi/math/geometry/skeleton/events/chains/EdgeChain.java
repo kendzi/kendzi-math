@@ -48,22 +48,22 @@ public class EdgeChain extends Chain {
 
     @Override
     public Edge getPreviousEdge() {
-        return edgeList.get(0).Va.previousEdge;
+        return edgeList.get(0).getPreviousVertex().previousEdge;
     }
 
     @Override
     public Edge getNextEdge() {
-        return edgeList.get(edgeList.size() - 1).Vb.nextEdge;
+        return edgeList.get(edgeList.size() - 1).getNextVertex().nextEdge;
     }
 
     @Override
     public Vertex getPreviousVertex() {
-        return edgeList.get(0).Va;
+        return edgeList.get(0).getPreviousVertex();
     }
 
     @Override
     public Vertex getNextVertex() {
-        return edgeList.get(edgeList.size() - 1).Vb;
+        return edgeList.get(edgeList.size() - 1).getNextVertex();
     }
 
     @Override

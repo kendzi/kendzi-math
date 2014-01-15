@@ -51,7 +51,7 @@ public class LavUtil {
     public static List<Vertex> cutLavPart(Vertex startVertex, Vertex endVertex) {
 
         if (log.isDebugEnabled()) {
-            log.debug("cutLavPart: startVertex: " + startVertex.point + ", endVertex: " + endVertex.point + ", lav: "
+            log.debug("cutLavPart: startVertex: " + startVertex.getPoint() + ", endVertex: " + endVertex.getPoint() + ", lav: "
                     + lavToString(startVertex));
         }
 
@@ -86,7 +86,7 @@ public class LavUtil {
         Vertex next = startVertex;
 
         for (int i = 0; i < size - 1; i++) {
-            sb.append(next.point);
+            sb.append(next.getPoint());
             sb.append(", ");
 
             next = next.next();
@@ -187,8 +187,8 @@ public class LavUtil {
     public static void mergeBeforeBaseVertex(Vertex base, Vertex merged) {
 
         if (log.isDebugEnabled()) {
-            log.debug("base: " + base.point + ", merged: " + merged.point + ", lavs: base" + lavToString(base) + " merged"
-                    + lavToString(merged));
+            log.debug("base: " + base.getPoint() + ", merged: " + merged.getPoint() + ", lavs: base" + lavToString(base)
+                    + " merged" + lavToString(merged));
         }
 
         int size = merged.list().size();

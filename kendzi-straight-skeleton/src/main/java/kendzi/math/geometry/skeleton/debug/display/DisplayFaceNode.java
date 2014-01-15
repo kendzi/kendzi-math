@@ -49,8 +49,6 @@ public class DisplayFaceNode extends DisplayObject {
             return;
         }
 
-        // Point2d last = this.points.get(this.points.size() - 1);
-
         g2d.setColor(color.darker());
 
         FaceNode v1 = null;
@@ -60,8 +58,8 @@ public class DisplayFaceNode extends DisplayObject {
                 continue;
             }
 
-            Point2d p1 = v1.v.point;
-            Point2d p2 = v2.v.point;
+            Point2d p1 = v1.getVertex().getPoint();
+            Point2d p2 = v2.getVertex().getPoint();
 
             g2d.setColor(color);
             DrawUtil.drawLine(p1, p2, selected, g2d, disp);
@@ -73,7 +71,7 @@ public class DisplayFaceNode extends DisplayObject {
 
             g2d.setColor(color);
 
-            DrawUtil.drawPoint(v2.v.point, selected, g2d, disp);
+            DrawUtil.drawPoint(v2.getVertex().getPoint(), selected, g2d, disp);
         }
     }
 
