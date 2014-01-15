@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>kendzi</groupId>
@@ -7,20 +8,19 @@
 	<packaging>pom</packaging>
 
 	<url>http://www.openstreetmap.org.pl/kendzi/Kendzi3d/</url>
-	
+
 	<scm>
-		<connection>scm:git:git://github.com/kendzi/kendzi-math.git</connection>
-		<developerConnection>scm:git:git://github.com/kendzi/kendzi-math.git</developerConnection>
+		<connection>scm:git:http://github.com/kendzi/kendzi-math.git</connection>
+		<developerConnection>scm:git:http://github.com/kendzi/kendzi-math.git</developerConnection>
 		<url>http://github.com/kendzi/kendzi-math</url>
-<!-- 		<tag>HEAD</tag> -->
-	  <tag>kendzi-math-0.0.1</tag>
-  </scm>
+		<tag>kendzi-math-0.0.1</tag>
+	</scm>
 
 	<properties>
 		<java.version>1.6</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
- 
-  		<github.global.server>github</github.global.server> 
+
+		<github.global.server>github</github.global.server>
 	</properties>
 
 	<dependencies>
