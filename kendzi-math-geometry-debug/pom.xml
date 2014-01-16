@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>kendzi</groupId>
 	<artifactId>kendzi-math-geometry-debug</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.3-SNAPSHOT</version>
 
 	<url>http://www.openstreetmap.org.pl/kendzi/Kendzi3d/</url>
 
@@ -11,7 +11,7 @@
 		<dependency>
 			<groupId>kendzi</groupId>
 			<artifactId>kendzi-math-geometry</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.3-SNAPSHOT</version>
 		</dependency>		 
 	</dependencies>
 
@@ -45,11 +45,7 @@
 	<parent>
 		<groupId>kendzi</groupId>
 		<artifactId>kendzi-math</artifactId>
-		<version>0.0.2</version>
+		<version>0.0.3-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-
-  <scm>
-    <tag>kendzi-math-0.0.2</tag>
-  </scm>
 </project>
