@@ -4,7 +4,7 @@
 
 	<groupId>kendzi</groupId>
 	<artifactId>kendzi-math</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<url>http://www.openstreetmap.org.pl/kendzi/Kendzi3d/</url>
@@ -12,14 +12,12 @@
 	<scm>
 		<connection>scm:git:http://github.com/kendzi/kendzi-math.git</connection>
 		<developerConnection>scm:git:http://github.com/kendzi/kendzi-math.git</developerConnection>
-		<url>http://github.com/kendzi/kendzi-math</url>
-		<tag>kendzi-math-0.0.1</tag>
+		<url>http://github.com/kendzi/kendzi-math</url>		 
 	</scm>
 
 	<properties>
 		<java.version>1.6</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
 		<github.global.server>github</github.global.server>
 	</properties>
 
