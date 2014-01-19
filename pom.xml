@@ -13,7 +13,6 @@
 		<connection>scm:git:git@github.com/kendzi/kendzi-math.git</connection>
 		<developerConnection>scm:git:git@github.com:kendzi/kendzi-math.git</developerConnection>
 		<url>http://github.com/kendzi/kendzi-math</url>
-    <tag>HEAD</tag>
   </scm>
 	<distributionManagement>
 		<repository>
