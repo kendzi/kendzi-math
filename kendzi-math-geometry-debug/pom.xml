@@ -9,7 +9,7 @@
 		<dependency>
 			<groupId>kendzi</groupId>
 			<artifactId>kendzi-math-geometry</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.3</version>
 		</dependency>		 
 	</dependencies>
 
@@ -43,7 +43,7 @@
 	<parent>
 		<groupId>kendzi</groupId>
 		<artifactId>kendzi-math</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
+		<version>0.0.3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 </project>
