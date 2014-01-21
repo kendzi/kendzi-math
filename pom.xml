@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>kendzi</groupId>
+	<groupId>kendzi.math</groupId>
 	<artifactId>kendzi-math</artifactId>
 	<version>0.0.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -13,7 +13,6 @@
 		<connection>scm:git:git@github.com/kendzi/kendzi-math.git</connection>
 		<developerConnection>scm:git:git@github.com:kendzi/kendzi-math.git</developerConnection>
 		<url>http://github.com/kendzi/kendzi-math</url>
-    <tag>HEAD</tag>
   </scm>
 	<distributionManagement>
 		<repository>
@@ -25,6 +24,7 @@
 	<properties>
 		<java.version>1.6</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<vecmath.version>1.3.1</vecmath.version>
 	</properties>
 
 	<dependencies>
@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>java3d</groupId>
 			<artifactId>vecmath</artifactId>
-			<version>1.3.1</version>
+			<version>${vecmath.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
