@@ -13,35 +13,8 @@
 		</dependency>		 
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>repo</id>
-			<releases>
-				<enabled>true</enabled>
-				<checksumPolicy>ignore</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<url>file://${basedir}/../repo</url>
-		</repository>
-	</repositories>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.0.2</version>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 	<parent>
-		<groupId>kendzi</groupId>
+		<groupId>kendzi.math</groupId>
 		<artifactId>kendzi-math</artifactId>
 		<version>0.0.6-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>

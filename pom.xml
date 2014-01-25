@@ -51,6 +51,7 @@
 		<module>kendzi-math-geometry-debug</module>
 		<module>kendzi-straight-skeleton</module>
 	</modules>
+	
 	<build>
 		<extensions>
 			<!-- Enabling the use of FTP -->
@@ -60,5 +61,16 @@
 				<version>2.5</version>
 			</extension>
 		</extensions>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>
