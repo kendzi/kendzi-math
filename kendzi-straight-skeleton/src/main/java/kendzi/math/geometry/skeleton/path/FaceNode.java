@@ -14,4 +14,25 @@ public class FaceNode extends PathQueueNode<FaceNode> {
     public Vertex getVertex() {
         return vertex;
     }
+
+    public boolean isQueueClosed() {
+        FaceQueue fq = getFaceQueue();
+        return fq.isClosed();
+    }
+
+    public FaceQueue getFaceQueue() {
+        return (FaceQueue) list();
+    }
+
+    public boolean isQueueUnconnected() {
+        FaceQueue fq = getFaceQueue();
+        return fq.isUnconnected();
+    }
+
+    public void queueClose() {
+        getFaceQueue().close();
+        // TODO Auto-generated method stub
+
+    }
+
 }

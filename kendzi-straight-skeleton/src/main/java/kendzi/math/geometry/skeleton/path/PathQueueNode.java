@@ -5,7 +5,7 @@ public class PathQueueNode<T extends PathQueueNode<T>> {
     private PathQueueNode<T> next;
     private PathQueueNode<T> previous;
 
-    protected PathQueue<T> list;
+    private PathQueue<T> list;
 
     public PathQueue<T> list() {
         return this.list;
@@ -57,7 +57,6 @@ public class PathQueueNode<T extends PathQueueNode<T>> {
     public PathQueueNode<T> addQueue(PathQueueNode<T> queue) {
 
         if (this.list == queue.list) {
-            // TODO ? cycle ?!
             return null;
         }
 
@@ -76,7 +75,6 @@ public class PathQueueNode<T extends PathQueueNode<T>> {
         }
 
         return currentQueue;
-
     }
 
     public PathQueueNode<T> findEnd() {

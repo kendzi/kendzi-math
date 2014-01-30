@@ -8,7 +8,7 @@ public class PathQueue<T extends PathQueueNode<T>> implements Iterable<T> {
     private PathQueueNode<T> first = null;
 
     public void addPush(PathQueueNode<T> node, PathQueueNode<T> newNode) {
-        if (newNode.list != null) {
+        if (newNode.list() != null) {
             throw new IllegalStateException("Node is allready assigned to different list!");
         }
 
@@ -17,7 +17,7 @@ public class PathQueue<T extends PathQueueNode<T>> implements Iterable<T> {
                     "Can't push new node. Node is inside a Quere. New node can by added only at the end of queue.");
         }
 
-        newNode.list = this;
+        newNode.setList(this);
         this.size++;
 
         if (node.getNext() == null) {
@@ -41,14 +41,14 @@ public class PathQueue<T extends PathQueueNode<T>> implements Iterable<T> {
     }
 
     public void addFirst(T node) {
-        if (node.list != null) {
+        if (node.list() != null) {
             throw new IllegalStateException("Node is already assigned to different list!");
         }
 
         if (this.first == null) {
             this.first = node;
 
-            node.list = this;
+            node.setList(this);
             node.setNext(null);
             node.setPrevious(null);
 
@@ -62,7 +62,7 @@ public class PathQueue<T extends PathQueueNode<T>> implements Iterable<T> {
     }
 
     public PathQueueNode<T> pop(PathQueueNode<T> node) {
-        if (node.list != this) {
+        if (node.list() != this) {
             throw new IllegalStateException("Node is not assigned to this list!");
         }
 
@@ -73,7 +73,7 @@ public class PathQueue<T extends PathQueueNode<T>> implements Iterable<T> {
             throw new IllegalStateException("Can pop only from end of queue!");
         }
 
-        node.list = null;
+        node.setList(null);
 
         PathQueueNode<T> previous = null;
 

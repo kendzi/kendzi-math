@@ -7,13 +7,16 @@
 package kendzi.math.geometry.skeleton;
 
 import static kendzi.math.geometry.skeleton.SkeletonTestUtil.*;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.vecmath.Point2d;
 
 import kendzi.math.geometry.TestUtil;
+import kendzi.math.geometry.polygon.PolygonList2d;
 import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
 import kendzi.math.geometry.skeleton.debug.VisualDebugger;
 
@@ -203,4 +206,132 @@ public class SkeletonLevelEventsTest {
         assertExpectedPoints(expected, getFacePoints(sk));
     }
 
+    @Test
+    public void skeletonTest_double_split2() {
+
+        vd.clear();
+
+        List<Point2d> outer = new ArrayList<Point2d>();
+
+        outer.add(new Point2d(-6, 0));
+        outer.add(new Point2d(-3, -6));
+        outer.add(new Point2d(-1, -2));
+        outer.add(new Point2d(0, -3));
+        outer.add(new Point2d(1, -2));
+        outer.add(new Point2d(3, -6));
+        outer.add(new Point2d(6, 0));
+
+        List<Point2d> expected = new ArrayList<Point2d>(outer);
+
+        expected.add(p(-3.0000000000000004, -1.854101966249685));
+        expected.add(p(-1.2038204263767998, -0.7440019398522527));
+        expected.add(p(-0.0, -1.242640687119285));
+        expected.add(p(1.2038204263767998, -0.7440019398522527));
+        expected.add(p(3.0000000000000004, -1.854101966249685));
+
+        vd.debug(outer);
+
+        SkeletonOutput sk = Skeleton.skeleton(outer, null);
+
+        writeExpectedOutput(outer, sk);
+
+        visualizeResults(outer, sk);
+
+        validate(outer, sk);
+
+        assertExpectedPoints(expected, getFacePoints(sk));
+
+        assertPolygonWithEdges(7, sk);
+    }
+
+    @Test
+    public void skeletonTest_multiple() {
+
+        vd.clear();
+
+        List<Point2d> outer = new ArrayList<Point2d>();
+
+        outer.add(new Point2d(0, 0));
+        outer.add(new Point2d(5, 0));
+        outer.add(new Point2d(5, 5));
+        outer.add(new Point2d(0, 5));
+
+        List<Point2d> h1 = new ArrayList<Point2d>();
+        h1.add(new Point2d(1, 1));
+        h1.add(new Point2d(2, 1));
+        h1.add(new Point2d(2, 2));
+        h1.add(new Point2d(1, 2));
+
+        List<Point2d> h2 = new ArrayList<Point2d>();
+        h2.add(new Point2d(3, 3));
+        h2.add(new Point2d(4, 3));
+        h2.add(new Point2d(4, 4));
+        h2.add(new Point2d(3, 4));
+
+        List<Point2d> h3 = new ArrayList<Point2d>();
+        h3.add(new Point2d(1, 3));
+        h3.add(new Point2d(2, 3));
+        h3.add(new Point2d(2, 4));
+        h3.add(new Point2d(1, 4));
+
+        List<Point2d> h4 = new ArrayList<Point2d>();
+        h4.add(new Point2d(3, 1));
+        h4.add(new Point2d(4, 1));
+        h4.add(new Point2d(4, 2));
+        h4.add(new Point2d(3, 2));
+
+        List<Point2d> expected = new ArrayList<Point2d>(outer);
+
+        expected.add(p(4.5, 2.5));
+        expected.add(p(4.5, 0.5));
+        expected.add(p(4.5, 4.5));
+        expected.add(p(0.5, 4.5));
+        expected.add(p(2.5, 4.5));
+        expected.add(p(0.5, 0.5));
+        expected.add(p(0.5, 2.5));
+        expected.add(p(2.5, 0.5));
+        expected.add(p(2.5, 2.5));
+        expected.add(p(2.0, 2.0));
+        expected.add(p(2.0, 1.0));
+        expected.add(p(1.0, 1.0));
+        expected.add(p(1.0, 2.0));
+        expected.add(p(4.0, 4.0));
+        expected.add(p(4.0, 3.0));
+        expected.add(p(3.0, 3.0));
+        expected.add(p(3.0, 4.0));
+        expected.add(p(2.0, 4.0));
+        expected.add(p(2.0, 3.0));
+        expected.add(p(1.0, 3.0));
+        expected.add(p(1.0, 4.0));
+        expected.add(p(4.0, 2.0));
+        expected.add(p(4.0, 1.0));
+        expected.add(p(3.0, 1.0));
+        expected.add(p(3.0, 2.0));
+
+        vd.debug(outer);
+
+        @SuppressWarnings("unchecked")
+        SkeletonOutput sk = Skeleton.skeleton(outer, Arrays.asList(h1, h2, h3, h4));
+
+        writeExpectedOutput(outer, sk);
+
+        visualizeResults(outer, sk);
+
+        validate(outer, sk);
+
+        assertExpectedPoints(expected, getFacePoints(sk));
+
+    }
+
+    private void assertPolygonWithEdges(int numOfEdges, SkeletonOutput sk) {
+
+        for (PolygonList2d polygonList2d : sk.getFaces()) {
+            List<Point2d> points = polygonList2d.getPoints();
+            if (points.size() == numOfEdges) {
+                return;
+            }
+
+        }
+        fail("expected polygon with number of edges: " + numOfEdges);
+    }
 }

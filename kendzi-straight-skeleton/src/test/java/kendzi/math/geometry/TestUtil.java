@@ -24,6 +24,7 @@ public class TestUtil {
 
     public static VisualDebugger initVisualDebugger() {
         if (System.getProperty("ui") != null) {
+            // FIXME
             return Skeleton.initVisualDebugger();
         }
         return new EmptyDebugger();
