@@ -16,8 +16,9 @@ public class DebugLayer extends EquationLayer {
 
             for (Object key : this.objects.keySet()) {
                 DisplayObject displayObject = this.objects.get(key);
-
-                displayObject.draw(g2d, disp, false);
+                if (displayObject != null) {
+                    displayObject.draw(g2d, disp, false);
+                }
             }
 
             if (this.lastObjects != null) {

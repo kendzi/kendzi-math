@@ -118,7 +118,11 @@ public class EmptyDebugger implements VisualDebugger {
     @Override
     public void debug(Edge edge) {
         //
+    }
 
+    @Override
+    public void debugSlav(Set<CircularList<Vertex>> slav) {
+        //
     }
 
 }

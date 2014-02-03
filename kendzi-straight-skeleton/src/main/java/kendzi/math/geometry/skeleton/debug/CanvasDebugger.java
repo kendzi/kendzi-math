@@ -26,6 +26,7 @@ import kendzi.math.geometry.skeleton.debug.display.DisplayEventQueue;
 import kendzi.math.geometry.skeleton.debug.display.DisplayFaceNode;
 import kendzi.math.geometry.skeleton.debug.display.DisplayIntersectEntry;
 import kendzi.math.geometry.skeleton.debug.display.DisplayLav2;
+import kendzi.math.geometry.skeleton.debug.display.DisplaySLav;
 import kendzi.math.geometry.skeleton.debug.display.DisplaySkeletonOut;
 import kendzi.math.geometry.skeleton.events.SkeletonEvent;
 import kendzi.math.geometry.skeleton.path.FaceNode;
@@ -61,6 +62,11 @@ public class CanvasDebugger implements VisualDebugger {
     public void debug(PriorityQueue<SkeletonEvent> queue) {
 
         dv.addDebug(new DisplayEventQueue(queue));
+    }
+
+    @Override
+    public void debugSlav(Set<CircularList<Vertex>> slav) {
+        dv.addDebug(new DisplaySLav(slav));
     }
 
     @Override

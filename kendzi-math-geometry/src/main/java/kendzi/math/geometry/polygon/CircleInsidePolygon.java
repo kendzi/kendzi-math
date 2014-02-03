@@ -10,9 +10,11 @@ import kendzi.math.geometry.line.LineSegment2d;
 public class CircleInsidePolygon {
 
     /**
-     *
-     * @see http://stackoverflow.com/questions/4279478/maximum-circle-inside-a-non-convex-polygon
-     *
+     * 
+     * @see http
+     *      ://stackoverflow.com/questions/4279478/maximum-circle-inside-a-non
+     *      -convex-polygon
+     * 
      * @param poly
      * @param epsilon
      * @return
@@ -36,28 +38,25 @@ public class CircleInsidePolygon {
             for (double xi = 0; xi <= divide; xi++) {
                 for (double yi = 0; yi <= divide; yi++) {
 
-                    Point2d p = new Point2d(
-                            minX + xi * deltaX,
-                            minY + yi * deltaY);
+                    Point2d p = new Point2d(minX + xi * deltaX, minY + yi * deltaY);
 
-                    if (PolygonUtil.isInside(p, poly)) {
+                    if (PolygonUtil.isPointInsidePolygon(p, poly)) {
                         insideList.add(p);
                     }
                 }
             }
 
             if (insideList.size() == 0) {
-                //???
+                // ???
             }
 
             best = furthestFromAnyPointOnEdge(insideList, poly);
 
-            deltaX = deltaX / Math.sqrt(2); //???
-            deltaY = deltaY / Math.sqrt(2); //???
+            deltaX = deltaX / Math.sqrt(2); // ???
+            deltaY = deltaY / Math.sqrt(2); // ???
 
             minX = best.point.x - deltaX * divide / 2.0;
             minY = best.point.y - deltaY * divide / 2.0;
-
 
         } while (Math.max(deltaX, deltaY) > epsilon);
 
@@ -66,12 +65,11 @@ public class CircleInsidePolygon {
 
     private static Circle furthestFromAnyPointOnEdge(List<Point2d> insideList, PolygonList2d poly) {
 
-        if (insideList.size() == 0 ) {
+        if (insideList.size() == 0) {
             return null;
         }
 
         List<Point2d> points = poly.getPoints();
-
 
         List<LineSegment2d> segmentList = new ArrayList<LineSegment2d>();
 
@@ -102,7 +100,6 @@ public class CircleInsidePolygon {
         Point2d point;
         double radius;
 
-
         public Circle(Point2d point, double radius) {
             super();
             this.point = point;
@@ -115,36 +112,39 @@ public class CircleInsidePolygon {
         public Point2d getPoint() {
             return this.point;
         }
+
         /**
-         * @param point the point to set
+         * @param point
+         *            the point to set
          */
         public void setPoint(Point2d point) {
             this.point = point;
         }
+
         /**
          * @return the radius
          */
         public double getRadius() {
             return this.radius;
         }
+
         /**
-         * @param radius the radius to set
+         * @param radius
+         *            the radius to set
          */
         public void setRadius(double radius) {
             this.radius = radius;
         }
 
-
     }
 
     private static Double distanceFromAnyPointOnEdge(Point2d P, List<LineSegment2d> segmentList) {
 
-        if (segmentList.size() == 0 ) {
+        if (segmentList.size() == 0) {
             return null;
         }
 
         double minDistance = Double.MAX_VALUE;
-
 
         for (LineSegment2d segment : segmentList) {
 

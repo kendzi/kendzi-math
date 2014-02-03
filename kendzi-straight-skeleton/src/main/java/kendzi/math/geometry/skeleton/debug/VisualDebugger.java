@@ -29,6 +29,8 @@ public interface VisualDebugger {
 
     void debug(Set<CircularList<Vertex>> set);
 
+    void debugSlav(Set<CircularList<Vertex>> slav);
+
     void debug(CircularList<Vertex> l);
 
     void debug(SkeletonOutput pOutput);

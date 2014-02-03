@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -151,9 +152,10 @@ public class Skeleton {
                      */
                     continue;
                 }
-
+                vd.debug(event);
                 processedEvents.add(event);
-
+                vd.debug(sLav);
+                vd.debugSlav(sLav);
                 vd.debugProcessedEvents(processedEvents);
 
                 if (event instanceof EdgeEvent) {
@@ -245,7 +247,11 @@ public class Skeleton {
     }
 
     private static void removeEmptyLav(Set<CircularList<Vertex>> sLav) {
-        // TODO Auto-generated method stub
+        for (Iterator<CircularList<Vertex>> it = sLav.iterator(); it.hasNext();) {
+            if (it.next().size() == 0) {
+                it.remove();
+            }
+        }
     }
 
     private static void multiEdgeEvent(MultiEdgeEvent event, Set<CircularList<Vertex>> sLav, PriorityQueue<SkeletonEvent> queue,
@@ -344,12 +350,14 @@ public class Skeleton {
                     event.getDistance());
 
             // Split and merge lavs...
-
+            vd.debugSlav(sLav);
             vd.debug(sLav);
             vd.debug(center);
 
             Vertex beginNextVertex = chainBegin.getNextVertex();
             Vertex endPreviousVertex = chainEnd.getPreviousVertex();
+            vd.debug(endPreviousVertex.getPoint());
+            correctBisectorDirection(newVertex.getBisector(), beginNextVertex, endPreviousVertex);
 
             if (isSameLav(beginNextVertex, endPreviousVertex)) {
                 /*
@@ -421,6 +429,20 @@ public class Skeleton {
         vd.debug(sLav);
     }
 
+    private static void correctBisectorDirection(Ray2d bisector, Vertex beginNextVertex, Vertex endPreviousVertex) {
+
+        Vector2d n1 = Vector2dUtil.fromTo(endPreviousVertex.getPoint(), bisector.A);
+        Vector2d n2 = Vector2dUtil.fromTo(bisector.A, beginNextVertex.getPoint());
+        n1.normalize();
+        n2.normalize();
+        Vector2d bisectorPrediction = calcVectorBisector(n1, n2);
+        vd.debug(bisector);
+        if (bisector.U.dot(bisectorPrediction) < 0) {
+            // bisector is calculated in opposite direction to edges and center
+            bisector.U.negate();
+        }
+    }
+
     private static void validateLavsEdges(Set<CircularList<Vertex>> sLav) {
         for (CircularList<Vertex> circularList : sLav) {
             for (Vertex vertex : circularList) {
@@ -473,6 +495,9 @@ public class Skeleton {
 
         } else {
             Vertex beginVertex = chainBegin.getCurrentVertex();
+            if (beginVertex == null) {
+                System.err.println(chainBegin.getCurrentVertex());
+            }
             vd.debug(beginVertex.rightFace);
             // right face
             addFaceRight(newVertex, beginVertex);
@@ -546,13 +571,27 @@ public class Skeleton {
          */
         Set<Edge> oppositeEdges = new HashSet<Edge>();
 
+        List<Chain> oppositeEdgeChains = new ArrayList<Chain>();
+        List<Chain> chainsForRemoval = new ArrayList<Chain>();
+
         for (Chain chain : chains) {
             // add opposite edges as chain parts
             if (chain instanceof SplitChain) {
                 SplitChain splitChain = (SplitChain) chain;
                 Edge oppositeEdge = splitChain.getOppositeEdge();
-                if (oppositeEdge != null) {
+                if (oppositeEdge != null && !oppositeEdges.contains(oppositeEdge)) {
                     // find lav vertex for opposite edge
+
+                    Vertex nextVertex = findOppositeEdgeLav(sLav, oppositeEdge, center);
+                    if (nextVertex != null) {
+
+                        oppositeEdgeChains.add(new SingleEdgeChain(oppositeEdge, nextVertex));
+                    } else {
+                        // XXX
+                        findOppositeEdgeLav(sLav, oppositeEdge, center);
+                        chainsForRemoval.add(chain);
+                    }
+
                     oppositeEdges.add(oppositeEdge);
                 }
             } else if (chain instanceof EdgeChain) {
@@ -560,6 +599,7 @@ public class Skeleton {
                 if (ChainType.SPLIT.equals(edgeChain.getType())) {
                     Edge oppositeEdge = ((EdgeChain) chain).getOppositeEdge();
                     if (oppositeEdge != null) {
+                        // XXX never happen?
                         // find lav vertex for opposite edge
                         oppositeEdges.add(oppositeEdge);
                     }
@@ -567,31 +607,42 @@ public class Skeleton {
             }
         }
 
-        for (Edge oppositeEdge : oppositeEdges) {
-            /*
-             * Find current lav vertex for opposite edge. If edge is shared
-             * between lavs finds lav where center point best match.
-             */
-            Vertex nextVertex = findOppositeEdgeLav(sLav, oppositeEdge, center);
+        /*
+         * if opposite edge can't be found in active lavs then split chain with
+         * that edge should be removed
+         */
+        chains.removeAll(chainsForRemoval);
+        chains.addAll(oppositeEdgeChains);
 
-            chains.add(new SingleEdgeChain(oppositeEdge, nextVertex));
-        }
+        // for (Edge oppositeEdge : oppositeEdges) {
+        // /*
+        // * Find current lav vertex for opposite edge. If edge is shared
+        // * between lavs finds lav where center point best match.
+        // */
+        // Vertex nextVertex = findOppositeEdgeLav(sLav, oppositeEdge, center);
+        // if (nextVertex == null) {
+        // findOppositeEdgeLav(sLav, oppositeEdge, center);
+        // continue; // XXX
+        // }
+        // chains.add(new SingleEdgeChain(oppositeEdge, nextVertex));
+        // }
     }
 
-    private static Vertex createMultiSplitVertex(Edge previousEdge, Edge nextEdge, Point2d center, double distance) {
+    private static Vertex createMultiSplitVertex(Edge nextEdge, Edge previousEdge, Point2d center, double distance) {
 
-        Point2d edgeEnd = previousEdge.getEnd();
-        Vector2d bisectorPrediction = new Vector2d(edgeEnd.x - center.x, edgeEnd.y - center.y);
+        // Point2d edgeEnd = nextEdge.getEnd();
+        // Vector2d bisectorPrediction = new Vector2d(edgeEnd.x - center.x,
+        // edgeEnd.y - center.y);
 
         Ray2d bisector = calcBisector(center, previousEdge, nextEdge);
-
-        if (bisector.U.dot(bisectorPrediction) < 0) {
-            // bisector is calculated in opposite direction to edges and center
-            bisector.U.negate();
-        }
+        //
+        // if (bisector.U.dot(bisectorPrediction) < 0) {
+        // // bisector is calculated in opposite direction to edges and center
+        // bisector.U.negate();
+        // }
 
         // edges are mirrored for event
-        return new Vertex(center, distance, bisector, nextEdge, previousEdge);
+        return new Vertex(center, distance, bisector, previousEdge, nextEdge);
     }
 
     /**
@@ -1381,8 +1432,13 @@ public class Skeleton {
     protected static Vertex findOppositeEdgeLav(Set<CircularList<Vertex>> sLav, Edge oppositeEdge, Point2d center) {
 
         List<Vertex> edgeLavs = findEdgeLavs(sLav, oppositeEdge, null);
-        vd.debug(edgeLavs.get(0).getPoint());
-        vd.debug(edgeLavs.get(0).list());
+        // vd.debug(edgeLavs.get(0).getPoint());
+        for (Vertex vertex : edgeLavs) {
+            vd.debug(vertex.list());
+            vd.debug(vertex.getPoint());
+        }
+        vd.debug(oppositeEdge);
+        vd.debug(center);
         return choseOppositeEdgeLav(edgeLavs, oppositeEdge, center);
     }
 
@@ -1398,10 +1454,13 @@ public class Skeleton {
         Vector2d centerVector = new Vector2d(center);
         centerVector.sub(edgeStart);
         double centerDot = edgeNorm.dot(centerVector);
-
+        vd.debug(center);
         for (Vertex end : edgeLavs) {
-            Vertex begin = end.previous();
 
+            Vertex begin = end.previous();
+            vd.debug(end.getPoint());
+            vd.debug(begin.getPoint());
+            vd.debug(new LineSegment2d(begin.getPoint(), end.getPoint()));
             Vector2d beginVector = new Vector2d(begin.getPoint());
             Vector2d endVector = new Vector2d(end.getPoint());
 
@@ -1423,7 +1482,24 @@ public class Skeleton {
             }
 
         }
-        return null;
+        // ups
+
+        for (Vertex end : edgeLavs) {
+            int size = end.list().size();
+            List<Point2d> points = new ArrayList<Point2d>(size);
+            Vertex next = end;
+            for (int i = 0; i < size; i++) {
+                points.add(next.getPoint());
+                next = next.next();
+            }
+            if (PolygonUtil.isPointInsidePolygon(center, points)) {
+                return end;
+            }
+        }
+
+        throw new IllegalStateException(
+                "could not find lav for opposite edge, it could be correct but need some test data to check.");
+
     }
 
     private static List<Vertex> findEdgeLavs(Set<CircularList<Vertex>> sLav, Edge oppositeEdge, CircularList<Vertex> skippedLav) {

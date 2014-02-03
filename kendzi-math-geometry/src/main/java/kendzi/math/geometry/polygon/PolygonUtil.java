@@ -1,10 +1,7 @@
 /*
- * This software is provided "AS IS" without a warranty of any kind.
- * You use it on your own risk and responsibility!!!
- *
- * This file is shared under BSD v3 license.
- * See readme.txt and BSD3 file for details.
- *
+ * This software is provided "AS IS" without a warranty of any kind. You use it
+ * on your own risk and responsibility!!! This file is shared under BSD v3
+ * license. See readme.txt and BSD3 file for details.
  */
 
 package kendzi.math.geometry.polygon;
@@ -16,30 +13,37 @@ import javax.vecmath.Point2d;
 
 /**
  * Polygon util.
- *
+ * 
  * @author Tomasz Kędziora (Kendzi)
  */
 public class PolygonUtil {
 
     /**
+     * @see PolygonUtil#isPointInsidePolygon(Point2d, List)
+     */
+    public static boolean isPointInsidePolygon(Point2d point, PolygonList2d polygon) {
+        return isPointInsidePolygon(point, polygon.getPoints());
+    }
+
+    /**
      * Test if point is inside polygon
+     * 
      * @see "http://en.wikipedia.org/wiki/Point_in_polygon"
      * @see "http://en.wikipedia.org/wiki/Even-odd_rule"
      * @see "http://paulbourke.net/geometry/insidepoly/"
-     * @param point point to test
-     * @param polygon polygon
+     * @param point
+     *            point to test
+     * @param polygon
+     *            polygon
      * @return is point inside polygon
      */
-    // XXX change name to contains or pointInsidePolygon?
-    public static boolean isInside(Point2d point, PolygonList2d polygon) {
+    public static boolean isPointInsidePolygon(Point2d point, List<Point2d> points) {
         // PointType & point, PolygonType & polygon
-        int numpoints = polygon.getPoints().size();
+        int numpoints = points.size();
 
         if (numpoints < 3) {
             return false;
         }
-
-        ArrayList<Point2d> points = (ArrayList<Point2d>) polygon.getPoints();
 
         // PointListType const_iterator
         int it = 0;
@@ -51,7 +55,7 @@ public class PolygonUtil {
         Point2d first = points.get(it);
         // Point2d last = (itend).GetPosition();
 
-        /// XXX
+        // / XXX
         // // If last point same as first, don't bother with it.
         // if( polygon.isClosed() )
         // {
@@ -86,9 +90,10 @@ public class PolygonUtil {
     }
 
     /**
-     *  Minimal values in polygon. Minimal coordinates of bounding box.
-     *
-     * @param pPolygon polygon
+     * Minimal values in polygon. Minimal coordinates of bounding box.
+     * 
+     * @param pPolygon
+     *            polygon
      * @return minimal values
      */
     public static Point2d minBound(PolygonList2d pPolygon) {
@@ -109,9 +114,10 @@ public class PolygonUtil {
     }
 
     /**
-     *  Maximal values in polygon. Maximal coordinates of bounding box.
-     *
-     * @param pPolygon polygon
+     * Maximal values in polygon. Maximal coordinates of bounding box.
+     * 
+     * @param pPolygon
+     *            polygon
      * @return maximal values
      */
     public static Point2d maxBound(PolygonList2d pPolygon) {
