@@ -1,10 +1,7 @@
 /*
- * This software is provided "AS IS" without a warranty of any kind.
- * You use it on your own risk and responsibility!!!
- *
- * This file is shared under BSD v3 license.
- * See readme.txt and BSD3 file for details.
- *
+ * This software is provided "AS IS" without a warranty of any kind. You use it
+ * on your own risk and responsibility!!! This file is shared under BSD v3
+ * license. See readme.txt and BSD3 file for details.
  */
 
 package kendzi.math.geometry.skeleton;
@@ -29,22 +26,22 @@ public class SkeletonApplet extends Applet {
 	 *
 	 */
     private static final long serialVersionUID = 1L;
-    // final static int NMAX = 64;
+
     Dimension siz;
     Button reset;
     Button recalc;
     List<Point2d> points;
-    // int n;
+
     List<Polygon> drawableObjects = new ArrayList<Polygon>();
 
-    private DecimalFormat df = new DecimalFormat("0.##"); // 2 dp
+    private DecimalFormat df = new DecimalFormat("0.##");
 
     @Override
     public void init() {
         this.siz = getSize();
         add(this.reset = new Button("Reset"));
         add(this.recalc = new Button("Recalc"));
-        setBackground(Color.LIGHT_GRAY);// new Color(0, 0, 0x80));
+        setBackground(Color.LIGHT_GRAY);
         setForeground(Color.white);
 
         this.points = new ArrayList<Point2d>();
@@ -122,25 +119,15 @@ public class SkeletonApplet extends Applet {
     }
 
     boolean SkeletonScanApp() {
-        Skeleton.SkeletonOutput ret = Skeleton.skeleton(this.points);
+        SkeletonOutput ret = Skeleton.skeleton(this.points);
 
         setupResults(ret);
 
         return true;
     }
 
-    public void setupResults(Skeleton.SkeletonOutput ret) {
+    public void setupResults(SkeletonOutput ret) {
         this.drawableObjects.clear();
-
-//        for (List<Point2d> list : ret.faces) {
-//
-//            Polygon polygon = new Polygon();
-//            for (Point2d point : list) {
-//                polygon.addPoint((int) point.x, (int) point.y);
-//            }
-//
-//            this.drawableObjects.add(polygon);
-//        }
 
         for (PolygonList2d list : ret.getFaces()) {
 

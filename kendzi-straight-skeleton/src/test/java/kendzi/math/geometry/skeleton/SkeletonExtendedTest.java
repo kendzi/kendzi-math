@@ -15,7 +15,6 @@ import java.util.List;
 import javax.vecmath.Point2d;
 
 import kendzi.math.geometry.TestUtil;
-import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
 import kendzi.math.geometry.skeleton.debug.VisualDebugger;
 
 import org.junit.Before;
@@ -35,31 +34,31 @@ public class SkeletonExtendedTest {
 
         vd.clear();
 
-        List<Point2d> outer = new ArrayList<Point2d>();
-        outer.add(new Point2d(0.0, 0.0));
-        outer.add(new Point2d(-3.449775461918609, -49.91575059159863));
-        outer.add(new Point2d(-32.00747084659096, -47.84521317948598));
-        outer.add(new Point2d(-28.477127380211016, 2.359988573601399));
-        outer.add(new Point2d(-1.8896859218159001, 0.4118847265054484));
-        outer.add(new Point2d(-1.076681513583651, 8.983546745004219));
-        outer.add(new Point2d(-38.86307558626359, 11.722028555877124));
-        outer.add(new Point2d(-39.82989163930171, 1.235654268981051));
-        outer.add(new Point2d(-39.57353889795221, 1.1688621375393211));
-        outer.add(new Point2d(-42.78893471068021, -44.80619719787981));
-        outer.add(new Point2d(-43.29431582931987, -44.739405620383884));
-        outer.add(new Point2d(-44.107320237571265, -56.071698676456236));
-        outer.add(new Point2d(-43.59461475489141, -56.160753933575315));
-        outer.add(new Point2d(-46.810010567638564, -101.75685857404028));
-        outer.add(new Point2d(-47.35933787048111, -101.76799038995375));
-        outer.add(new Point2d(-48.27488337525699, -113.34506692472931));
-        outer.add(new Point2d(-38.445586836087166, -114.17995132343053));
-        outer.add(new Point2d(-35.947978699068834, -114.29126923500537));
-        outer.add(new Point2d(-35.88205942274534, -113.94618370458886));
-        outer.add(new Point2d(49.75440491095583, -120.25790596585914));
-        outer.add(new Point2d(54.76426991305375, -54.53549526978831));
-        outer.add(new Point2d(45.0521631984888, -53.48909560539279));
-        outer.add(new Point2d(7.544094959278954, -50.661589146582685));
-        outer.add(new Point2d(10.884004960632883, -0.8237693598695728));
+        List<Point2d> polygon = new ArrayList<Point2d>();
+        polygon.add(new Point2d(0.0, 0.0));
+        polygon.add(new Point2d(-3.449775461918609, -49.91575059159863));
+        polygon.add(new Point2d(-32.00747084659096, -47.84521317948598));
+        polygon.add(new Point2d(-28.477127380211016, 2.359988573601399));
+        polygon.add(new Point2d(-1.8896859218159001, 0.4118847265054484));
+        polygon.add(new Point2d(-1.076681513583651, 8.983546745004219));
+        polygon.add(new Point2d(-38.86307558626359, 11.722028555877124));
+        polygon.add(new Point2d(-39.82989163930171, 1.235654268981051));
+        polygon.add(new Point2d(-39.57353889795221, 1.1688621375393211));
+        polygon.add(new Point2d(-42.78893471068021, -44.80619719787981));
+        polygon.add(new Point2d(-43.29431582931987, -44.739405620383884));
+        polygon.add(new Point2d(-44.107320237571265, -56.071698676456236));
+        polygon.add(new Point2d(-43.59461475489141, -56.160753933575315));
+        polygon.add(new Point2d(-46.810010567638564, -101.75685857404028));
+        polygon.add(new Point2d(-47.35933787048111, -101.76799038995375));
+        polygon.add(new Point2d(-48.27488337525699, -113.34506692472931));
+        polygon.add(new Point2d(-38.445586836087166, -114.17995132343053));
+        polygon.add(new Point2d(-35.947978699068834, -114.29126923500537));
+        polygon.add(new Point2d(-35.88205942274534, -113.94618370458886));
+        polygon.add(new Point2d(49.75440491095583, -120.25790596585914));
+        polygon.add(new Point2d(54.76426991305375, -54.53549526978831));
+        polygon.add(new Point2d(45.0521631984888, -53.48909560539279));
+        polygon.add(new Point2d(7.544094959278954, -50.661589146582685));
+        polygon.add(new Point2d(10.884004960632883, -0.8237693598695728));
 
         List<Point2d> hole1 = new ArrayList<Point2d>();
         hole1.add(new Point2d(-32.70328543019918, -59.789754440995665));
@@ -73,7 +72,7 @@ public class SkeletonExtendedTest {
         hole2.add(new Point2d(40.547679315068834, -108.54726216465428));
         hole2.add(new Point2d(3.3985049136946692, -105.76431087574309));
 
-        List<Point2d> expected = new ArrayList<Point2d>(outer);
+        List<Point2d> expected = new ArrayList<Point2d>(polygon);
         expected.addAll(hole1);
         expected.addAll(hole2);
 
@@ -120,15 +119,15 @@ public class SkeletonExtendedTest {
         expected.add(p(3.3985049136946692, -105.76431087574309));
         expected.add(p(6.716441822947157, -62.56159679612162));
 
-        vd.debug(outer);
+        vd.debug(polygon);
 
-        SkeletonOutput sk = Skeleton.skeleton(outer, Arrays.asList(hole1, hole2));
+        SkeletonOutput sk = Skeleton.skeleton(polygon, Arrays.asList(hole1, hole2));
 
-        writeExpectedOutput(outer, sk);
+        writeExpectedOutput(polygon, sk);
 
-        visualizeResults(outer, sk);
+        visualizeResults(polygon, sk);
 
-        validate(outer, sk);
+        validate(polygon, sk);
 
         assertExpectedPoints(expected, getFacePoints(sk));
     }
@@ -182,115 +181,206 @@ public class SkeletonExtendedTest {
 
         vd.clear();
 
-        List<Point2d> outer = new ArrayList<Point2d>();
-        outer.add(new Point2d(0.0, 0.0));
-        outer.add(new Point2d(-0.695841208347133, -9.161985802862006));
-        outer.add(new Point2d(-9.338921480375689, -8.571967728493888));
-        outer.add(new Point2d(-17.703665269065453, -7.447593490720266));
-        outer.add(new Point2d(-17.42532878570745, -3.373126538389357));
-        outer.add(new Point2d(-34.86530686005406, -2.0261026523114936));
-        outer.add(new Point2d(-37.17989445833143, -1.81458647758825));
-        outer.add(new Point2d(-55.19119478795656, -0.5677541139705511));
-        outer.add(new Point2d(-58.11372786299535, -38.75186865681468));
-        outer.add(new Point2d(-50.07126842338943, -39.34188353361671));
-        outer.add(new Point2d(-51.126017202341586, -51.888034167850435));
-        outer.add(new Point2d(-51.536197283087745, -56.652669598441975));
-        outer.add(new Point2d(-64.58138877837769, -55.528305063057076));
-        outer.add(new Point2d(-72.68244537234855, -54.81583632791774));
-        outer.add(new Point2d(-69.18859004203122, -7.625712198986719));
-        outer.add(new Point2d(-79.09883377766633, -6.7239861902833695));
-        outer.add(new Point2d(-78.63738118687476, 1.1689057121689643));
-        outer.add(new Point2d(-88.04222446591587, 2.070633143170312));
-        outer.add(new Point2d(-87.65401831812835, 7.380808750431726));
-        outer.add(new Point2d(-92.65675037390812, 7.748179577427749));
-        outer.add(new Point2d(-107.56972616530382, 8.816894846881922));
-        outer.add(new Point2d(-112.57245822106444, 9.184265769474024));
-        outer.add(new Point2d(-112.96066436885195, 3.77389646371617));
-        outer.add(new Point2d(-114.92366904082473, 3.8629559986240167));
-        outer.add(new Point2d(-115.04086334961207, 2.538195570451535));
-        outer.add(new Point2d(-116.69623296100607, 2.638387525545255));
-        outer.add(new Point2d(-116.62298651802115, 3.952015535370265));
-        outer.add(new Point2d(-122.2629626277448, 4.308253694611125));
-        outer.add(new Point2d(-122.84893417162414, -3.573510226744844));
-        outer.add(new Point2d(-133.24992907525242, -2.7719754218481114));
-        outer.add(new Point2d(-136.29698110334067, -45.63166089550802));
-        outer.add(new Point2d(-136.56066829809785, -49.739493961847415));
-        outer.add(new Point2d(-136.5972915195616, -49.87308197764537));
-        outer.add(new Point2d(-144.44198556309482, -49.038156822071414));
-        outer.add(new Point2d(-154.15446390269554, -47.99171711813307));
-        outer.add(new Point2d(-152.87997579476948, -31.693949992923137));
-        outer.add(new Point2d(-148.39729348418453, -32.06131821982851));
-        outer.add(new Point2d(-145.6944997381005, 6.067179931716822));
-        outer.add(new Point2d(-183.84124724381752, 8.939351818832364));
-        outer.add(new Point2d(-184.18550552584088, 4.33051857910408));
-        outer.add(new Point2d(-188.32392955442162, 4.675624318771895));
-        outer.add(new Point2d(-199.20835098172356, 5.499425199435763));
-        outer.add(new Point2d(-201.0981092106731, 5.655279433782141));
-        outer.add(new Point2d(-201.0981092106731, 5.911325686340149));
-        outer.add(new Point2d(-200.28507369355776, 14.483315691783218));
-        outer.add(new Point2d(-199.75037465980046, 23.623075402548864));
-        outer.add(new Point2d(-195.63392456412095, 23.222306088178982));
-        outer.add(new Point2d(-192.47700287154572, 67.60768288193731));
-        outer.add(new Point2d(-193.30468767722357, 67.66334572802566));
-        outer.add(new Point2d(-193.24609052287775, 68.36469764229747));
-        outer.add(new Point2d(-193.13622085837167, 68.36469764229747));
-        outer.add(new Point2d(-192.38178249564044, 80.51034556245332));
-        outer.add(new Point2d(-192.50630144874737, 80.54374334940206));
-        outer.add(new Point2d(-192.41108107288036, 81.5902073856052));
-        outer.add(new Point2d(-191.62734413292836, 81.5456769983088));
-        outer.add(new Point2d(-188.2946309771817, 125.5975377539537));
-        outer.add(new Point2d(-192.32318534125633, 125.93151831483829));
-        outer.add(new Point2d(-190.80698397153176, 143.8217730301796));
-        outer.add(new Point2d(-173.83578313229629, 142.43018301674232));
-        outer.add(new Point2d(-173.9456527967258, 138.0550262829267));
-        outer.add(new Point2d(-107.15954608457682, 132.88945125194346));
-        outer.add(new Point2d(-106.35383521178105, 132.900583951564));
-        outer.add(new Point2d(-105.02074994949004, 133.14550334995624));
-        outer.add(new Point2d(-103.43862678102352, 133.8691289086305));
-        outer.add(new Point2d(-102.2813329819231, 134.82654132846721));
-        outer.add(new Point2d(-101.31447993453753, 136.14020049587162));
-        outer.add(new Point2d(-100.20845864548255, 136.05113884865818));
-        outer.add(new Point2d(-80.4392436842769, 134.5036929371352));
-        outer.add(new Point2d(-79.47971528123003, 134.42576401589253));
-        outer.add(new Point2d(-78.85712051582951, 133.11210525048187));
-        outer.add(new Point2d(-77.91224140138345, 132.0099680511679));
-        outer.add(new Point2d(-76.60845471625578, 131.07482150365024));
-        outer.add(new Point2d(-75.64892631317062, 130.64064637716376));
-        outer.add(new Point2d(-73.99355670177661, 130.28440014311866));
-        outer.add(new Point2d(-7.85201868781445, 125.31922063111779));
-        outer.add(new Point2d(-7.49311111722858, 130.0506135632292));
-        outer.add(new Point2d(9.60993331941421, 128.65902699125058));
-        outer.add(new Point2d(9.236376460189206, 123.92763524122142));
-        outer.add(new Point2d(8.181627681237046, 110.5350351927255));
-        outer.add(new Point2d(4.255618337310636, 110.85788219852725));
-        outer.add(new Point2d(0.9448791144652091, 67.1512475606807));
-        outer.add(new Point2d(1.8091871416834238, 67.01765674256961));
-        outer.add(new Point2d(1.7579146315805474, 66.12705137122322));
-        outer.add(new Point2d(1.5674738798274461, 66.1604490693166));
-        outer.add(new Point2d(0.6592179868259791, 53.858976831483176));
-        outer.add(new Point2d(0.8936066043815458, 53.88124191758578));
-        outer.add(new Point2d(0.7690876513129297, 53.05743388498746));
-        outer.add(new Point2d(-0.1171943088256171, 53.09083150464306));
-        outer.add(new Point2d(-3.2448174241800416, 9.039543887906007));
-        outer.add(new Point2d(-0.16846681885186854, 8.816894846881922));
-        outer.add(new Point2d(-0.14649288598894827, 8.995014077862805));
-        outer.add(new Point2d(0.6811919197272118, 8.89482200817639));
-        outer.add(new Point2d(0.6299194096243355, 8.015358375794648));
-        outer.add(new Point2d(0.4980758122744646, 8.02649082539466));
+        List<Point2d> polygon = new ArrayList<Point2d>();
+        polygon.add(new Point2d(0.0, 0.0));
+        polygon.add(new Point2d(-0.695841208347133, -9.161985802862006));
+        polygon.add(new Point2d(-9.338921480375689, -8.571967728493888));
+        polygon.add(new Point2d(-17.703665269065453, -7.447593490720266));
+        polygon.add(new Point2d(-17.42532878570745, -3.373126538389357));
+        polygon.add(new Point2d(-34.86530686005406, -2.0261026523114936));
+        polygon.add(new Point2d(-37.17989445833143, -1.81458647758825));
+        polygon.add(new Point2d(-55.19119478795656, -0.5677541139705511));
+        polygon.add(new Point2d(-58.11372786299535, -38.75186865681468));
+        polygon.add(new Point2d(-50.07126842338943, -39.34188353361671));
+        polygon.add(new Point2d(-51.126017202341586, -51.888034167850435));
+        polygon.add(new Point2d(-51.536197283087745, -56.652669598441975));
+        polygon.add(new Point2d(-64.58138877837769, -55.528305063057076));
+        polygon.add(new Point2d(-72.68244537234855, -54.81583632791774));
+        polygon.add(new Point2d(-69.18859004203122, -7.625712198986719));
+        polygon.add(new Point2d(-79.09883377766633, -6.7239861902833695));
+        polygon.add(new Point2d(-78.63738118687476, 1.1689057121689643));
+        polygon.add(new Point2d(-88.04222446591587, 2.070633143170312));
+        polygon.add(new Point2d(-87.65401831812835, 7.380808750431726));
+        polygon.add(new Point2d(-92.65675037390812, 7.748179577427749));
+        polygon.add(new Point2d(-107.56972616530382, 8.816894846881922));
+        polygon.add(new Point2d(-112.57245822106444, 9.184265769474024));
+        polygon.add(new Point2d(-112.96066436885195, 3.77389646371617));
+        polygon.add(new Point2d(-114.92366904082473, 3.8629559986240167));
+        polygon.add(new Point2d(-115.04086334961207, 2.538195570451535));
+        polygon.add(new Point2d(-116.69623296100607, 2.638387525545255));
+        polygon.add(new Point2d(-116.62298651802115, 3.952015535370265));
+        polygon.add(new Point2d(-122.2629626277448, 4.308253694611125));
+        polygon.add(new Point2d(-122.84893417162414, -3.573510226744844));
+        polygon.add(new Point2d(-133.24992907525242, -2.7719754218481114));
+        polygon.add(new Point2d(-136.29698110334067, -45.63166089550802));
+        polygon.add(new Point2d(-136.56066829809785, -49.739493961847415));
+        polygon.add(new Point2d(-136.5972915195616, -49.87308197764537));
+        polygon.add(new Point2d(-144.44198556309482, -49.038156822071414));
+        polygon.add(new Point2d(-154.15446390269554, -47.99171711813307));
+        polygon.add(new Point2d(-152.87997579476948, -31.693949992923137));
+        polygon.add(new Point2d(-148.39729348418453, -32.06131821982851));
+        polygon.add(new Point2d(-145.6944997381005, 6.067179931716822));
+        polygon.add(new Point2d(-183.84124724381752, 8.939351818832364));
+        polygon.add(new Point2d(-184.18550552584088, 4.33051857910408));
+        polygon.add(new Point2d(-188.32392955442162, 4.675624318771895));
+        polygon.add(new Point2d(-199.20835098172356, 5.499425199435763));
+        polygon.add(new Point2d(-201.0981092106731, 5.655279433782141));
+        polygon.add(new Point2d(-201.0981092106731, 5.911325686340149));
+        polygon.add(new Point2d(-200.28507369355776, 14.483315691783218));
+        polygon.add(new Point2d(-199.75037465980046, 23.623075402548864));
+        polygon.add(new Point2d(-195.63392456412095, 23.222306088178982));
+        polygon.add(new Point2d(-192.47700287154572, 67.60768288193731));
+        polygon.add(new Point2d(-193.30468767722357, 67.66334572802566));
+        polygon.add(new Point2d(-193.24609052287775, 68.36469764229747));
+        polygon.add(new Point2d(-193.13622085837167, 68.36469764229747));
+        polygon.add(new Point2d(-192.38178249564044, 80.51034556245332));
+        polygon.add(new Point2d(-192.50630144874737, 80.54374334940206));
+        polygon.add(new Point2d(-192.41108107288036, 81.5902073856052));
+        polygon.add(new Point2d(-191.62734413292836, 81.5456769983088));
+        polygon.add(new Point2d(-188.2946309771817, 125.5975377539537));
+        polygon.add(new Point2d(-192.32318534125633, 125.93151831483829));
+        polygon.add(new Point2d(-190.80698397153176, 143.8217730301796));
+        polygon.add(new Point2d(-173.83578313229629, 142.43018301674232));
+        polygon.add(new Point2d(-173.9456527967258, 138.0550262829267));
+        polygon.add(new Point2d(-107.15954608457682, 132.88945125194346));
+        polygon.add(new Point2d(-106.35383521178105, 132.900583951564));
+        polygon.add(new Point2d(-105.02074994949004, 133.14550334995624));
+        polygon.add(new Point2d(-103.43862678102352, 133.8691289086305));
+        polygon.add(new Point2d(-102.2813329819231, 134.82654132846721));
+        polygon.add(new Point2d(-101.31447993453753, 136.14020049587162));
+        polygon.add(new Point2d(-100.20845864548255, 136.05113884865818));
+        polygon.add(new Point2d(-80.4392436842769, 134.5036929371352));
+        polygon.add(new Point2d(-79.47971528123003, 134.42576401589253));
+        polygon.add(new Point2d(-78.85712051582951, 133.11210525048187));
+        polygon.add(new Point2d(-77.91224140138345, 132.0099680511679));
+        polygon.add(new Point2d(-76.60845471625578, 131.07482150365024));
+        polygon.add(new Point2d(-75.64892631317062, 130.64064637716376));
+        polygon.add(new Point2d(-73.99355670177661, 130.28440014311866));
+        polygon.add(new Point2d(-7.85201868781445, 125.31922063111779));
+        polygon.add(new Point2d(-7.49311111722858, 130.0506135632292));
+        polygon.add(new Point2d(9.60993331941421, 128.65902699125058));
+        polygon.add(new Point2d(9.236376460189206, 123.92763524122142));
+        polygon.add(new Point2d(8.181627681237046, 110.5350351927255));
+        polygon.add(new Point2d(4.255618337310636, 110.85788219852725));
+        polygon.add(new Point2d(0.9448791144652091, 67.1512475606807));
+        polygon.add(new Point2d(1.8091871416834238, 67.01765674256961));
+        polygon.add(new Point2d(1.7579146315805474, 66.12705137122322));
+        polygon.add(new Point2d(1.5674738798274461, 66.1604490693166));
+        polygon.add(new Point2d(0.6592179868259791, 53.858976831483176));
+        polygon.add(new Point2d(0.8936066043815458, 53.88124191758578));
+        polygon.add(new Point2d(0.7690876513129297, 53.05743388498746));
+        polygon.add(new Point2d(-0.1171943088256171, 53.09083150464306));
+        polygon.add(new Point2d(-3.2448174241800416, 9.039543887906007));
+        polygon.add(new Point2d(-0.16846681885186854, 8.816894846881922));
+        polygon.add(new Point2d(-0.14649288598894827, 8.995014077862805));
+        polygon.add(new Point2d(0.6811919197272118, 8.89482200817639));
+        polygon.add(new Point2d(0.6299194096243355, 8.015358375794648));
+        polygon.add(new Point2d(0.4980758122744646, 8.02649082539466));
 
-        List<Point2d> expected = new ArrayList<Point2d>();
-        expected.add(p(0, 0));
-        expected.addAll(outer);
+        List<Point2d> expected = new ArrayList<Point2d>(polygon);
 
-        vd.debug(outer);
+        expected.add(p(0.22498766501530973, 8.482519288941951));
+        expected.add(p(0.22804291428188161, 8.516190461338422));
+        expected.add(p(0.15399233874051674, 8.42451956393686));
+        expected.add(p(0.15402882814217608, 8.424913516260558));
+        expected.add(p(-8.54200371397651, 0.8238610560514159));
+        expected.add(p(-10.420788871410501, 2.8235982695492625));
+        expected.add(p(-10.26903498604995, 2.812246226874768));
+        expected.add(p(-61.03194322798886, 67.36487419298273));
+        expected.add(p(-42.70885984371319, 46.18933004077511));
+        expected.add(p(-43.10454118850721, 40.69777951729232));
+        expected.add(p(-34.5562630110808, 30.860444838236432));
+        expected.add(p(-32.31508760437524, 28.223224732309113));
+        expected.add(p(-33.924443240636386, 90.78233450985698));
+        expected.add(p(0.44132245629059363, 53.45330511858461));
+        expected.add(p(0.2568264964007361, 53.448041591527556));
+        expected.add(p(-6.2775029556709985, 60.75381589825485));
+        expected.add(p(-7.024664018198711, 60.8253933087784));
+        expected.add(p(-33.75867049403901, 90.77299217258242));
+        expected.add(p(1.1670534531361396, 66.67452948203062));
+        expected.add(p(1.347945148670707, 66.64469142554623));
+        expected.add(p(-1.946448792095577, 118.12378669561315));
+        expected.add(p(0.31749588484094743, 119.77603117590006));
+        expected.add(p(-1.64604883910226, 118.10016025919867));
+        expected.add(p(0.3976890543497383, 120.81337575173194));
+        expected.add(p(4.49313037957261, 124.30166138509239));
+        expected.add(p(-82.84787179397482, 68.9847390401527));
+        expected.add(p(-88.1587841936477, 69.74745652292202));
+        expected.add(p(-95.38349396241996, 70.77852777631168));
+        expected.add(p(-96.05017083682696, 70.94750272264358));
+        expected.add(p(-93.0937410803582, 102.51935396169492));
+        expected.add(p(-93.079037281847, 95.258235108459));
+        expected.add(p(-85.44762264934579, 123.79275707510793));
+        expected.add(p(-93.04921921413377, 102.97870948112161));
+        expected.add(p(-81.62541506414908, 131.31555179454497));
+        expected.add(p(-80.57146143536926, 132.84569707591066));
+        expected.add(p(-100.36640306568131, 134.06191051530428));
+        expected.add(p(-99.52440324495109, 132.2216016700931));
+        expected.add(p(-96.58802312702588, 122.94381884235717));
+        expected.add(p(-100.25538994648302, 70.71565252737079));
+        expected.add(p(-109.12205517651584, 70.97696845487435));
+        expected.add(p(-103.07315010584149, 70.79700241858225));
+        expected.add(p(-130.04846339460948, 72.55459509445708));
+        expected.add(p(-180.95914413698014, 131.72465762799146));
+        expected.add(p(-154.41532924384578, 100.78324415201128));
+        expected.add(p(-154.37302261423963, 100.78018553816237));
+        expected.add(p(-182.83155419538986, 133.9549226026316));
+        expected.add(p(-180.95226691409226, 131.8612428089489));
+        expected.add(p(-182.80884697953078, 134.36866502388702));
+        expected.add(p(-185.14914103411456, 74.14850324834707));
+        expected.add(p(-191.8833170920917, 80.97823536977444));
+        expected.add(p(-191.75885179775784, 80.9582255955295));
+        expected.add(p(-185.74646660333013, 74.18555712287022));
+        expected.add(p(-192.790802030354, 67.9971570595962));
+        expected.add(p(-192.91171294260738, 68.00121817853841));
+        expected.add(p(-189.52636703457816, 15.99127614854962));
+        expected.add(p(-151.7889624016801, 48.580184914836835));
+        expected.add(p(-151.395684217932, 54.085295129682756));
+        expected.add(p(-191.86576355588355, 14.406244269410973));
+        expected.add(p(-189.93997467912087, 16.026976659688845));
+        expected.add(p(-191.90341501448117, 13.840861024550493));
+        expected.add(p(-191.94222460277786, 13.383001452589115));
+        expected.add(p(-200.83366413488636, 5.898812731214532));
+        expected.add(p(-199.05930751289122, 7.3841722081856656));
+        expected.add(p(-187.99625509168078, 8.795385136091523));
+        expected.add(p(-128.16598548965533, 21.207923480625293));
+        expected.add(p(-142.36398338374596, -39.093021096907265));
+        expected.add(p(-139.28829638605566, 4.232583370577451));
+        expected.add(p(-133.69801956583996, 9.052755916650366));
+        expected.add(p(-133.13637875553084, 16.787190970589442));
+        expected.add(p(-128.1716717205728, 21.128194314745024));
+        expected.add(p(-144.25945998535835, -40.71903018667486));
+        expected.add(p(-145.2751618131424, -40.62270950905692));
+        expected.add(p(-143.63155810770348, -41.47020488624024));
+        expected.add(p(-136.70487119110868, -49.71535770209509));
+        expected.add(p(-140.37958427782107, -45.35550673546696));
+        expected.add(p(-115.71209195305535, 4.760665687614364));
+        expected.add(p(-115.8930581774467, 4.971317216729401));
+        expected.add(p(-115.78567551496056, 6.95029279409076));
+        expected.add(p(-115.80810094628717, 3.42891897234015));
+        expected.add(p(-70.40372469188209, 16.961036189377545));
+        expected.add(p(-70.39852981923862, 17.030466134490204));
+        expected.add(p(-66.13181959009381, 11.883176833821494));
+        expected.add(p(-66.66517916226239, 3.98104312167081));
+        expected.add(p(-62.00204163227642, -1.5346672314106609));
+        expected.add(p(-63.474199556768475, -46.98678351805689));
+        expected.add(p(-65.26752960327565, -44.90808428113797));
+        expected.add(p(-63.86680204425184, -47.32114798065856));
+        expected.add(p(-59.40280006237284, -47.311571131294606));
+        expected.add(p(-55.8858137547639, -51.48307593289708));
+        expected.add(p(-8.55721925107371, 0.590431430331766));
+        expected.add(p(-8.601175396264287, -0.018974469694361673));
+        expected.add(p(-8.487318836690127, -0.15957288669922365));
 
-        SkeletonOutput sk = Skeleton.skeleton(outer, null);
+        vd.debug(polygon);
 
-        writeExpectedOutput(outer, sk);
+        SkeletonOutput sk = Skeleton.skeleton(polygon, null);
 
-        visualizeResults(outer, sk);
+        writeExpectedOutput(polygon, sk);
 
-        validate(outer, sk);
+        visualizeResults(polygon, sk);
+
+        validate(polygon, sk);
 
         assertExpectedPoints(expected, getFacePoints(sk));
     }
@@ -882,4 +972,45 @@ public class SkeletonExtendedTest {
 
         assertExpectedPoints(expected, getFacePoints(sk));
     }
+
+    @Test
+    public void skeleton_8() {
+
+        vd.clear();
+
+        List<Point2d> polygon = new ArrayList<Point2d>();
+
+        polygon.add(new Point2d(-73.99355670177661, 130.28440014311866));
+        polygon.add(new Point2d(-7.85201868781445, 125.31922063111779));
+
+        polygon.add(new Point2d(-7.49311111722858, 130.0506135632292));
+        polygon.add(new Point2d(9.60993331941421, 128.65902699125058));
+        polygon.add(new Point2d(9.236376460189206, 123.92763524122142));
+        polygon.add(new Point2d(8.181627681237046, 110.5350351927255));
+        polygon.add(new Point2d(4.255618337310636, 110.85788219852725));
+
+        polygon.add(new Point2d(0.9448791144652091, 67.1512475606807));
+
+        List<Point2d> expected = new ArrayList<Point2d>(polygon);
+
+        expected.add(p(0.31749588484094743, 119.77603117590006));
+        expected.add(p(-1.64604883910226, 118.10016025919867));
+        expected.add(p(-1.946448792095577, 118.12378669561315));
+        expected.add(p(0.3976890543497383, 120.81337575173194));
+        expected.add(p(4.49313037957261, 124.30166138509239));
+        expected.add(p(-15.548141335420517, 106.42963023576449));
+
+        vd.debug(polygon);
+
+        SkeletonOutput sk = Skeleton.skeleton(polygon, null);
+
+        writeExpectedOutput(polygon, sk);
+
+        visualizeResults(polygon, sk);
+
+        validate(polygon, sk);
+
+        assertExpectedPoints(expected, getFacePoints(sk));
+    }
+
 }

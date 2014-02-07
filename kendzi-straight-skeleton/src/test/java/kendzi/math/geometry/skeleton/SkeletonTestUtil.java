@@ -14,7 +14,6 @@ import javax.vecmath.Point2d;
 import kendzi.math.geometry.TestUtil;
 import kendzi.math.geometry.bbox.Bbox2d;
 import kendzi.math.geometry.polygon.PolygonList2d;
-import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
 import kendzi.math.geometry.skeleton.debug.VisualDebugger;
 import kendzi.math.geometry.skeleton.debug.display.DisplaySkeletonOut;
 

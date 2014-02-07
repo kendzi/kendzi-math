@@ -11,21 +11,21 @@ import javax.vecmath.Point2d;
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
 import kendzi.math.geometry.polygon.PolygonList2d;
-import kendzi.math.geometry.skeleton.Skeleton;
+import kendzi.math.geometry.skeleton.SkeletonOutput;
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
 /**
- *
+ * 
  * @author Tomasz Kędziora (kendzi)
  */
 public class DisplaySkeletonOut extends DisplayObject {
 
-    private Skeleton.SkeletonOutput skeletonOut;
+    private SkeletonOutput skeletonOut;
 
     /**
      * @param polygon
      */
-    public DisplaySkeletonOut(Skeleton.SkeletonOutput skeletonOut) {
+    public DisplaySkeletonOut(SkeletonOutput skeletonOut) {
         super();
         this.skeletonOut = skeletonOut;
     }

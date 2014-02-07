@@ -14,7 +14,6 @@ import java.util.List;
 import javax.vecmath.Point2d;
 
 import kendzi.math.geometry.TestUtil;
-import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
 import kendzi.math.geometry.skeleton.debug.VisualDebugger;
 
 import org.junit.Before;

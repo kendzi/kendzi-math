@@ -9,7 +9,7 @@ import javax.vecmath.Point2d;
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.line.LineParametric2d;
 import kendzi.math.geometry.line.LineSegment2d;
-import kendzi.math.geometry.skeleton.Skeleton.SkeletonOutput;
+import kendzi.math.geometry.skeleton.SkeletonOutput;
 import kendzi.math.geometry.skeleton.circular.CircularList;
 import kendzi.math.geometry.skeleton.circular.Edge;
 import kendzi.math.geometry.skeleton.circular.Vertex;
