@@ -324,7 +324,8 @@ public class SkeletonLevelEventsTest {
 
     private void assertPolygonWithEdges(int numOfEdges, SkeletonOutput sk) {
 
-        for (PolygonList2d polygonList2d : sk.getFaces()) {
+        for (EdgeOutput edgeOutput : sk.getEdgeOutputs()) {
+            PolygonList2d polygonList2d = edgeOutput.getPolygon();
             List<Point2d> points = polygonList2d.getPoints();
             if (points.size() == numOfEdges) {
                 return;

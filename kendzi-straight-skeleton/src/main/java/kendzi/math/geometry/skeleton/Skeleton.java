@@ -601,7 +601,6 @@ public class Skeleton {
 
         // add one node for queue to present opposite site of edge split event
         FaceQueue rightFace = new FaceQueue();
-        rightFace.setBorder(false);
         rightFace.addFirst(fn);
 
         return vertex;
@@ -1097,7 +1096,6 @@ public class Skeleton {
             FaceNode rightFace = new FaceNode(vertex);
 
             FaceQueue faceQueue = new FaceQueue();
-            faceQueue.setBorder(true);
             faceQueue.setEdge(vertex.getNextEdge());
 
             faceQueue.addFirst(rightFace);
@@ -1120,8 +1118,12 @@ public class Skeleton {
         }
 
         SkeletonOutput output = new SkeletonOutput();
+
+        List<EdgeOutput> edgeOutputs = new ArrayList<EdgeOutput>();
+
         for (FaceQueue face : faces) {
             if (face.getSize() > 0) {
+
                 List<Point2d> faceList = new ArrayList<Point2d>();
 
                 for (FaceNode fn : face) {
@@ -1134,8 +1136,15 @@ public class Skeleton {
                 output.getFaces().add(polygon);
                 output.getEdges().put(polygon, new LineSegment2d(face.getEdge().getBegin(), face.getEdge().getEnd()));
 
+                EdgeOutput edgeOutput = new EdgeOutput();
+                edgeOutput.setEdge(face.getEdge());
+                edgeOutput.setPolygon(polygon);
+
+                edgeOutputs.add(edgeOutput);
             }
         }
+
+        output.setEdgeOutputs(edgeOutputs);
 
         return output;
     }

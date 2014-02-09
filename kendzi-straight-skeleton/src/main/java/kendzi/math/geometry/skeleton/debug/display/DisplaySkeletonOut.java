@@ -11,6 +11,7 @@ import javax.vecmath.Point2d;
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
 import kendzi.math.geometry.polygon.PolygonList2d;
+import kendzi.math.geometry.skeleton.EdgeOutput;
 import kendzi.math.geometry.skeleton.SkeletonOutput;
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
@@ -37,7 +38,8 @@ public class DisplaySkeletonOut extends DisplayObject {
             return;
         }
 
-        for (PolygonList2d list : this.skeletonOut.getFaces()) {
+        for (EdgeOutput edgeOutput : this.skeletonOut.getEdgeOutputs()) {
+            PolygonList2d list = edgeOutput.getPolygon();
 
             Polygon polygon = new Polygon();
             for (Point2d point : list.getPoints()) {

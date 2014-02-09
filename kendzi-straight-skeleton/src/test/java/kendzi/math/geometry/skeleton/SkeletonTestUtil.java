@@ -25,8 +25,9 @@ public class SkeletonTestUtil {
         Set<Point2d> outline = new HashSet<Point2d>(polygon);
 
         outPoint: for (Point2d out : outline) {
-            List<PolygonList2d> faces2 = sk.getFaces();
-            for (PolygonList2d polygonList2d : faces2) {
+
+            for (EdgeOutput edgeOutput : sk.getEdgeOutputs()) {
+                PolygonList2d polygonList2d = edgeOutput.getPolygon();
                 List<Point2d> points = polygonList2d.getPoints();
                 for (Point2d point2d : points) {
                     if (point2d.equals(out)) {
@@ -50,9 +51,9 @@ public class SkeletonTestUtil {
             bbox.addPoint(point2d);
         }
 
-        List<PolygonList2d> faces2 = sk.getFaces();
-        for (PolygonList2d polygonList2d : faces2) {
-            List<Point2d> points = polygonList2d.getPoints();
+        for (EdgeOutput edgeOutput : sk.getEdgeOutputs()) {
+
+            List<Point2d> points = edgeOutput.getPolygon().getPoints();
             for (Point2d point2d : points) {
                 assertTrue("point " + point2d + " not in bbox " + bbox, bbox.isInside(point2d));
             }
@@ -84,8 +85,9 @@ public class SkeletonTestUtil {
 
         List<Point2d> ret = new ArrayList<Point2d>();
 
-        for (PolygonList2d polygonList2d : sk.getFaces()) {
-            List<Point2d> points = polygonList2d.getPoints();
+        for (EdgeOutput edgeOutput : sk.getEdgeOutputs()) {
+
+            List<Point2d> points = edgeOutput.getPolygon().getPoints();
             for (Point2d point2d : points) {
 
                 if (!containsEpsilon(ret, point2d)) {
@@ -108,8 +110,8 @@ public class SkeletonTestUtil {
 
         List<Point2d> ret = new ArrayList<Point2d>();
 
-        List<PolygonList2d> faces = sk.getFaces();
-        for (PolygonList2d polygonList2d : faces) {
+        for (EdgeOutput edgeOutput : sk.getEdgeOutputs()) {
+            PolygonList2d polygonList2d = edgeOutput.getPolygon();
             for (Point2d point2d : polygonList2d.getPoints()) {
                 if (!containsEpsilon(polygon, point2d)) {
 
@@ -120,11 +122,9 @@ public class SkeletonTestUtil {
             }
         }
 
-        Comparator c = new Comparator() {
+        Comparator<Point2d> c = new Comparator<Point2d>() {
             @Override
-            public int compare(Object o1, Object o2) {
-                Point2d p1 = (Point2d) o1;
-                Point2d p2 = (Point2d) o2;
+            public int compare(Point2d p1, Point2d p2) {
 
                 if (p1.x == p2.x) {
                     if (p1.y == p2.y) {

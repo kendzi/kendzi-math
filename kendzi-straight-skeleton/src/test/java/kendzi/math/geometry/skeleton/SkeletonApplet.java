@@ -126,13 +126,14 @@ public class SkeletonApplet extends Applet {
         return true;
     }
 
-    public void setupResults(SkeletonOutput ret) {
+    public void setupResults(SkeletonOutput sk) {
         this.drawableObjects.clear();
 
-        for (PolygonList2d list : ret.getFaces()) {
+        for (EdgeOutput edgeOutput : sk.getEdgeOutputs()) {
+            PolygonList2d polygonList2d = edgeOutput.getPolygon();
 
             Polygon polygon = new Polygon();
-            for (Point2d point : list.getPoints()) {
+            for (Point2d point : polygonList2d.getPoints()) {
                 polygon.addPoint((int) point.x, (int) point.y);
             }
 
