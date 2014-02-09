@@ -9,19 +9,19 @@
 		<dependency>
 			<groupId>kendzi.math</groupId>
 			<artifactId>kendzi-math-geometry</artifactId>
-			<version>0.0.8</version>
+			<version>0.0.9-SNAPSHOT</version>
 		</dependency>	
 		<dependency>
 			<groupId>kendzi.math</groupId>
 			<artifactId>kendzi-math-geometry-debug</artifactId>
-			<version>0.0.8</version>
+			<version>0.0.9-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
   
 	<parent>
 		<groupId>kendzi.math</groupId>
 		<artifactId>kendzi-math</artifactId>
-		<version>0.0.8</version>
+		<version>0.0.9-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 </project>
