@@ -54,7 +54,7 @@ public class LineParametric2d {
         Vector2d direction = new Vector2d(point);
         direction.sub(A);
 
-        Vector2d ortagonalRight = Vector2dUtil.ortagonalRight(U);
+        Vector2d ortagonalRight = Vector2dUtil.orthogonalRight(U);
 
         return ortagonalRight.dot(direction) < epsilon;
     }
@@ -63,7 +63,7 @@ public class LineParametric2d {
         Vector2d direction = new Vector2d(point);
         direction.sub(A);
 
-        Vector2d ortagonalRight = Vector2dUtil.ortagonalRight(U);
+        Vector2d ortagonalRight = Vector2dUtil.orthogonalRight(U);
 
         return ortagonalRight.dot(direction) > -epsilon;
     }

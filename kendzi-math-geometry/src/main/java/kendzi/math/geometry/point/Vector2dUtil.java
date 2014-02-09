@@ -1,10 +1,7 @@
 /*
- * This software is provided "AS IS" without a warranty of any kind.
- * You use it on your own risk and responsibility!!!
- *
- * This file is shared under BSD v3 license.
- * See readme.txt and BSD3 file for details.
- *
+ * This software is provided "AS IS" without a warranty of any kind. You use it
+ * on your own risk and responsibility!!! This file is shared under BSD v3
+ * license. See readme.txt and BSD3 file for details.
  */
 package kendzi.math.geometry.point;
 
@@ -22,13 +19,11 @@ public class Vector2dUtil {
 
     private static double EPSILON = 0.00000001;
 
-    public static Vector2d orthogonal(Vector2d v) {
-        // XXX rename to orthogonalLeft
+    public static Vector2d orthogonalLeft(Vector2d v) {
         return new Vector2d(-v.y, v.x);
     }
 
-    public static Vector2d ortagonalRight(Vector2d v) {
-        // / XXX rename to orthogonalRight
+    public static Vector2d orthogonalRight(Vector2d v) {
         return new Vector2d(v.y, -v.x);
     }
 
@@ -49,8 +44,8 @@ public class Vector2dUtil {
     }
 
     public static Vector2d bisectorNormalized(Vector2d norm1, Vector2d norm2) {
-        Vector2d e1v = orthogonal(norm1);
-        Vector2d e2v = orthogonal(norm2);
+        Vector2d e1v = orthogonalLeft(norm1);
+        Vector2d e2v = orthogonalLeft(norm2);
 
         // 90 - 180 || 180 - 270
         // if (norm1.dot(e2v) <= 0 && ) { //XXX >= !!
