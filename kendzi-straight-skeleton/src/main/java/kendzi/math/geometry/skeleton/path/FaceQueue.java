@@ -3,8 +3,10 @@ package kendzi.math.geometry.skeleton.path;
 import kendzi.math.geometry.skeleton.circular.Edge;
 
 public class FaceQueue extends PathQueue<FaceNode> {
-    @Deprecated
-    private boolean border;
+
+    /**
+     * Edge for given queue.
+     */
     private Edge edge;
 
     /**
@@ -18,21 +20,6 @@ public class FaceQueue extends PathQueue<FaceNode> {
             throw new IllegalStateException("can't add node to closed FaceQueue");
         }
         super.addPush(node, newNode);
-    }
-
-    /**
-     * @return the border
-     */
-    public boolean isBorder() {
-        return border;
-    }
-
-    /**
-     * @param border
-     *            the border to set
-     */
-    public void setBorder(boolean border) {
-        this.border = border;
     }
 
     /**
