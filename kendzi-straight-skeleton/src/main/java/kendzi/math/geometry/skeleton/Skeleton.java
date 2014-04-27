@@ -58,6 +58,13 @@ import kendzi.math.geometry.skeleton.utils.ValidateUtil;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Straight skeleton algorithm implementation. Base on highly modified Petr
+ * Felkel and Stepan Obdrzalek algorithm.
+ * 
+ * @author Tomasz Kedziora (Kendzi)
+ * 
+ */
 public class Skeleton {
 
     /** Log. */
