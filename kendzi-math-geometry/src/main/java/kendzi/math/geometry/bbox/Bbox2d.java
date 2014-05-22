@@ -43,8 +43,8 @@ public class Bbox2d {
     public Bbox2d() {
         xMin = Double.POSITIVE_INFINITY;
         xMax = Double.NEGATIVE_INFINITY;
-        yMax = Double.POSITIVE_INFINITY;
-        yMin = Double.NEGATIVE_INFINITY;
+        yMin = Double.POSITIVE_INFINITY;
+        yMax = Double.NEGATIVE_INFINITY;
     }
 
     /**
@@ -177,6 +177,24 @@ public class Bbox2d {
      */
     public void setyMax(double yMax) {
         this.yMax = yMax;
+    }
+
+    /**
+     * Gets maximal point.
+     * 
+     * @return maximal point
+     */
+    public Point2d getMinPoint() {
+        return new Point2d(xMin, yMin);
+    }
+
+    /**
+     * Gets minimal point.
+     * 
+     * @return minimal point
+     */
+    public Point2d getMaxPoint() {
+        return new Point2d(xMax, yMax);
     }
 
 }
