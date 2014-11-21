@@ -13,7 +13,7 @@ import javax.vecmath.Point2d;
 
 /**
  * Polygon util.
- * 
+ *
  * @author Tomasz Kędziora (Kendzi)
  */
 public class PolygonUtil {
@@ -27,7 +27,7 @@ public class PolygonUtil {
 
     /**
      * Test if point is inside polygon
-     * 
+     *
      * @see "http://en.wikipedia.org/wiki/Point_in_polygon"
      * @see "http://en.wikipedia.org/wiki/Even-odd_rule"
      * @see "http://paulbourke.net/geometry/insidepoly/"
@@ -91,7 +91,7 @@ public class PolygonUtil {
 
     /**
      * Minimal values in polygon. Minimal coordinates of bounding box.
-     * 
+     *
      * @param pPolygon
      *            polygon
      * @return minimal values
@@ -115,7 +115,7 @@ public class PolygonUtil {
 
     /**
      * Maximal values in polygon. Maximal coordinates of bounding box.
-     * 
+     *
      * @param pPolygon
      *            polygon
      * @return maximal values
@@ -140,7 +140,7 @@ public class PolygonUtil {
     /**
      * Calculate area of polygon outline. For clockwise are will be less then
      * zero, for counter-clockwise polygons area will be greter then zero.
-     * 
+     *
      * @param polygon
      *            list of polygon points
      * @return area
@@ -159,7 +159,7 @@ public class PolygonUtil {
 
     /**
      * Check if polygon is clockwise.
-     * 
+     *
      * @param polygon
      *            list of polygon points
      * @return if polygon is clockwise
@@ -170,7 +170,7 @@ public class PolygonUtil {
 
     /**
      * Reverse point order in list
-     * 
+     *
      * @param polygon
      * @return
      */
@@ -185,6 +185,20 @@ public class PolygonUtil {
             list.add(polygon.get(i));
         }
         return list;
+    }
+
+    /**
+     * Always returns points ordered as counter clockwise.
+     * 
+     * @param polygon
+     *            polygon as list of points
+     * @return counter clockwise polygon
+     */
+    public static List<Point2d> makeCounterClockwise(List<Point2d> polygon) {
+        if (PolygonUtil.isClockwisePolygon(polygon)) {
+            return PolygonUtil.reverse(polygon);
+        }
+        return polygon;
     }
 
 }

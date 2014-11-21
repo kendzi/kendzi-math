@@ -61,9 +61,9 @@ import org.apache.log4j.Logger;
 /**
  * Straight skeleton algorithm implementation. Base on highly modified Petr
  * Felkel and Stepan Obdrzalek algorithm.
- * 
+ *
  * @author Tomasz Kedziora (Kendzi)
- * 
+ *
  */
 public class Skeleton {
 
@@ -679,7 +679,7 @@ public class Skeleton {
      * in the same result point. Try to connect all event which share the same
      * vertex into chain. Events in chain are sorted. If events don't share
      * vertex, returned chains contains only one event.
-     * 
+     *
      * @param cluster
      *            set of event which meet in the same result point
      * @return chains of events
@@ -964,7 +964,7 @@ public class Skeleton {
     /**
      * Loads all not obsolete event which are on one level. As level heigh is
      * taken epsilon.
-     * 
+     *
      * @param queue
      * @return
      */
@@ -1048,10 +1048,7 @@ public class Skeleton {
     }
 
     private static List<Point2d> makeCounterClockwise(List<Point2d> polygon) {
-        if (PolygonUtil.isClockwisePolygon(polygon)) {
-            return PolygonUtil.reverse(polygon);
-        }
-        return polygon;
+        return makeCounterClockwise(polygon);
     }
 
     /**
@@ -1228,7 +1225,7 @@ public class Skeleton {
      * using current, previous and next vertex in current lav. When two edge
      * events are generated distance from source is check. To queue is added
      * only closer event or both if they have the same distance.
-     * 
+     *
      * @param vertex
      *            source of edge events
      * @param queue
@@ -1288,7 +1285,7 @@ public class Skeleton {
      * Check if given point is on one of edge bisectors. If so this is vertex
      * split event. This event need two opposite edges to process but second
      * (next) edge can be take from edges list and it is next edge on list.
-     * 
+     *
      * @param point
      *            point of event
      * @param edge
@@ -1591,7 +1588,7 @@ public class Skeleton {
     /**
      * Try to find index of last vertex after opposite edge is found. Index is
      * calculated relatively from given starting vertex.
-     * 
+     *
      * @param vertex
      * @param oppositeEdge
      * @return
@@ -1618,7 +1615,7 @@ public class Skeleton {
     /**
      * Take next lav vertex _AFTER_ given edge, Find vertex is always on RIGHT
      * site of edge.
-     * 
+     *
      * @param lav
      * @param oppositeEdge
      * @return
@@ -1685,9 +1682,9 @@ public class Skeleton {
 
     /**
      * Computes the distance between this point and point p1.
-     * 
+     *
      * @param p0
-     * 
+     *
      * @param p1
      *            the other point
      * @return
