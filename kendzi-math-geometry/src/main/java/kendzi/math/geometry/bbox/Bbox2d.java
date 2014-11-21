@@ -11,9 +11,9 @@ import javax.vecmath.Point2d;
 
 /**
  * BBox for 2d.
- * 
+ *
  * @author Tomasz Kedziora (Kendzi)
- * 
+ *
  */
 public class Bbox2d {
 
@@ -49,7 +49,7 @@ public class Bbox2d {
 
     /**
      * Constructor from list of points.
-     * 
+     *
      * @param points
      *            points in bbox.
      */
@@ -61,7 +61,7 @@ public class Bbox2d {
 
     /**
      * Adds point to bbox.
-     * 
+     *
      * @param x
      *            x value of point
      * @param y
@@ -78,7 +78,7 @@ public class Bbox2d {
 
     /**
      * Adds point to bbox.
-     * 
+     *
      * @param point
      *            point
      */
@@ -93,7 +93,7 @@ public class Bbox2d {
 
     /**
      * Adds points to bbox.
-     * 
+     *
      * @param points
      *            points
      */
@@ -105,13 +105,22 @@ public class Bbox2d {
 
     /**
      * Checks if given point is inside bbox.
-     * 
+     *
      * @param point
      *            checked point
      * @return if point is inside bbox
      */
     public boolean isInside(Point2d point) {
         return point.x >= xMin && point.x <= xMax && point.y >= yMin && point.y <= yMax;
+    }
+
+    /**
+     * Check if at least one point was added to bbox. If it is limiting space.
+     *
+     * @return if bbox is limiting space
+     */
+    public boolean isLimited() {
+        return xMin != Double.POSITIVE_INFINITY;
     }
 
     @Override
@@ -181,7 +190,7 @@ public class Bbox2d {
 
     /**
      * Gets maximal point.
-     * 
+     *
      * @return maximal point
      */
     public Point2d getMinPoint() {
@@ -190,7 +199,7 @@ public class Bbox2d {
 
     /**
      * Gets minimal point.
-     * 
+     *
      * @return minimal point
      */
     public Point2d getMaxPoint() {
