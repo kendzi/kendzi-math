@@ -72,6 +72,12 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.1</version>
+				<!-- version greater 2.4.2 to fix ugly bug with release of git projects -->
+			</plugin>
 		</plugins>
 	</build>
 </project>
