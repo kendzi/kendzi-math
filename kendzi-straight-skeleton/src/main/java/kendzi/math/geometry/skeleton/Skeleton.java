@@ -1048,7 +1048,7 @@ public class Skeleton {
     }
 
     private static List<Point2d> makeCounterClockwise(List<Point2d> polygon) {
-        return makeCounterClockwise(polygon);
+        return PolygonUtil.makeCounterClockwise(polygon);
     }
 
     /**
