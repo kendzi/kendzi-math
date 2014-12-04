@@ -17,6 +17,22 @@ public class Triangle3d {
     private Point3d point2;
 
     /**
+     * Triangle constructor.
+     * 
+     * @param point0
+     *            point 0
+     * @param point1
+     *            point 1
+     * @param point2
+     *            point 2
+     */
+    public Triangle3d(Point3d point0, Point3d point1, Point3d point2) {
+        this.point0 = point0;
+        this.point1 = point1;
+        this.point2 = point2;
+    }
+
+    /**
      * @return the point0
      */
     public Point3d getPoint0() {
