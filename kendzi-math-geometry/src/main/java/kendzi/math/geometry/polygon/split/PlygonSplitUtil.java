@@ -400,7 +400,7 @@ public class PlygonSplitUtil {
                 return;
             }
         }
-        throw new IllegalStateException("all polygon points lying on spliting line");
+        throw new IllegalStateException("all polygon points are lying on splitting line");
     }
 
     private static int findFirstChangePointIndex(List<Node> polygon, int start) {
