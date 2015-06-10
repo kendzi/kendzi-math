@@ -41,7 +41,7 @@ public class LineSegment2d {
     public static Point2d collide(double x1, double y1, double x2, double y2, double A, double B, double C
             ) {
 
-        // XXX TODO FIXME when end of line segment is laying on line
+        // XXX TODO FIXME when end of line segment is lies on line
 
         if (det(x1, y1, A, B, C) * det(x2, y2, A, B, C) < 0) {
 

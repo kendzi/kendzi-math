@@ -10,6 +10,7 @@
 package kendzi.math.geometry.polygon;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class MultiPolygonList2d {
@@ -21,8 +22,12 @@ public class MultiPolygonList2d {
         this.polygons.add(pPolygon);
     }
 
-    public MultiPolygonList2d(Set<PolygonList2d> pPolygons) {
-        this.polygons = pPolygons;
+    public MultiPolygonList2d(List<PolygonList2d> polygons) {
+        this.polygons = new HashSet<PolygonList2d>(polygons);
+    }
+
+    public MultiPolygonList2d(Set<PolygonList2d> polygons) {
+        this.polygons = polygons;
     }
 
     public MultiPolygonList2d() {
@@ -37,10 +42,10 @@ public class MultiPolygonList2d {
     }
 
     /**
-     * @param polygons the polygons to set
+     * @param polygons
+     *            the polygons to set
      */
     public void setPolygons(Set<PolygonList2d> polygons) {
         this.polygons = polygons;
     }
 }
-

@@ -172,7 +172,7 @@ public class Ray3dUtil {
         return new Vector3d(v.x - v1.x, v.y - v1.y, v.z - v1.z);
     }
 
-    /** Return closest point to ray, The point is laying on ray baseRay.
+    /** Return closest point to ray, The point is lies on ray baseRay.
      * @param ray
      * @param baseRay
      * @return
