@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
@@ -38,10 +38,10 @@ public class DisplayEventNames extends DisplayObject {
         int count = 0;
         for (SkeletonEvent e : this.events) {
             count++;
-            Point2d p = e.v;
+            Vector2dc p = e.v;
 
-            int x = (int) disp.xPositionToPixel(p.x);
-            int y = (int) disp.yPositionToPixel(p.y);
+            int x = (int) disp.xPositionToPixel(p.x());
+            int y = (int) disp.yPositionToPixel(p.y());
 
             if (selected) {
                 g2d.setColor(Color.GREEN.brighter());
@@ -73,7 +73,7 @@ public class DisplayEventNames extends DisplayObject {
         DisplayRectBounds b = new DisplayRectBounds();
         for (SkeletonEvent e : this.events) {
 
-            Point2d p = e.v;
+            Vector2dc p = e.v;
 
             b.addPoint(p);
         }

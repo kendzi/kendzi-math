@@ -12,10 +12,9 @@ package kendzi.math.geometry.point;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
-
 import org.ejml.simple.SimpleMatrix;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 /**
  *
@@ -120,7 +119,6 @@ public class TransformationMatrix2d {
 
 
     /**
-     * @param alpha
      * @return
      */
     public static SimpleMatrix tranA(double x, double y) {
@@ -148,25 +146,19 @@ public class TransformationMatrix2d {
                 });
     }
 
-    public static Point2d transform(Point2d pPoint, SimpleMatrix pSimpleMatrix) {
+    /**
+     * Transform a point
+     * @param pPoint The point or vector to transform
+     * @param pSimpleMatrix the matrix to use
+     * @param isPoint {@code true} if it is a point
+     * @return The transformed point or vector
+     */
+    public static Vector2dc transform(Vector2dc pPoint, SimpleMatrix pSimpleMatrix, boolean isPoint) {
         SimpleMatrix sm = new SimpleMatrix(
                 new double [][] {
-                        {pPoint.x},
-                        {pPoint.y},
-                        {1}
-                });
-
-        SimpleMatrix mult = pSimpleMatrix.mult(sm);
-
-        return new Point2d(mult.get(0), mult.get(1));
-    }
-
-    public static Vector2d transform(Vector2d pVector, SimpleMatrix pSimpleMatrix) {
-        SimpleMatrix sm = new SimpleMatrix(
-                new double [][] {
-                        {pVector.x},
-                        {pVector.y},
-                        {0}
+                        {pPoint.x()},
+                        {pPoint.y()},
+                        {isPoint ? 1 : 0}
                 });
 
         SimpleMatrix mult = pSimpleMatrix.mult(sm);
@@ -179,11 +171,11 @@ public class TransformationMatrix2d {
      * @param transformLocal transformation matrix
      * @return  transformed list of points
      */
-    public static List<Point2d> transformList(List<Point2d> pList, SimpleMatrix transformLocal) {
+    public static List<Vector2dc> transformList(List<Vector2dc> pList, SimpleMatrix transformLocal) {
 
-        List<Point2d> list = new ArrayList<Point2d>(pList.size());
-        for (Point2d p : pList) {
-           Point2d transformed = TransformationMatrix2d.transform(p, transformLocal);
+        List<Vector2dc> list = new ArrayList<>(pList.size());
+        for (Vector2dc p : pList) {
+           Vector2dc transformed = TransformationMatrix2d.transform(p, transformLocal, true);
            list.add(transformed);
         }
         return list;
@@ -194,12 +186,12 @@ public class TransformationMatrix2d {
      * @param transformLocal transformation matrix
      * @return  transformed array of points
      */
-    public static Point2d[] transformArray(Point2d[] pList, SimpleMatrix transformLocal) {
+    public static Vector2dc[] transformArray(Vector2dc[] pList, SimpleMatrix transformLocal) {
 
-        Point2d [] list = new Point2d[pList.length];
+        Vector2dc [] list = new Vector2dc[pList.length];
         int i = 0;
-        for (Point2d p : pList) {
-           Point2d transformed = TransformationMatrix2d.transform(p, transformLocal);
+        for (Vector2dc p : pList) {
+           Vector2dc transformed = TransformationMatrix2d.transform(p, transformLocal, true);
            list[i] = transformed;
            i++;
         }

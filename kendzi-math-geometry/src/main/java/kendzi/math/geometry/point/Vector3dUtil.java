@@ -1,14 +1,22 @@
 package kendzi.math.geometry.point;
 
-import javax.vecmath.Tuple3d;
-import javax.vecmath.Vector3d;
-
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 public class Vector3dUtil {
-    public static Vector3d fromTo(Tuple3d from, Tuple3d to) {
-        Vector3d v = new Vector3d(to);
-        v.sub(from);
-        return v;
+    private Vector3dUtil() {
+        // Hide constructor
+    }
+    /**
+     * Get the vector from a vector to another vector
+     * @param from The initial vector
+     * @param to the final vector
+     * @return The vector between the two
+     * @deprecated Use {@link Vector3d#sub(Vector3dc)} ({@code to.sub(from)}) instead.
+     */
+    @Deprecated
+    public static Vector3d fromTo(Vector3dc from, Vector3dc to) {
+        return new Vector3d(to).sub(from);
     }
 
 }

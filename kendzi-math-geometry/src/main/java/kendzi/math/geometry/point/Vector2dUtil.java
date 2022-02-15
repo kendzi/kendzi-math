@@ -5,9 +5,8 @@
  */
 package kendzi.math.geometry.point;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Tuple2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 /**
  * Vector 2d util.
@@ -18,21 +17,24 @@ import javax.vecmath.Vector2d;
 public class Vector2dUtil {
 
     private static double EPSILON = 0.00000001;
-
-    public static Vector2d orthogonalLeft(Vector2d v) {
-        return new Vector2d(-v.y, v.x);
+    private Vector2dUtil() {
+        // Hide constructor
     }
 
-    public static Vector2d orthogonalRight(Vector2d v) {
-        return new Vector2d(v.y, -v.x);
+    public static Vector2d orthogonalLeft(Vector2dc v) {
+        return new Vector2d(-v.y(), v.x());
     }
 
-    public static Vector2d bisector(Point2d p1, Point2d p2, Point2d p3) { // left
+    public static Vector2d orthogonalRight(Vector2dc v) {
+        return new Vector2d(v.y(), -v.x());
+    }
+
+    public static Vector2d bisector(Vector2dc p1, Vector2dc p2, Vector2dc p3) { // left
         // XXX rename to bisectorLeft
-        return Vector2dUtil.bisector(Vector2dUtil.fromTo(p1, p2), Vector2dUtil.fromTo(p2, p3));
+        return Vector2dUtil.bisector(fromTo(p1, p2), fromTo(p2, p3));
     }
 
-    public static Vector2d bisector(Vector2d v1, Vector2d v2) {
+    public static Vector2d bisector(Vector2dc v1, Vector2dc v2) {
         // XXX rename to bisectorLeft
         Vector2d norm1 = new Vector2d(v1);
         norm1.normalize();
@@ -43,16 +45,15 @@ public class Vector2dUtil {
         return bisectorNormalized(norm1, norm2);
     }
 
-    public static Vector2d bisectorNormalized(Vector2d norm1, Vector2d norm2) {
-        Vector2d e1v = orthogonalLeft(norm1);
-        Vector2d e2v = orthogonalLeft(norm2);
+    public static Vector2d bisectorNormalized(Vector2dc norm1, Vector2dc norm2) {
+        Vector2dc e1v = orthogonalLeft(norm1);
+        Vector2dc e2v = orthogonalLeft(norm2);
 
         // 90 - 180 || 180 - 270
         // if (norm1.dot(e2v) <= 0 && ) { //XXX >= !!
         if (norm1.dot(norm2) > 0) {
 
-            e1v.add(e2v);
-            return e1v;
+            return new Vector2d(e1v).add(e2v);
 
         }
 
@@ -78,22 +79,30 @@ public class Vector2dUtil {
 
     /**
      * Cross product for 2d is same as doc
-     * 
+     *
      * @param u
      * @param v
      * @return
      * @see {http://mathworld.wolfram.com/CrossProduct.html}
      */
-    public static double cross(Tuple2d u, Tuple2d v) {
-        return u.x * v.y - u.y * v.x;
+    public static double cross(Vector2dc u, Vector2dc v) {
+        return u.x() * v.y() - u.y() * v.x();
     }
 
-    public static Vector2d fromTo(Point2d begin, Point2d end) {
-        return new Vector2d(end.x - begin.x, end.y - begin.y);
+    /**
+     * Subtract end from begin
+     * @param begin The start
+     * @param end The end
+     * @return The vector from end to sub (current behavior, not intuitive from name)
+     * @deprecated Use {@link Vector2dc#sub(Vector2dc, Vector2d)} instead
+     */
+    @Deprecated
+    public static Vector2d fromTo(Vector2dc begin, Vector2dc end) {
+        return end.sub(begin, new Vector2d());
     }
 
     public static Vector2d negate(Vector2d vector) {
-        return new Vector2d(-vector.x, -vector.y);
+        return vector.negate(new Vector2d());
     }
 
 }

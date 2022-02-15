@@ -21,18 +21,28 @@
   <properties>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <vecmath.version>1.3.1</vecmath.version>
   </properties>
   <dependencies>
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
+      <groupId>org.joml</groupId>
+      <artifactId>joml</artifactId>
+      <version>1.10.3</version>
+      <!-- JOML is provided by the LWJGL plugin -->
+      <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>java3d</groupId>
-      <artifactId>vecmath</artifactId>
-      <version>${vecmath.version}</version>
+      <groupId>org.ejml</groupId>
+      <artifactId>ejml-simple</artifactId>
+      <version>0.41</version>
+      <!-- EJML is provided by the ejml plugin -->
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.17.1</version>
+      <!-- Log4j is provided by the log4j plugin -->
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -73,4 +83,17 @@
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+      <id>josm_repo</id>
+      <releases>
+        <enabled>true</enabled>
+        <checksumPolicy>ignore</checksumPolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <url>https://josm.openstreetmap.de/nexus/content/repositories/public/</url>
+    </repository>
+  </repositories>
 </project>

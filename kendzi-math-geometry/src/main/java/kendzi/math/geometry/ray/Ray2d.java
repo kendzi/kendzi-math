@@ -6,8 +6,8 @@
 
 package kendzi.math.geometry.ray;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.line.LineLinear2d;
 import kendzi.math.geometry.line.LineParametric2d;
@@ -19,13 +19,13 @@ import kendzi.math.geometry.line.LineParametric2d;
  * 
  */
 public class Ray2d extends LineParametric2d {
-    public Ray2d(Point2d pA, Vector2d pU) {
+    public Ray2d(Vector2dc pA, Vector2dc pU) {
         super(pA, pU);
     }
 
-    public static Point2d collide(Ray2d ray, LineLinear2d line, double epsilon) {
+    public static Vector2dc collide(Ray2d ray, LineLinear2d line, double epsilon) {
         // FIXME rewrite?
-        Point2d collide = LineLinear2d.collide(ray.getLinearForm(), line);
+        Vector2dc collide = LineLinear2d.collide(ray.getLinearForm(), line);
         if (collide == null) {
             return null;
         }

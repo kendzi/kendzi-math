@@ -6,7 +6,12 @@
 
 package kendzi.math.geometry.skeleton;
 
-import static kendzi.math.geometry.skeleton.utils.LavUtil.*;
+import static kendzi.math.geometry.skeleton.utils.LavUtil.cutLavPart;
+import static kendzi.math.geometry.skeleton.utils.LavUtil.isSameLav;
+import static kendzi.math.geometry.skeleton.utils.LavUtil.lavToString;
+import static kendzi.math.geometry.skeleton.utils.LavUtil.mergeBeforeBaseVertex;
+import static kendzi.math.geometry.skeleton.utils.LavUtil.moveAllVertexToLavEnd;
+import static kendzi.math.geometry.skeleton.utils.LavUtil.removeFromLav;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,9 +22,10 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Tuple2d;
-import javax.vecmath.Vector2d;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.Algebra;
 import kendzi.math.geometry.AngleUtil;
@@ -56,8 +62,6 @@ import kendzi.math.geometry.skeleton.path.FaceQueue;
 import kendzi.math.geometry.skeleton.path.FaceQueueUtil;
 import kendzi.math.geometry.skeleton.utils.ValidateUtil;
 
-import org.apache.log4j.Logger;
-
 /**
  * Straight skeleton algorithm implementation. Base on highly modified Petr
  * Felkel and Stepan Obdrzalek algorithm.
@@ -68,7 +72,7 @@ import org.apache.log4j.Logger;
 public class Skeleton {
 
     /** Log. */
-    private static final Logger log = Logger.getLogger(Skeleton.class);
+    private static final Logger log = LogManager.getLogger(Skeleton.class);
 
     /**
      * Error epsilon.
@@ -94,15 +98,15 @@ public class Skeleton {
         return vd;
     }
 
-    public static SkeletonOutput skeleton(List<Point2d> polygon) {
+    public static SkeletonOutput skeleton(List<Vector2dc> polygon) {
         return skeleton(polygon, null);
     }
 
-    public static SkeletonOutput skeleton(List<Point2d> polygon, List<List<Point2d>> holes) {
+    public static SkeletonOutput skeleton(List<Vector2dc> polygon, List<List<Vector2dc>> holes) {
         return skeleton(polygon, holes, new SkeletonConfiguration());
     }
 
-    public static SkeletonOutput skeleton(List<Point2d> polygon, List<List<Point2d>> holes,
+    public static SkeletonOutput skeleton(List<Vector2dc> polygon, List<List<Vector2dc>> holes,
             SkeletonConfiguration skeletonConfiguration) {
 
         if (holes == null) {
@@ -112,15 +116,15 @@ public class Skeleton {
         polygon = initPolygon(polygon, skeletonConfiguration);
         holes = initHoles(holes, skeletonConfiguration);
 
-        PriorityQueue<SkeletonEvent> queue = new PriorityQueue<SkeletonEvent>(3, new SkeletonEventDistanseComparator());
-        Set<CircularList<Vertex>> sLav = new HashSet<CircularList<Vertex>>();
-        List<SkeletonEvent> processedEvents = new ArrayList<SkeletonEvent>();
-        List<FaceQueue> faces = new ArrayList<FaceQueue>();
-        List<Edge> edges = new ArrayList<Edge>();
+        PriorityQueue<SkeletonEvent> queue = new PriorityQueue<>(3, new SkeletonEventDistanseComparator());
+        Set<CircularList<Vertex>> sLav = new HashSet<>();
+        List<SkeletonEvent> processedEvents = new ArrayList<>();
+        List<FaceQueue> faces = new ArrayList<>();
+        List<Edge> edges = new ArrayList<>();
 
         initSlav(polygon, sLav, edges, faces);
 
-        for (List<Point2d> inner : holes) {
+        for (List<Vector2dc> inner : holes) {
             initSlav(inner, sLav, edges, faces);
         }
 
@@ -190,7 +194,7 @@ public class Skeleton {
         return addFacesToOutput(faces);
     }
 
-    private static List<List<Point2d>> initHoles(List<List<Point2d>> holes, SkeletonConfiguration skeletonConfiguration) {
+    private static List<List<Vector2dc>> initHoles(List<List<Vector2dc>> holes, SkeletonConfiguration skeletonConfiguration) {
 
         if (holes == null) {
             return null;
@@ -201,9 +205,9 @@ public class Skeleton {
         if (skeletonConfiguration.isDebug()) {
             // add names for points
 
-            List<List<Point2d>> newHoles = new ArrayList<List<Point2d>>();
+            List<List<Vector2dc>> newHoles = new ArrayList<>();
             int h = 0;
-            for (List<Point2d> hole : holes) {
+            for (List<Vector2dc> hole : holes) {
                 newHoles.add(debugNames(hole, "h" + h + "_p"));
                 h++;
             }
@@ -212,7 +216,7 @@ public class Skeleton {
         return holes;
     }
 
-    private static List<Point2d> initPolygon(List<Point2d> polygon, SkeletonConfiguration skeletonConfiguration) {
+    private static List<Vector2dc> initPolygon(List<Vector2dc> polygon, SkeletonConfiguration skeletonConfiguration) {
 
         if (polygon == null) {
             throw new IllegalArgumentException("polygon can't be null");
@@ -232,14 +236,14 @@ public class Skeleton {
         return polygon;
     }
 
-    private static void debugInit(List<Point2d> polygon, List<List<Point2d>> holes, Set<CircularList<Vertex>> sLav,
+    private static void debugInit(List<Vector2dc> polygon, List<List<Vector2dc>> holes, Set<CircularList<Vertex>> sLav,
             PriorityQueue<SkeletonEvent> queue) {
 
         vd.clear();
         vd.debug(polygon);
         vd.debugNames(polygon);
 
-        for (List<Point2d> hole : holes) {
+        for (List<Vector2dc> hole : holes) {
             vd.debug(hole);
             vd.debugNames(hole);
         }
@@ -283,7 +287,7 @@ public class Skeleton {
     private static void multiEdgeEvent(MultiEdgeEvent event, Set<CircularList<Vertex>> sLav, PriorityQueue<SkeletonEvent> queue,
             List<Edge> edges) {
 
-        Point2d center = event.getPoint();
+        Vector2dc center = event.getPoint();
         List<EdgeEvent> edgeList = event.getChain().getEdgeList();
 
         Vertex previousVertex = event.getChain().getPreviousVertex();
@@ -327,7 +331,7 @@ public class Skeleton {
     private static void pickEvent(PickEvent event, Set<CircularList<Vertex>> sLav, PriorityQueue<SkeletonEvent> queue,
             List<Edge> edges) {
 
-        Point2d center = event.getPoint();
+        Vector2dc center = event.getPoint();
         List<EdgeEvent> edgeList = event.getChain().getEdgeList();
 
         // lav will be removed so it is final vertex.
@@ -341,7 +345,7 @@ public class Skeleton {
             PriorityQueue<SkeletonEvent> queue, List<Edge> edges) {
 
         List<Chain> chains = event.getChains();
-        final Point2d center = event.v;
+        final Vector2dc center = event.v;
 
         createOppositeEdgeChains(sLav, chains, center);
 
@@ -395,7 +399,7 @@ public class Skeleton {
 
                 List<Vertex> lavPart = cutLavPart(beginNextVertex, endPreviousVertex);
 
-                CircularList<Vertex> lav = new CircularList<Vertex>();
+                CircularList<Vertex> lav = new CircularList<>();
                 sLav.add(lav);
 
                 lav.addLast(newVertex);
@@ -479,10 +483,8 @@ public class Skeleton {
 
         if (beginEdge.getNorm().dot(endEdge.getNorm()) < -0.97) {
 
-            Vector2d n1 = Vector2dUtil.fromTo(endPreviousVertex.getPoint(), bisector.A);
-            Vector2d n2 = Vector2dUtil.fromTo(bisector.A, beginNextVertex.getPoint());
-            n1.normalize();
-            n2.normalize();
+            Vector2d n1 = Vector2dUtil.fromTo(endPreviousVertex.getPoint(), bisector.A).normalize();
+            Vector2d n2 = Vector2dUtil.fromTo(bisector.A, beginNextVertex.getPoint()).normalize();
             Vector2d bisectorPrediction = calcVectorBisector(n1, n2);
             vd.debug(bisector);
 
@@ -491,7 +493,7 @@ public class Skeleton {
                  * Bisector is calculated in opposite direction to edges and
                  * center.
                  */
-                bisector.U.negate();
+                bisector.U = bisector.U.negate(new Vector2d());
             }
         }
     }
@@ -613,16 +615,16 @@ public class Skeleton {
         return vertex;
     }
 
-    private static void createOppositeEdgeChains(Set<CircularList<Vertex>> sLav, List<Chain> chains, Point2d center) {
+    private static void createOppositeEdgeChains(Set<CircularList<Vertex>> sLav, List<Chain> chains, Vector2dc center) {
         /*
          * Add chain created from opposite edge, this chain have to be
          * calculated during processing event because lav could change during
          * processing another events on the same level
          */
-        Set<Edge> oppositeEdges = new HashSet<Edge>();
+        Set<Edge> oppositeEdges = new HashSet<>();
 
-        List<Chain> oppositeEdgeChains = new ArrayList<Chain>();
-        List<Chain> chainsForRemoval = new ArrayList<Chain>();
+        List<Chain> oppositeEdgeChains = new ArrayList<>();
+        List<Chain> chainsForRemoval = new ArrayList<>();
 
         for (Chain chain : chains) {
             // add opposite edges as chain parts
@@ -666,7 +668,7 @@ public class Skeleton {
 
     }
 
-    private static Vertex createMultiSplitVertex(Edge nextEdge, Edge previousEdge, Point2d center, double distance) {
+    private static Vertex createMultiSplitVertex(Edge nextEdge, Edge previousEdge, Vector2dc center, double distance) {
 
         Ray2d bisector = calcBisector(center, previousEdge, nextEdge);
 
@@ -685,9 +687,9 @@ public class Skeleton {
      * @return chains of events
      */
     private static List<Chain> createChains(List<SkeletonEvent> cluster) {
-        List<EdgeEvent> edgeCluster = new ArrayList<EdgeEvent>();
-        List<SplitEvent> splitCluster = new ArrayList<SplitEvent>();
-        Set<Vertex> vertexEventsParents = new HashSet<Vertex>();
+        List<EdgeEvent> edgeCluster = new ArrayList<>();
+        List<SplitEvent> splitCluster = new ArrayList<>();
+        Set<Vertex> vertexEventsParents = new HashSet<>();
 
         for (SkeletonEvent skeletonEvent : cluster) {
             if (skeletonEvent instanceof EdgeEvent) {
@@ -732,7 +734,7 @@ public class Skeleton {
             }
         }
 
-        List<EdgeChain> edgeChains = new ArrayList<EdgeChain>();
+        List<EdgeChain> edgeChains = new ArrayList<>();
 
         while (edgeCluster.size() > 0) {
             /*
@@ -744,7 +746,7 @@ public class Skeleton {
             edgeChains.add(new EdgeChain(createEdgeChain(edgeCluster)));
         }
 
-        List<Chain> chains = new ArrayList<Chain>(edgeChains);
+        List<Chain> chains = new ArrayList<>(edgeChains);
 
         splitEventLoop: while (splitCluster.size() > 0) {
             SplitEvent split = splitCluster.remove(0);
@@ -791,7 +793,7 @@ public class Skeleton {
 
     protected static ArrayList<EdgeEvent> createEdgeChain(List<EdgeEvent> edgeCluster) {
 
-        ArrayList<EdgeEvent> edgeList = new ArrayList<EdgeEvent>();
+        ArrayList<EdgeEvent> edgeList = new ArrayList<>();
 
         edgeList.add(edgeCluster.remove(0));
 
@@ -844,20 +846,20 @@ public class Skeleton {
 
     protected static List<SkeletonEvent> groupLevelEvents(List<SkeletonEvent> levelEvents) {
 
-        List<SkeletonEvent> ret = new ArrayList<SkeletonEvent>();
+        List<SkeletonEvent> ret = new ArrayList<>();
 
-        Set<Vertex> parentGroup = new HashSet<Vertex>();
+        Set<Vertex> parentGroup = new HashSet<>();
 
         while (levelEvents.size() > 0) {
             parentGroup.clear();
 
             SkeletonEvent event = levelEvents.remove(0);
-            Point2d eventCenter = event.getPoint();
+            Vector2dc eventCenter = event.getPoint();
             double distance = event.getDistance();
 
             addEventToGroup(parentGroup, event);
 
-            List<SkeletonEvent> cluster = new ArrayList<SkeletonEvent>();
+            List<SkeletonEvent> cluster = new ArrayList<>();
             cluster.add(event);
 
             // XXX use interator?
@@ -920,7 +922,7 @@ public class Skeleton {
      * @param eventCenter
      * @return
      */
-    private static SkeletonEvent createLevelEvent(Point2d eventCenter, double distance, List<SkeletonEvent> eventCluster) {
+    private static SkeletonEvent createLevelEvent(Vector2dc eventCenter, double distance, List<SkeletonEvent> eventCluster) {
 
         List<Chain> chains = createChains(eventCluster);
 
@@ -944,7 +946,7 @@ public class Skeleton {
         return new MultiSplitEvent(eventCenter, distance, chains);
     }
 
-    static boolean near(Point2d p1, Point2d p2, double epsilon) {
+    static boolean near(Vector2dc p1, Vector2dc p2, double epsilon) {
         // XXX
         return distance(p1, p2) < epsilon;
     }
@@ -970,7 +972,7 @@ public class Skeleton {
      */
     private static List<SkeletonEvent> loadLevelEvents(PriorityQueue<SkeletonEvent> queue) {
 
-        List<SkeletonEvent> level = new ArrayList<SkeletonEvent>();
+        List<SkeletonEvent> level = new ArrayList<>();
 
         SkeletonEvent levelStart = null;
         do {
@@ -1006,10 +1008,10 @@ public class Skeleton {
         return count;
     }
 
-    private static class DebugPoint2d extends Point2d {
+    private static class DebugVector2dc extends Vector2d {
         String name;
 
-        public DebugPoint2d(double x, double y, String name) {
+        public DebugVector2dc(double x, double y, String name) {
             super(x, y);
             this.name = name;
         }
@@ -1021,23 +1023,23 @@ public class Skeleton {
 
     }
 
-    private static List<Point2d> debugNames(List<Point2d> polygon, String name) {
-        List<Point2d> ret = new ArrayList<Point2d>();
+    private static List<Vector2dc> debugNames(List<Vector2dc> polygon, String name) {
+        List<Vector2dc> ret = new ArrayList<>();
         int i = 0;
-        for (Point2d point : polygon) {
-            ret.add(new DebugPoint2d(point.x, point.y, name + i));
+        for (Vector2dc point : polygon) {
+            ret.add(new DebugVector2dc(point.x(), point.y(), name + i));
             i++;
         }
         return ret;
     }
 
-    private static List<List<Point2d>> makeClockwise(List<List<Point2d>> holes) {
+    private static List<List<Vector2dc>> makeClockwise(List<List<Vector2dc>> holes) {
         if (holes == null) {
             return null;
         }
 
-        List<List<Point2d>> ret = new ArrayList<List<Point2d>>(holes.size());
-        for (List<Point2d> hole : holes) {
+        List<List<Vector2dc>> ret = new ArrayList<>(holes.size());
+        for (List<Vector2dc> hole : holes) {
             if (PolygonUtil.isClockwisePolygon(hole)) {
                 ret.add(hole);
             } else {
@@ -1047,7 +1049,7 @@ public class Skeleton {
         return ret;
     }
 
-    private static List<Point2d> makeCounterClockwise(List<Point2d> polygon) {
+    private static List<Vector2dc> makeCounterClockwise(List<Vector2dc> polygon) {
         return PolygonUtil.makeCounterClockwise(polygon);
     }
 
@@ -1057,9 +1059,9 @@ public class Skeleton {
      * @param edges
      * @param faces
      */
-    private static void initSlav(List<Point2d> polygon, Set<CircularList<Vertex>> sLav, List<Edge> edges, List<FaceQueue> faces) {
+    private static void initSlav(List<Vector2dc> polygon, Set<CircularList<Vertex>> sLav, List<Edge> edges, List<FaceQueue> faces) {
 
-        CircularList<Edge> edgesList = new CircularList<Edge>();
+        CircularList<Edge> edgesList = new CircularList<>();
 
         int size = polygon.size();
         for (int i = 0; i < size; i++) {
@@ -1079,7 +1081,7 @@ public class Skeleton {
             edges.add(edge);
         }
 
-        CircularList<Vertex> lav = new CircularList<Vertex>();
+        CircularList<Vertex> lav = new CircularList<>();
         sLav.add(lav);
 
         for (Edge edge : edgesList) {
@@ -1123,12 +1125,12 @@ public class Skeleton {
 
         SkeletonOutput output = new SkeletonOutput();
 
-        List<EdgeOutput> edgeOutputs = new ArrayList<EdgeOutput>();
+        List<EdgeOutput> edgeOutputs = new ArrayList<>();
 
         for (FaceQueue face : faces) {
             if (face.getSize() > 0) {
 
-                List<Point2d> faceList = new ArrayList<Point2d>();
+                List<Vector2dc> faceList = new ArrayList<>();
 
                 for (FaceNode fn : face) {
                     faceList.add(fn.getVertex().getPoint());
@@ -1174,14 +1176,14 @@ public class Skeleton {
     private static void computeSplitEvents(Vertex vertex, List<Edge> edges, PriorityQueue<SkeletonEvent> queue,
             Double distanceSquared) {
 
-        Point2d source = vertex.getPoint();
+        Vector2dc source = vertex.getPoint();
 
         List<SplitCandidate> calcOppositeEdges = calcOppositeEdges(vertex, edges);
 
         // check if it is vertex split event
         for (SplitCandidate oppositeEdge : calcOppositeEdges) {
 
-            Point2d point = oppositeEdge.getPoint();
+            Vector2dc point = oppositeEdge.getPoint();
 
             if (distanceSquared != null) {
                 if (source.distanceSquared(point) > distanceSquared + SPLIT_EPSILON) {
@@ -1237,14 +1239,14 @@ public class Skeleton {
         Vertex nextVertex = vertex.next();
         Vertex previousVertex = vertex.previous();
 
-        Point2d point = vertex.getPoint();
+        Vector2dc point = vertex.getPoint();
         /*
          * We need to chose closer edge event. When two evens appear in epsilon
          * we take both. They will create single MultiEdgeEvent.
          */
 
-        Point2d point1 = computeIntersectionBisectors(vertex, nextVertex);
-        Point2d point2 = computeIntersectionBisectors(previousVertex, vertex);
+        Vector2dc point1 = computeIntersectionBisectors(vertex, nextVertex);
+        Vector2dc point2 = computeIntersectionBisectors(previousVertex, vertex);
 
         if (point1 == null && point2 == null) {
             return null;
@@ -1270,12 +1272,12 @@ public class Skeleton {
         return distance1 < distance2 ? distance1 : distance2;
     }
 
-    private static SkeletonEvent createEdgeEvent(Point2d point, Vertex previousVertex, Vertex nextVertex) {
+    private static SkeletonEvent createEdgeEvent(Vector2dc point, Vertex previousVertex, Vertex nextVertex) {
         return new EdgeEvent(point, calcDistance(point, previousVertex.nextEdge), previousVertex, nextVertex);
     }
 
     private static void computeEdgeEvents(Vertex previousVertex, Vertex nextVertex, PriorityQueue<SkeletonEvent> queue) {
-        Point2d point = computeIntersectionBisectors(previousVertex, nextVertex);
+        Vector2dc point = computeIntersectionBisectors(previousVertex, nextVertex);
         if (point != null) {
             queue.add(createEdgeEvent(point, previousVertex, nextVertex));
         }
@@ -1292,7 +1294,7 @@ public class Skeleton {
      *            candidate for opposite edge
      * @return previous opposite edge if it is vertex split event
      */
-    protected static Edge vertexOpositeEdge(Point2d point, Edge edge) {
+    protected static Edge vertexOpositeEdge(Vector2dc point, Edge edge) {
 
         if (RayUtil.isPointOnRay(point, edge.getBisectorNext(), SPLIT_EPSILON)) {
             return edge;
@@ -1306,7 +1308,7 @@ public class Skeleton {
 
     private static List<SplitCandidate> calcOppositeEdges(Vertex vertex, List<Edge> edges) {
 
-        List<SplitCandidate> ret = new ArrayList<SplitCandidate>();
+        List<SplitCandidate> ret = new ArrayList<>();
 
         for (Edge edgeEntry : edges) {
 
@@ -1347,12 +1349,12 @@ public class Skeleton {
 
     private static class SplitCandidate {
 
-        private double distance;
-        private Point2d point;
-        private Edge oppositeEdge;
-        private Point2d oppositePoint;
+        private final double distance;
+        private final Vector2dc point;
+        private final Edge oppositeEdge;
+        private final Vector2dc oppositePoint;
 
-        public SplitCandidate(Point2d point, double distance, Edge oppositeEdge, Point2d oppositePoint) {
+        public SplitCandidate(Vector2dc point, double distance, Edge oppositeEdge, Vector2dc oppositePoint) {
             super();
             this.point = point;
             this.distance = distance;
@@ -1364,7 +1366,7 @@ public class Skeleton {
             return distance;
         }
 
-        public Point2d getPoint() {
+        public Vector2dc getPoint() {
             return point;
         }
 
@@ -1372,7 +1374,7 @@ public class Skeleton {
             return oppositeEdge;
         }
 
-        public Point2d getOppositePoint() {
+        public Vector2dc getOppositePoint() {
             return oppositePoint;
         }
     }
@@ -1388,7 +1390,7 @@ public class Skeleton {
 
         Vector2d edgesBisector = calcVectorBisector(vertexEdteNormNegate, edge.getNorm());
 
-        Point2d edgesCollide = vertexEdge.getLineLinear().collide(edge.getLineLinear());
+        Vector2dc edgesCollide = vertexEdge.getLineLinear().collide(edge.getLineLinear());
 
         if (edgesCollide == null) {
             /*
@@ -1405,7 +1407,7 @@ public class Skeleton {
          * between the bisector at V and the axis of the angle between one of
          * the edges starting at V and the tested line segment ei
          */
-        Point2d candidatePoint = Ray2d.collide(vertex.getBisector(), edgesBisectorLine, SPLIT_EPSILON);
+        Vector2dc candidatePoint = Ray2d.collide(vertex.getBisector(), edgesBisectorLine, SPLIT_EPSILON);
 
         if (candidatePoint == null) {
             return null;
@@ -1418,11 +1420,11 @@ public class Skeleton {
 
             if (edge.getBisectorPrevious().isOnLeftSite(candidatePoint, SPLIT_EPSILON)) {
 
-                Point2d oppositePoint = edge.getBegin();
+                Vector2dc oppositePoint = edge.getBegin();
                 return new SplitCandidate(candidatePoint, distance, null, oppositePoint);
             } else if (edge.getBisectorNext().isOnRightSite(candidatePoint, SPLIT_EPSILON)) {
 
-                Point2d oppositePoint = edge.getBegin();
+                Vector2dc oppositePoint = edge.getBegin();
                 return new SplitCandidate(candidatePoint, distance, null, oppositePoint);
             }
 
@@ -1457,24 +1459,21 @@ public class Skeleton {
         return vertexEdge;
     }
 
-    private static Point2d computeIntersectionBisectors(Vertex vertexPrevious, Vertex vertexNext) {
+    private static Vector2dc computeIntersectionBisectors(Vertex vertexPrevious, Vertex vertexNext) {
 
         Ray2d bisectorPrevious = vertexPrevious.getBisector();
         Ray2d bisectorNext = vertexNext.getBisector();
 
         IntersectPoints intersectRays2d = RayUtil.intersectRays2d(bisectorPrevious, bisectorNext);
 
-        Point2d intersect = intersectRays2d.getIntersect();
+        Vector2dc intersect = intersectRays2d.getIntersect();
 
         if (vertexPrevious.getPoint().equals(intersect) || vertexNext.getPoint().equals(intersect)) {
             // skip the same points
             return null;
         }
 
-        if (intersect != null) {
-            return intersect;
-        }
-        return null;
+        return intersect;
     }
 
     protected static CircularList<Vertex> mergeLav(Vertex firstLav, Vertex secondLav) {
@@ -1485,7 +1484,7 @@ public class Skeleton {
         vd.debug(firstNext.list());
         vd.debug(secondNext.list());
 
-        CircularList<Vertex> newLaw = new CircularList<Vertex>();
+        CircularList<Vertex> newLaw = new CircularList<>();
 
         moveAllVertexToLavEnd(secondNext, newLaw);
         moveAllVertexToLavEnd(firstNext, newLaw);
@@ -1494,7 +1493,7 @@ public class Skeleton {
         return newLaw;
     }
 
-    protected static Vertex findOppositeEdgeLav(Set<CircularList<Vertex>> sLav, Edge oppositeEdge, Point2d center) {
+    protected static Vertex findOppositeEdgeLav(Set<CircularList<Vertex>> sLav, Edge oppositeEdge, Vector2dc center) {
 
         List<Vertex> edgeLavs = findEdgeLavs(sLav, oppositeEdge, null);
 
@@ -1507,7 +1506,7 @@ public class Skeleton {
         return choseOppositeEdgeLav(edgeLavs, oppositeEdge, center);
     }
 
-    protected static Vertex choseOppositeEdgeLav(List<Vertex> edgeLavs, Edge oppositeEdge, Point2d center) {
+    protected static Vertex choseOppositeEdgeLav(List<Vertex> edgeLavs, Edge oppositeEdge, Vector2dc center) {
         // XXX
         if (edgeLavs.size() == 0) {
             return null;
@@ -1515,7 +1514,7 @@ public class Skeleton {
             return edgeLavs.get(0);
         }
 
-        Point2d edgeStart = oppositeEdge.getBegin();
+        Vector2dc edgeStart = oppositeEdge.getBegin();
         Vector2d edgeNorm = oppositeEdge.getNorm();
         Vector2d centerVector = new Vector2d(center);
         centerVector.sub(edgeStart);
@@ -1552,7 +1551,7 @@ public class Skeleton {
         // Additional check if center is inside lav
         for (Vertex end : edgeLavs) {
             int size = end.list().size();
-            List<Point2d> points = new ArrayList<Point2d>(size);
+            List<Vector2dc> points = new ArrayList<>(size);
             Vertex next = end;
             for (int i = 0; i < size; i++) {
                 points.add(next.getPoint());
@@ -1570,7 +1569,7 @@ public class Skeleton {
 
     private static List<Vertex> findEdgeLavs(Set<CircularList<Vertex>> sLav, Edge oppositeEdge, CircularList<Vertex> skippedLav) {
 
-        List<Vertex> edgeLavs = new ArrayList<Vertex>();
+        List<Vertex> edgeLavs = new ArrayList<>();
 
         for (CircularList<Vertex> lav : sLav) {
             if (lav.equals(skippedLav)) {
@@ -1666,14 +1665,12 @@ public class Skeleton {
         public int compare(SkeletonEvent event1, SkeletonEvent event2) {
             return Double.compare(event1.getDistance(), event2.getDistance());
         }
-    };
+    }
 
-    private static double calcDistance(Point2d intersect, Edge currentEdge) {
-        Vector2d edge = new Vector2d(currentEdge.getEnd());
-        edge.sub(currentEdge.getBegin());
+    private static double calcDistance(Vector2dc intersect, Edge currentEdge) {
+        Vector2d edge = new Vector2d(currentEdge.getEnd()).sub(currentEdge.getBegin());
 
-        Vector2d vector = new Vector2d(intersect);
-        vector.sub(currentEdge.getBegin());
+        Vector2d vector = new Vector2d(intersect).sub(currentEdge.getBegin());
 
         Vector2d pointOnVector = Algebra.orthogonalProjection(edge, vector);
 
@@ -1689,11 +1686,12 @@ public class Skeleton {
      *            the other point
      * @return
      */
-    private static double distance(Tuple2d p0, Tuple2d p1) {
-        double dx, dy;
+    private static double distance(Vector2dc p0, Vector2dc p1) {
+        double dx;
+        double dy;
 
-        dx = p0.x - p1.x;
-        dy = p0.y - p1.y;
+        dx = p0.x() - p1.x();
+        dy = p0.y() - p1.y();
         return Math.sqrt(dx * dx + dy * dy);
     }
 
@@ -1703,7 +1701,7 @@ public class Skeleton {
      * @param e2
      * @return Bisector
      */
-    public static Ray2d calcBisector(Point2d p, Edge e1, Edge e2) {
+    public static Ray2d calcBisector(Vector2dc p, Edge e1, Edge e2) {
 
         Vector2d norm1 = e1.getNorm();
         Vector2d norm2 = e2.getNorm();
@@ -1713,7 +1711,7 @@ public class Skeleton {
         return new Ray2d(p, bisector);
     }
 
-    private static Vector2d calcVectorBisector(Vector2d norm1, Vector2d norm2) {
+    private static Vector2d calcVectorBisector(Vector2dc norm1, Vector2dc norm2) {
 
         return Vector2dUtil.bisectorNormalized(norm1, norm2);
     }

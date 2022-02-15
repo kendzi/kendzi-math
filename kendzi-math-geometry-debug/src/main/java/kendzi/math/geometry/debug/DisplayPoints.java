@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
@@ -15,15 +15,15 @@ import kendzi.swing.ui.panel.equation.EquationDisplay;
  */
 public class DisplayPoints extends DisplayObject {
 
-    private List<Point2d> points;
-    private Point2d point;
+    private List<Vector2dc> points;
+    private Vector2dc point;
 
     /**
-     * @param polygon
+     * @param point
      */
-    public DisplayPoints(Point2d point) {
+    public DisplayPoints(Vector2dc point) {
         super();
-        this.points = new ArrayList<Point2d>();
+        this.points = new ArrayList<>();
         this.points.add(point);
 
         this.point = point;
@@ -32,7 +32,7 @@ public class DisplayPoints extends DisplayObject {
     /**
      * @param polygon
      */
-    public DisplayPoints(List<Point2d> polygon) {
+    public DisplayPoints(List<Vector2dc> polygon) {
         super();
         this.points = polygon;
     }
@@ -44,12 +44,12 @@ public class DisplayPoints extends DisplayObject {
             return;
         }
 
-        for (Point2d p : this.points) {
+        for (Vector2dc p : this.points) {
 
             g2d.setColor(Color.RED.brighter());
 
-            int x = (int) disp.xPositionToPixel(p.x);
-            int y = (int) disp.yPositionToPixel(p.y);
+            int x = (int) disp.xPositionToPixel(p.x());
+            int y = (int) disp.yPositionToPixel(p.y());
 
             if (selected) {
                 g2d.setColor(Color.GREEN.brighter());

@@ -3,7 +3,7 @@ package kendzi.math.geometry.polygon.split;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.line.LinePoints2d;
 import kendzi.math.geometry.line.LineUtil;
@@ -32,7 +32,7 @@ public class EnrichPolygonalChainUtil {
      * @return open polygonal chain enriched with extra points where line is
      *         crossing original chain
      */
-    public static List<Point2d> enrichOpenPolygonalChainByLineCrossing(List<Point2d> openPolygonalChain,
+    public static List<Vector2dc> enrichOpenPolygonalChainByLineCrossing(List<Vector2dc> openPolygonalChain,
             LinePoints2d splittingLine) {
         return enrichPolygonalChainByLineCrossing(openPolygonalChain, splittingLine, EPSILON, true);
     }
@@ -51,7 +51,7 @@ public class EnrichPolygonalChainUtil {
      * @return closed polygonal chain enriched with extra points where line is
      *         crossing original chain
      */
-    public static List<Point2d> enrichClosedPolygonalChainByLineCrossing(List<Point2d> openPolygonalChain,
+    public static List<Vector2dc> enrichClosedPolygonalChainByLineCrossing(List<Vector2dc> openPolygonalChain,
             LinePoints2d splittingLine) {
         return enrichPolygonalChainByLineCrossing(openPolygonalChain, splittingLine, EPSILON, false);
     }
@@ -62,7 +62,7 @@ public class EnrichPolygonalChainUtil {
      *
      * @param splittingLine
      *            the line which splitting polygonal chain
-     * @param openPolygonalChain
+     * @param closedPolygonalChain
      *            the polygonal chain. Chain is assumed to be closed and don't
      *            have repeated first point at the begin and end of chain.
      * @param epsilon
@@ -74,14 +74,14 @@ public class EnrichPolygonalChainUtil {
      * @return polygonal chain enriched with extra points where line is crossing
      *         original chain
      */
-    public static List<Point2d> enrichPolygonalChainByLineCrossing(List<Point2d> closedPolygonalChain,
+    public static List<Vector2dc> enrichPolygonalChainByLineCrossing(List<Vector2dc> closedPolygonalChain,
             LinePoints2d splittingLine, double epsilon, boolean open) {
 
         int chainSize = closedPolygonalChain.size();
 
-        List<Point2d> enrichedPolygonalChain = new ArrayList<Point2d>(chainSize + 5);
+        List<Vector2dc> enrichedPolygonalChain = new ArrayList<>(chainSize + 5);
 
-        List<java.lang.Double> detList = new ArrayList<java.lang.Double>();
+        List<java.lang.Double> detList = new ArrayList<>();
         for (int i = 0; i < chainSize; i++) {
             double matrixDet = LineUtil.matrixDet(splittingLine.getP1(), splittingLine.getP2(),
                     closedPolygonalChain.get(i));
@@ -106,8 +106,8 @@ public class EnrichPolygonalChainUtil {
          * polygonal chain.
          */
         for (int i = 0; i < loopSize; i++) {
-            Point2d segmentBegin = closedPolygonalChain.get(i);
-            Point2d segmentEnd = closedPolygonalChain.get((i + 1) % chainSize);
+            Vector2dc segmentBegin = closedPolygonalChain.get(i);
+            Vector2dc segmentEnd = closedPolygonalChain.get((i + 1) % chainSize);
 
             double beginDet = detList.get(i);
             double endDet = detList.get((i + 1) % chainSize);
@@ -127,7 +127,7 @@ public class EnrichPolygonalChainUtil {
                  * we need to add new point to polygonal chain at the place
                  * where line segment is crossing the splitting line.
                  */
-                Point2d crossingPoint = LineUtil.crossLineWithLineSegment(splittingLine.getP1(), splittingLine.getP2(),
+                Vector2dc crossingPoint = LineUtil.crossLineWithLineSegment(splittingLine.getP1(), splittingLine.getP2(),
                         segmentBegin, segmentEnd);
 
                 enrichedPolygonalChain.add(crossingPoint);

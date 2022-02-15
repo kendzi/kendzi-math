@@ -7,7 +7,7 @@ import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.line.LineLinear2d;
 import kendzi.math.geometry.line.LineSegment2d;
@@ -30,7 +30,7 @@ public class DisplayLineSegment2d extends DisplayObject {
      * @param p2
      * @param pColor
      */
-    public DisplayLineSegment2d(Point2d p1, Point2d p2, Color pColor) {
+    public DisplayLineSegment2d(Vector2dc p1, Vector2dc p2, Color pColor) {
         super();
 
         if (p1 == null || p2 == null) {
@@ -88,14 +88,14 @@ public class DisplayLineSegment2d extends DisplayObject {
             return;
         }
 
-        Point2d begin = this.lineSegment2d.getBegin();
-        Point2d end = this.lineSegment2d.getEnd();
+        Vector2dc begin = this.lineSegment2d.getBegin();
+        Vector2dc end = this.lineSegment2d.getEnd();
 
-        int x1 = (int) disp.xPositionToPixel(begin.x);
-        int y1 = (int) disp.yPositionToPixel(begin.y);
+        int x1 = (int) disp.xPositionToPixel(begin.x());
+        int y1 = (int) disp.yPositionToPixel(begin.y());
 
-        int x2 = (int) disp.xPositionToPixel(end.x);
-        int y2 = (int) disp.yPositionToPixel(end.y);
+        int x2 = (int) disp.xPositionToPixel(end.x());
+        int y2 = (int) disp.yPositionToPixel(end.y());
 
         if (selected) {
             Stroke stroke = g2d.getStroke();
@@ -116,9 +116,9 @@ public class DisplayLineSegment2d extends DisplayObject {
         double maxX = disp.getMaxX();
         double maxY = disp.getMaxY();
 
-        List<Point2d> prosta = new ArrayList<Point2d>();
+        List<Vector2dc> prosta = new ArrayList<Vector2dc>();
 
-        Point2d p = LineSegment2d.collide(minX, minY, maxX, minY, pLine.A, pLine.B, pLine.C);
+        Vector2dc p = LineSegment2d.collide(minX, minY, maxX, minY, pLine.A, pLine.B, pLine.C);
         if (p != null) {
             prosta.add(p);
         }
@@ -139,13 +139,13 @@ public class DisplayLineSegment2d extends DisplayObject {
         }
 
         if (prosta.size() == 2 ) {
-            Point2d p1 = prosta.get(0);
-            Point2d p2 = prosta.get(1);
+            Vector2dc p1 = prosta.get(0);
+            Vector2dc p2 = prosta.get(1);
 
-            int x1 = (int) disp.xPositionToPixel(p1.x);
-            int y1 = (int) disp.yPositionToPixel(p1.y);
-            int x2 = (int) disp.xPositionToPixel(p2.x);
-            int y2 = (int) disp.yPositionToPixel(p2.y);
+            int x1 = (int) disp.xPositionToPixel(p1.x());
+            int y1 = (int) disp.yPositionToPixel(p1.y());
+            int x2 = (int) disp.xPositionToPixel(p2.x());
+            int y2 = (int) disp.yPositionToPixel(p2.y());
 
             g2d.drawLine(
                     x1,

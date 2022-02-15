@@ -1,14 +1,14 @@
 package kendzi.math.geometry.line;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.point.Vector2dUtil;
 
 public class LineSegment2d {
 
-    Point2d begin;
-    Point2d end;
+    Vector2dc begin;
+    Vector2dc end;
 
     /**
      * XXX is need ?
@@ -19,7 +19,7 @@ public class LineSegment2d {
      */
     boolean openEnd;
 
-    public LineSegment2d(Point2d begin, Point2d end) {
+    public LineSegment2d(Vector2dc begin, Vector2dc end) {
         super();
         this.begin = begin;
         this.end = end;
@@ -38,7 +38,7 @@ public class LineSegment2d {
      * XXX better name is intersects ?!
      * @return collision point
      */
-    public static Point2d collide(double x1, double y1, double x2, double y2, double A, double B, double C
+    public static Vector2dc collide(double x1, double y1, double x2, double y2, double A, double B, double C
             ) {
 
         // XXX TODO FIXME when end of line segment is lies on line
@@ -54,9 +54,9 @@ public class LineSegment2d {
         return null;
     }
 
-    public Point2d intersect(LineSegment2d lineSegment) {
-        Vector2d v1 = Vector2dUtil.fromTo(this.begin, this.end);
-        Vector2d v2 = Vector2dUtil.fromTo(lineSegment.begin, lineSegment.end);
+    public Vector2dc intersect(LineSegment2d lineSegment) {
+        Vector2dc v1 = Vector2dUtil.fromTo(this.begin, this.end);
+        Vector2dc v2 = Vector2dUtil.fromTo(lineSegment.begin, lineSegment.end);
 
         return LineUtil.intersectLineSegments(this.begin, lineSegment.begin, v1, v2);
     }
@@ -65,9 +65,9 @@ public class LineSegment2d {
      * @return
      */
     // FIXME
-    public Point2d intersectOpen(LineSegment2d lineSegment) {
-        Vector2d v1 = Vector2dUtil.fromTo(this.begin, this.end);
-        Vector2d v2 = Vector2dUtil.fromTo(lineSegment.begin, lineSegment.end);
+    public Vector2dc intersectOpen(LineSegment2d lineSegment) {
+        Vector2dc v1 = Vector2dUtil.fromTo(this.begin, this.end);
+        Vector2dc v2 = Vector2dUtil.fromTo(lineSegment.begin, lineSegment.end);
 
         if (this.begin.equals(lineSegment.begin) || this.begin.equals(lineSegment.end) || this.end.equals(lineSegment.begin)
                 || this.end.equals(lineSegment.end)) {
@@ -80,9 +80,9 @@ public class LineSegment2d {
      * @param lineSegment
      * @return
      */
-    public Point2d intersectEpsilon(LineSegment2d lineSegment, double epslilon) {
-        Vector2d v1 = Vector2dUtil.fromTo(this.begin, this.end);
-        Vector2d v2 = Vector2dUtil.fromTo(lineSegment.begin, lineSegment.end);
+    public Vector2dc intersectEpsilon(LineSegment2d lineSegment, double epslilon) {
+        Vector2dc v1 = Vector2dUtil.fromTo(this.begin, this.end);
+        Vector2dc v2 = Vector2dUtil.fromTo(lineSegment.begin, lineSegment.end);
 
         if (this.begin.equals(lineSegment.begin) || this.begin.equals(lineSegment.end) || this.end.equals(lineSegment.begin)
                 || this.end.equals(lineSegment.end)) {
@@ -107,28 +107,28 @@ public class LineSegment2d {
     /**
      * @return the begin
      */
-    public Point2d getBegin() {
+    public Vector2dc getBegin() {
         return begin;
     }
 
     /**
      * @param begin the begin to set
      */
-    public void setBegin(Point2d begin) {
+    public void setBegin(Vector2dc begin) {
         this.begin = begin;
     }
 
     /**
      * @return the end
      */
-    public Point2d getEnd() {
+    public Vector2dc getEnd() {
         return end;
     }
 
     /**
      * @param end the end to set
      */
-    public void setEnd(Point2d end) {
+    public void setEnd(Vector2dc end) {
         this.end = end;
     }
 
@@ -166,15 +166,13 @@ public class LineSegment2d {
     //  Return: the shortest distance from P to S
 
     //http://softsurfer.com/Archive/algorithm_0102/algorithm_0102.htm#References
-    public static double distancePointToSegment(Point2d P, LineSegment2d S) {
+    public static double distancePointToSegment(Vector2dc P, LineSegment2d S) {
         //        Vector v = S.P1 - S.P0;
         //        Vector w = P - S.P0;
 
-        Vector2d v = new Vector2d(S.getEnd());
-        v.sub(S.getBegin());
+        Vector2dc v = new Vector2d(S.getEnd()).sub(S.getBegin());
 
-        Vector2d w = new Vector2d(P);
-        w.sub(S.getBegin());
+        Vector2dc w = new Vector2d(P).sub(S.getBegin());
 
 
         double c1 = w.dot(v);//dot(w,v);
@@ -190,16 +188,14 @@ public class LineSegment2d {
         double b = c1 / c2;
 
         //Pb = S.P0 + b * v;
-        Point2d Pb = new Point2d(v);
-        Pb.scale(b);
-        Pb.add(S.getBegin());
+        Vector2d Pb = new Vector2d(v).mul(b).add(S.getBegin());
 
         return d(P, Pb);
     }
 
-    private static double d(Point2d u, Point2d v) {
-        double dx = u.x - v.x;
-        double dy = u.y - v.y;
+    private static double d(Vector2dc u, Vector2dc v) {
+        double dx = u.x() - v.x();
+        double dy = u.y() - v.y();
 
         return Math.sqrt(dx * dx + dy * dy);
     }

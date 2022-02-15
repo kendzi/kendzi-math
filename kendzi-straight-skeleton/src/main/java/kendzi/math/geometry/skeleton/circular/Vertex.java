@@ -1,6 +1,6 @@
 package kendzi.math.geometry.skeleton.circular;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.ray.Ray2d;
 import kendzi.math.geometry.skeleton.path.FaceNode;
@@ -11,7 +11,7 @@ import kendzi.math.geometry.skeleton.path.FaceNode;
  */
 public class Vertex extends CircularNode {
 
-    private Point2d point;
+    private Vector2dc point;
 
     private double distance;
 
@@ -33,7 +33,7 @@ public class Vertex extends CircularNode {
 
     public FaceNode rightFace;
 
-    public Vertex(Point2d point, double distance, Ray2d bisector, Edge previousEdge, Edge nextEdge) {
+    public Vertex(Vector2dc point, double distance, Ray2d bisector, Edge previousEdge, Edge nextEdge) {
         super();
         this.point = point;
         this.distance = distance;
@@ -68,7 +68,7 @@ public class Vertex extends CircularNode {
         return (Vertex) super.previous();
     }
 
-    public Point2d getPoint() {
+    public Vector2dc getPoint() {
         return point;
     }
 

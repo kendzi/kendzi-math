@@ -10,14 +10,15 @@
 package kendzi.math.geometry.polygon;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 /**
  * Polygon described by list of points.
  *
- * Polygon is [XXX anty cloak wise]!
+ * Polygon is [XXX anti cloak wise]!
  *
  *
  * @author Tomasz Kędziora (kendzi)
@@ -28,14 +29,14 @@ public class PolygonList2d {
     /**
      * Points of polygon.
      */
-    private List<Point2d> points;
+    private List<Vector2dc> points;
 
     /**
      * Create polygon from list of points.
      *
      * @param pPoints list of points
      */
-    public PolygonList2d(List<Point2d> pPoints) {
+    public PolygonList2d(List<Vector2dc> pPoints) {
         this.points = pPoints;
     }
 
@@ -44,11 +45,9 @@ public class PolygonList2d {
      *
      * @param pPoints points
      */
-    public PolygonList2d(Point2d ... pPoints) {
-        List<Point2d> ret = new ArrayList<Point2d>(pPoints.length);
-        for(Point2d p : pPoints) {
-            ret.add(p);
-        }
+    public PolygonList2d(Vector2dc ... pPoints) {
+        List<Vector2dc> ret = new ArrayList<>(pPoints.length);
+        ret.addAll(Arrays.asList(pPoints));
 
         this.points = ret;
     }
@@ -57,20 +56,20 @@ public class PolygonList2d {
      * Create empty polygon.
      */
     public PolygonList2d() {
-        this(new ArrayList<Point2d>());
+        this(new ArrayList<>());
     }
 
     /**
      * @return the points
      */
-    public List<Point2d> getPoints() {
+    public List<Vector2dc> getPoints() {
         return this.points;
     }
 
     /**
      * @param pPoints the points to set
      */
-    public void setPoints(List<Point2d> pPoints) {
+    public void setPoints(List<Vector2dc> pPoints) {
         this.points = pPoints;
     }
 
@@ -88,13 +87,13 @@ public class PolygonList2d {
         throw new RuntimeException("TODO");
     }
 
-    public boolean inside(Point2d pPoint) {
+    public boolean inside(Vector2dc pPoint) {
         // TODO !!!
         throw new RuntimeException("TODO");
 
     }
 
-    public boolean inside(Point2d pPoint, double epsilon) {
+    public boolean inside(Vector2dc pPoint, double epsilon) {
         // TODO !!!
         throw new RuntimeException("TODO");
     }
@@ -105,7 +104,7 @@ public class PolygonList2d {
      * @param polygon
      * @return
      */
-    public static List<Point2d> reverse(List<Point2d> polygon) {
+    public static List<Vector2dc> reverse(List<Vector2dc> polygon) {
         return PolygonUtil.reverse(polygon);
     }
 }

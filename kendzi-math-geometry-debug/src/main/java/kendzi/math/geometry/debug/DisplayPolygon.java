@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
@@ -16,12 +16,12 @@ import kendzi.swing.ui.panel.equation.EquationDisplay;
  */
 public class DisplayPolygon extends DisplayObject {
 
-    private List<Point2d> polygon;
+    private List<? extends Vector2dc> polygon;
 
     /**
      * @param polygon
      */
-    public DisplayPolygon(List<Point2d> polygon) {
+    public <V extends Vector2dc> DisplayPolygon(List<V> polygon) {
         super();
         this.polygon = polygon;
     }
@@ -29,12 +29,12 @@ public class DisplayPolygon extends DisplayObject {
     @Override
     public void draw(Graphics2D g2d, EquationDisplay disp, boolean selected) {
 
-        if (this.polygon == null || this.polygon.size() == 0) {
+        if (this.polygon == null || this.polygon.isEmpty()) {
             return;
         }
 
-        Point2d last = this.polygon.get(this.polygon.size() - 1);
-        for (Point2d p : this.polygon) {
+        Vector2dc last = this.polygon.get(this.polygon.size() - 1);
+        for (Vector2dc p : this.polygon) {
 
             g2d.setColor(Color.RED.brighter());
 
@@ -48,10 +48,10 @@ public class DisplayPolygon extends DisplayObject {
             // g2d.setColor(Color.RED.brighter());
             // g2d.fillOval(-10 + x, -10 + y, 20, 20);
 
-            int x1 = (int) disp.xPositionToPixel(last.x);
-            int y1 = (int) disp.yPositionToPixel(last.y);
-            int x2 = (int) disp.xPositionToPixel(p.x);
-            int y2 = (int) disp.yPositionToPixel(p.y);
+            int x1 = (int) disp.xPositionToPixel(last.x());
+            int y1 = (int) disp.yPositionToPixel(last.y());
+            int x2 = (int) disp.xPositionToPixel(p.x());
+            int y2 = (int) disp.yPositionToPixel(p.y());
 
             if (selected) {
                 Stroke stroke = g2d.getStroke();

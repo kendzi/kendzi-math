@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.util.PriorityQueue;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
@@ -22,12 +22,11 @@ public class DisplayEventQueue extends DisplayObject {
 
     private PriorityQueue<SkeletonEvent> points;
 
-    public final static Color EDGE_COLOR = Color.PINK;
-    public final static Color SPLIT_COLOR = new Color(127, 0, 255);
+    public static final Color EDGE_COLOR = Color.PINK;
+    public static final Color SPLIT_COLOR = new Color(127, 0, 255);
 
     /**
      * @param polygon
-     * @param pColor
      */
     public DisplayEventQueue(PriorityQueue<SkeletonEvent> polygon) {
         super();
@@ -44,10 +43,10 @@ public class DisplayEventQueue extends DisplayObject {
 
         for (SkeletonEvent e : this.points) {
 
-            Point2d p = e.v;
+            Vector2dc p = e.v;
 
-            int x = (int) disp.xPositionToPixel(p.x);
-            int y = (int) disp.yPositionToPixel(p.y);
+            int x = (int) disp.xPositionToPixel(p.x());
+            int y = (int) disp.yPositionToPixel(p.y());
 
             if (selected) {
                 g2d.setColor(Color.GREEN.brighter());
@@ -64,12 +63,12 @@ public class DisplayEventQueue extends DisplayObject {
         }
     }
 
-    private void drawLine(Point2d current, Point2d previous, boolean selected, Graphics2D g2d, EquationDisplay disp) {
+    private void drawLine(Vector2dc current, Vector2dc previous, boolean selected, Graphics2D g2d, EquationDisplay disp) {
 
-        int x1 = (int) disp.xPositionToPixel(previous.x);
-        int y1 = (int) disp.yPositionToPixel(previous.y);
-        int x2 = (int) disp.xPositionToPixel(current.x);
-        int y2 = (int) disp.yPositionToPixel(current.y);
+        int x1 = (int) disp.xPositionToPixel(previous.x());
+        int y1 = (int) disp.yPositionToPixel(previous.y());
+        int x2 = (int) disp.xPositionToPixel(current.x());
+        int y2 = (int) disp.yPositionToPixel(current.y());
 
         if (selected) {
             Stroke stroke = g2d.getStroke();
@@ -90,7 +89,7 @@ public class DisplayEventQueue extends DisplayObject {
         DisplayRectBounds b = new DisplayRectBounds();
         for (SkeletonEvent e : this.points) {
 
-            Point2d p = e.v;
+            Vector2dc p = e.v;
 
             b.addPoint(p);
         }

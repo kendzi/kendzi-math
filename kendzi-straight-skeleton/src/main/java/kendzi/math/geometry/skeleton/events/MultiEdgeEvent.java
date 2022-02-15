@@ -1,6 +1,6 @@
 package kendzi.math.geometry.skeleton.events;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.skeleton.events.chains.EdgeChain;
 
@@ -8,7 +8,7 @@ public class MultiEdgeEvent extends SkeletonEvent {
     private EdgeChain chain;
     private boolean obsolete;
 
-    public MultiEdgeEvent(Point2d point, double distance, EdgeChain chain) {
+    public MultiEdgeEvent(Vector2dc point, double distance, EdgeChain chain) {
         super(point, distance);
         this.chain = chain;
     }

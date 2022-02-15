@@ -3,8 +3,8 @@ package kendzi.math.geometry.polygon.split;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.line.LinePoints2d;
 import kendzi.math.geometry.line.LineUtil;
@@ -38,7 +38,7 @@ public class PlygonSplitUtil {
      * @return the lists of polygons lies on left and right site of splitting
      *         line
      */
-    public static SplitResult split(List<Point2d> polygon, LinePoints2d splittingLine) {
+    public static SplitResult split(List<Vector2dc> polygon, LinePoints2d splittingLine) {
         return split(polygon, splittingLine, EPSILON);
     }
 
@@ -53,13 +53,13 @@ public class PlygonSplitUtil {
      * @return the lists of polygons lies on left and right site of splitting
      *         line
      */
-    public static SplitResult split(List<Point2d> polygon, LinePoints2d splittingLine, double epsilon) {
+    public static SplitResult split(List<Vector2dc> polygon, LinePoints2d splittingLine, double epsilon) {
 
         /* Enrich polygon with new points where edges intersects polygon. */
         List<Node> eplygon = enrich(polygon, splittingLine, epsilon);
 
-        List<List<Node>> left = new ArrayList<List<Node>>();
-        List<List<Node>> right = new ArrayList<List<Node>>();
+        List<List<Node>> left = new ArrayList<>();
+        List<List<Node>> right = new ArrayList<>();
 
         /* Finds polygon parts lies on left and right site of split line. */
         findRightAndLeftParts(eplygon, left, right);
@@ -73,17 +73,17 @@ public class PlygonSplitUtil {
 
     }
 
-    private static List<List<Point2d>> toPolygons(List<Close> closes) {
+    private static List<List<Vector2dc>> toPolygons(List<Close> closes) {
 
-        List<List<Point2d>> ret = new ArrayList<List<Point2d>>(closes.size());
+        List<List<Vector2dc>> ret = new ArrayList<>(closes.size());
         for (Close close : closes) {
             ret.add(toPolygon(close.chain));
         }
         return ret;
     }
 
-    private static List<Point2d> toPolygon(List<Node> chain) {
-        List<Point2d> ret = new ArrayList<Point2d>(chain.size());
+    private static List<Vector2dc> toPolygon(List<Node> chain) {
+        List<Vector2dc> ret = new ArrayList<>(chain.size());
         for (Node node : chain) {
             ret.add(node.point);
         }
@@ -91,10 +91,10 @@ public class PlygonSplitUtil {
     }
 
     public static class SplitResult {
-        private final List<List<Point2d>> leftPolygons;
-        private final List<List<Point2d>> rightPolygons;
+        private final List<List<Vector2dc>> leftPolygons;
+        private final List<List<Vector2dc>> rightPolygons;
 
-        public SplitResult(List<List<Point2d>> leftPolygons, List<List<Point2d>> rightPolygons) {
+        public SplitResult(List<List<Vector2dc>> leftPolygons, List<List<Vector2dc>> rightPolygons) {
             super();
             this.leftPolygons = leftPolygons;
             this.rightPolygons = rightPolygons;
@@ -103,14 +103,14 @@ public class PlygonSplitUtil {
         /**
          * @return the leftPolygons
          */
-        public List<List<Point2d>> getLeftPolygons() {
+        public List<List<Vector2dc>> getLeftPolygons() {
             return leftPolygons;
         }
 
         /**
          * @return the rightPolygons
          */
-        public List<List<Point2d>> getRightPolygons() {
+        public List<List<Vector2dc>> getRightPolygons() {
             return rightPolygons;
         }
 
@@ -118,12 +118,12 @@ public class PlygonSplitUtil {
 
     protected static List<Close> closePolygons(List<List<Node>> chains, LinePoints2d line) {
 
-        Point2d start = line.getP1();
+        Vector2dc start = line.getP1();
         Vector2d normal = Vector2dUtil.fromTo(line.getP1(), line.getP2());
         normal.normalize();
 
-        List<Close> forwardCloses = new ArrayList<Close>();// XXX
-        List<Close> backwardCloses = new ArrayList<Close>();// XXX
+        List<Close> forwardCloses = new ArrayList<>();// XXX
+        List<Close> backwardCloses = new ArrayList<>();// XXX
 
         for (List<Node> chain : chains) {
 
@@ -285,10 +285,10 @@ public class PlygonSplitUtil {
      *            the point which we would like to know distance
      * @return distance between starting point and projection of point on line
      */
-    private static double distanceAlongVector(Point2d vectorStartPoint, Vector2d vectorNormal, Point2d point) {
+    private static double distanceAlongVector(Vector2dc vectorStartPoint, Vector2d vectorNormal, Vector2dc point) {
 
         // Returns: normal dot (point - startPoint)
-        return vectorNormal.x * (point.x - vectorStartPoint.x) + vectorNormal.y * (point.y - vectorStartPoint.y);
+        return vectorNormal.x() * (point.x() - vectorStartPoint.x()) + vectorNormal.y() * (point.y() - vectorStartPoint.y());
 
     }
 
@@ -330,7 +330,7 @@ public class PlygonSplitUtil {
             return;
         }
 
-        List<Node> chain = new ArrayList<Node>();
+        List<Node> chain = new ArrayList<>();
         int currentIndex = firstChange;
 
         for (int i = 0; i < size; i++) {
@@ -339,7 +339,7 @@ public class PlygonSplitUtil {
 
             Node currentNode = polygon.get(currentIndex);
             Node nextNode = polygon.get(nextIndex);
-            if (chain.size() == 0) {
+            if (chain.isEmpty()) {
                 /*
                  * First node in the chain is always lies on the splitting line.
                  */
@@ -366,7 +366,7 @@ public class PlygonSplitUtil {
                  * chain.
                  */
                 chain.add(currentNode);
-                chain = new ArrayList<PlygonSplitUtil.Node>();
+                chain = new ArrayList<>();
                 chain.add(currentNode);
                 /*
                  * Last added chain is not completed and will be reject
@@ -389,7 +389,7 @@ public class PlygonSplitUtil {
     }
 
     private static void singleSite(List<Node> polygon, List<List<Node>> left, List<List<Node>> right) {
-        List<Node> ret = new ArrayList<PlygonSplitUtil.Node>(polygon);
+        List<Node> ret = new ArrayList<>(polygon);
 
         for (Node node : polygon) {
             if (node.det > 0) {
@@ -468,13 +468,13 @@ public class PlygonSplitUtil {
         return -1;
     }
 
-    private static List<Node> enrich(List<Point2d> polygon, LinePoints2d line, double epsilon) {
+    private static List<Node> enrich(List<Vector2dc> polygon, LinePoints2d line, double epsilon) {
         int size = polygon.size();
 
-        List<Node> enreach = new ArrayList<Node>(size);
+        List<Node> enreach = new ArrayList<>(size);
 
         for (int i = 0; i < size; i++) {
-            Point2d point2d = polygon.get(i);
+            Vector2dc point2d = polygon.get(i);
 
             double det = LineUtil.matrixDet(line.getP1(), line.getP2(), point2d);
             if (det > -epsilon && det < epsilon) {
@@ -489,7 +489,7 @@ public class PlygonSplitUtil {
         }
 
         size = enreach.size();
-        List<Node> enreachRet = new ArrayList<Node>(size + 10);
+        List<Node> enreachRet = new ArrayList<>(size + 10);
 
         for (int i = 0; i < size; i++) {
             Node begin = enreach.get(i);
@@ -511,7 +511,7 @@ public class PlygonSplitUtil {
                  * line. We need to split line segment.
                  */
 
-                Point2d splitPoint = LineUtil.crossLineWithLineSegment(line.getP1(), line.getP2(), begin.point, end.point);
+                Vector2dc splitPoint = LineUtil.crossLineWithLineSegment(line.getP1(), line.getP2(), begin.point, end.point);
 
                 enreachRet.add(new Node(splitPoint, ZERO));
             }
@@ -524,7 +524,7 @@ public class PlygonSplitUtil {
      * Polygon point with calculated determinant from splitting line.
      */
     protected static class Node {
-        private final Point2d point;
+        private final Vector2dc point;
         private final double det;
 
         /**
@@ -535,7 +535,7 @@ public class PlygonSplitUtil {
          * @param det
          *            determinant from splitting line
          */
-        public Node(Point2d point, double det) {
+        public Node(Vector2dc point, double det) {
             this.point = point;
             this.det = det;
         }

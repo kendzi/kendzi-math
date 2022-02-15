@@ -17,7 +17,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.polygon.PolygonList2d;
 
@@ -30,7 +31,7 @@ public class SkeletonApplet extends Applet {
     Dimension siz;
     Button reset;
     Button recalc;
-    List<Point2d> points;
+    List<Vector2dc> points;
 
     List<Polygon> drawableObjects = new ArrayList<Polygon>();
 
@@ -44,7 +45,7 @@ public class SkeletonApplet extends Applet {
         setBackground(Color.LIGHT_GRAY);
         setForeground(Color.white);
 
-        this.points = new ArrayList<Point2d>();
+        this.points = new ArrayList<Vector2dc>();
 
     }
 
@@ -69,20 +70,20 @@ public class SkeletonApplet extends Applet {
         return true;
     }
 
-    private String format(Point2d pPoint) {
-        return "[" + this.df.format(pPoint.x) + "," + this.df.format(pPoint.y) + "]";
+    private String format(Vector2dc pPoint) {
+        return "[" + this.df.format(pPoint.x()) + "," + this.df.format(pPoint.y()) + "]";
     }
 
     @Override
     public void paint(Graphics g) {
         g.clearRect(0, 0, this.siz.width, this.siz.height);
         for (int i = 0; i < this.points.size(); i++) {
-            Point2d point = this.points.get(i);
+            Vector2dc point = this.points.get(i);
             g.setColor(Color.ORANGE);
-            g.fillOval((int) point.x - 3, (int) point.y - 3, 7, 7);
+            g.fillOval((int) point.x() - 3, (int) point.y() - 3, 7, 7);
 
             g.setColor(Color.BLACK);
-            g.drawString("" + format(point), (int) point.x + 3, (int) point.y - 3);
+            g.drawString("" + format(point), (int) point.x() + 3, (int) point.y() - 3);
 
         }
         g.drawString("<" + this.points.size() + ">", 0, this.siz.height - 5);
@@ -99,7 +100,7 @@ public class SkeletonApplet extends Applet {
 
     void addPoint(int x, int y) {
 
-        Point2d point = new Point2d(x, y);
+        Vector2dc point = new Vector2d(x, y);
         if (this.points.contains(point)) {
             return;
         }
@@ -112,7 +113,7 @@ public class SkeletonApplet extends Applet {
     }
 
     void clearAll() {
-        this.points = new ArrayList<Point2d>();
+        this.points = new ArrayList<Vector2dc>();
 
         this.drawableObjects.clear();
 
@@ -133,8 +134,8 @@ public class SkeletonApplet extends Applet {
             PolygonList2d polygonList2d = edgeOutput.getPolygon();
 
             Polygon polygon = new Polygon();
-            for (Point2d point : polygonList2d.getPoints()) {
-                polygon.addPoint((int) point.x, (int) point.y);
+            for (Vector2dc point : polygonList2d.getPoints()) {
+                polygon.addPoint((int) point.x(), (int) point.y());
             }
 
             this.drawableObjects.add(polygon);

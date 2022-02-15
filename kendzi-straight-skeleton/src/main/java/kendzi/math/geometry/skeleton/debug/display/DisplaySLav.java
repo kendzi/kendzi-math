@@ -6,8 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.util.Set;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
@@ -58,20 +57,20 @@ public class DisplaySLav extends DisplayObject {
         int i = 0;
 
         for (Vertex vertex : lav) {
-            xx[i] = disp.xPositionToPixel(vertex.getPoint().x);
-            yy[i] = disp.yPositionToPixel(vertex.getPoint().y);
+            xx[i] = disp.xPositionToPixel(vertex.getPoint().x());
+            yy[i] = disp.yPositionToPixel(vertex.getPoint().y());
             i++;
         }
 
         g2d.setColor(Color.BLUE.brighter());
         i = 0;
         for (Vertex vertex : lav) {
-            Vector2d vector = vertex.getBisector().U;
+            Vector2dc vector = vertex.getBisector().U;
 
             double x = xx[i];
             double y = yy[i];
-            double vx = disp.xPositionToPixel(vertex.getPoint().x + vector.x);
-            double vy = disp.yPositionToPixel(vertex.getPoint().y + vector.y);
+            double vx = disp.xPositionToPixel(vertex.getPoint().x() + vector.x());
+            double vy = disp.yPositionToPixel(vertex.getPoint().y() + vector.y());
 
             double dx = vx - x;
             double dy = vy - y;
@@ -172,9 +171,9 @@ public class DisplaySLav extends DisplayObject {
      * @param g2d
      * @param disp
      */
-    public void drawPoint(Point2d p, boolean selected, Graphics2D g2d, EquationDisplay disp) {
-        int x = (int) disp.xPositionToPixel(p.x);
-        int y = (int) disp.yPositionToPixel(p.y);
+    public void drawPoint(Vector2dc p, boolean selected, Graphics2D g2d, EquationDisplay disp) {
+        int x = (int) disp.xPositionToPixel(p.x());
+        int y = (int) disp.yPositionToPixel(p.y());
 
         if (selected) {
             g2d.setColor(Color.GREEN.brighter());

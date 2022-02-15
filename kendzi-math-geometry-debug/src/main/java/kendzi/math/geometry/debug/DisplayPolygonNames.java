@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
@@ -14,12 +14,12 @@ import kendzi.swing.ui.panel.equation.EquationDisplay;
  */
 public class DisplayPolygonNames extends DisplayObject {
 
-    private List<Point2d> polygon;
+    private List<? extends Vector2dc> polygon;
 
     /**
      * @param polygon
      */
-    public DisplayPolygonNames(List<Point2d> polygon) {
+    public DisplayPolygonNames(List<? extends Vector2dc> polygon) {
         super();
         this.polygon = polygon;
     }
@@ -27,14 +27,14 @@ public class DisplayPolygonNames extends DisplayObject {
     @Override
     public void draw(Graphics2D g2d, EquationDisplay disp, boolean selected) {
 
-        if (this.polygon == null || this.polygon.size() == 0) {
+        if (this.polygon == null || this.polygon.isEmpty()) {
             return;
         }
 
-        for (Point2d p : this.polygon) {
+        for (Vector2dc p : this.polygon) {
 
-            int x2 = (int) disp.xPositionToPixel(p.x);
-            int y2 = (int) disp.yPositionToPixel(p.y);
+            int x2 = (int) disp.xPositionToPixel(p.x());
+            int y2 = (int) disp.yPositionToPixel(p.y());
 
             if (selected) {
                 g2d.setColor(Color.BLACK);
