@@ -7,7 +7,8 @@ package kendzi.math.geometry.bbox;
 
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 /**
  * BBox for 2d.
@@ -53,7 +54,7 @@ public class Bbox2d {
      * @param points
      *            points in bbox.
      */
-    public Bbox2d(List<Point2d> points) {
+    public Bbox2d(List<Vector2dc> points) {
         this();
 
         addPoints(points);
@@ -82,13 +83,13 @@ public class Bbox2d {
      * @param point
      *            point
      */
-    public void addPoint(Point2d point) {
+    public void addPoint(Vector2dc point) {
 
-        xMin = Math.min(xMin, point.x);
-        xMax = Math.max(xMax, point.x);
+        xMin = Math.min(xMin, point.x());
+        xMax = Math.max(xMax, point.x());
 
-        yMin = Math.min(yMin, point.y);
-        yMax = Math.max(yMax, point.y);
+        yMin = Math.min(yMin, point.y());
+        yMax = Math.max(yMax, point.y());
     }
 
     /**
@@ -97,10 +98,8 @@ public class Bbox2d {
      * @param points
      *            points
      */
-    public void addPoints(List<Point2d> points) {
-        for (Point2d point2d : points) {
-            addPoint(point2d);
-        }
+    public void addPoints(List<Vector2dc> points) {
+        points.forEach(this::addPoint);
     }
 
     /**
@@ -110,8 +109,8 @@ public class Bbox2d {
      *            checked point
      * @return if point is inside bbox
      */
-    public boolean isInside(Point2d point) {
-        return point.x >= xMin && point.x <= xMax && point.y >= yMin && point.y <= yMax;
+    public boolean isInside(Vector2dc point) {
+        return point.x() >= xMin && point.x() <= xMax && point.y() >= yMin && point.y() <= yMax;
     }
 
     /**
@@ -193,8 +192,8 @@ public class Bbox2d {
      *
      * @return maximal point
      */
-    public Point2d getMinPoint() {
-        return new Point2d(xMin, yMin);
+    public Vector2dc getMinPoint() {
+        return new Vector2d(xMin, yMin);
     }
 
     /**
@@ -202,8 +201,8 @@ public class Bbox2d {
      *
      * @return minimal point
      */
-    public Point2d getMaxPoint() {
-        return new Point2d(xMax, yMax);
+    public Vector2dc getMaxPoint() {
+        return new Vector2d(xMax, yMax);
     }
 
 }

@@ -1,7 +1,7 @@
 package kendzi.math.geometry.line;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.point.Vector2dUtil;
 
@@ -34,17 +34,16 @@ public class LineSegmentUtil2d {
      */
     public static IntersectPoints intersectRays2d(LineSegment2d r1, LineSegment2d r2) {
 
-        Point2d s1p0 = r1.getBegin();
-        Point2d s1p1 = r1.getEnd();
+        Vector2dc s1p0 = r1.getBegin();
+        Vector2dc s1p1 = r1.getEnd();
 
-        Point2d s2p0 = r2.getBegin();
-        Point2d s2p1 = r2.getEnd();
+        Vector2dc s2p0 = r2.getBegin();
+        Vector2dc s2p1 = r2.getEnd();
 
         Vector2d u = Vector2dUtil.fromTo(r1.getBegin(), r1.getEnd());
         Vector2d v = Vector2dUtil.fromTo(r2.getBegin(), r2.getEnd());
 
-        Vector2d w = new Vector2d();
-        w.sub(s1p0, s2p0);
+        Vector2d w = s1p0.sub(s2p0, new Vector2d());
 
         double d = perp(u, v);
 
@@ -66,7 +65,7 @@ public class LineSegmentUtil2d {
                     // return 0;
                     return EMPTY;
                 }
-                Point2d I0 = s1p0;
+                Vector2dc I0 = s1p0;
                 // they are the same point
                 // return 1;
                 return new IntersectPoints(I0);
@@ -77,7 +76,7 @@ public class LineSegmentUtil2d {
                     // return 0;
                     return EMPTY;
                 }
-                Point2d I0 = s1p0;
+                Vector2dc I0 = s1p0;
                 // return 1;
                 return new IntersectPoints(I0);
             }
@@ -87,15 +86,14 @@ public class LineSegmentUtil2d {
                     // return 0;
                     return EMPTY;
                 }
-                Point2d I0 = s2p0;
+                Vector2dc I0 = s2p0;
                 // return 1;
                 return new IntersectPoints(I0);
             }
             // they are collinear segments - get overlap (or not)
             double t0, t1;
             // endpoints of S1 in eqn for S2
-            Vector2d w2 = new Vector2d();
-            w2.sub(s1p1, s2p0);
+            Vector2d w2 = s1p1.sub(s2p0, new Vector2d());
             if (v.x != 0) {
                 t0 = w.x / v.x;
                 t1 = w2.x / v.x;
@@ -123,9 +121,7 @@ public class LineSegmentUtil2d {
                 // intersect is a point
 
                 // I0 = S2_P0 + t0 * v;
-                Point2d I0 = new Point2d(v);
-                I0.scale(t0);
-                I0.add(s2p0);
+                Vector2dc I0 = new Vector2d(v).mul(t0).add(s2p0);
 
                 // return 1;
                 return new IntersectPoints(I0);
@@ -134,14 +130,10 @@ public class LineSegmentUtil2d {
             // they overlap in a valid subsegment
 
             // I0 = S2_P0 + t0 * v;
-            Point2d I0 = new Point2d(v);
-            I0.scale(t0);
-            I0.add(s2p0);
+            Vector2dc I0 = new Vector2d(v).mul(t0).add(s2p0);
 
             // I1 = S2_P0 + t1 * v;
-            Point2d I1 = new Point2d(v);
-            I1.scale(t1);
-            I1.add(s2p0);
+            Vector2dc I1 = new Vector2d(v).mul(t1).add(s2p0);
 
             // return 2;
             return new IntersectPoints(I0, I1);
@@ -163,9 +155,7 @@ public class LineSegmentUtil2d {
         }
 
         // I0 = S1_P0 + sI * u; // compute S1 intersect point
-        Point2d I0 = new Point2d(u);
-        I0.scale(sI);
-        I0.add(s1p0);
+        Vector2d I0 = new Vector2d(u).mul(sI).add(s1p0);
         // return 1;
         return new IntersectPoints(I0);
     }
@@ -176,20 +166,20 @@ public class LineSegmentUtil2d {
     // Input: a point P, and a collinear segment S
     // Return: 1 = P is inside S
     // 0 = P is not inside S
-    static boolean inSegment(Point2d P, Point2d segmentP0, Point2d segmentP1) {
+    static boolean inSegment(Vector2dc P, Vector2dc segmentP0, Vector2dc segmentP1) {
 
-        if (segmentP0.x != segmentP1.x) { // S is not vertical
-            if (segmentP0.x <= P.x && P.x <= segmentP1.x) {
+        if (segmentP0.x() != segmentP1.x()) { // S is not vertical
+            if (segmentP0.x() <= P.x() && P.x() <= segmentP1.x()) {
                 return true;
             }
-            if (segmentP0.x >= P.x && P.x >= segmentP1.x) {
+            if (segmentP0.x() >= P.x() && P.x() >= segmentP1.x()) {
                 return true;
             }
         } else { // S is vertical, so test y coordinate
-            if (segmentP0.y <= P.y && P.y <= segmentP1.y) {
+            if (segmentP0.y() <= P.y() && P.y() <= segmentP1.y()) {
                 return true;
             }
-            if (segmentP0.y >= P.y && P.y >= segmentP1.y) {
+            if (segmentP0.y() >= P.y() && P.y() >= segmentP1.y()) {
                 return true;
             }
         }
@@ -224,28 +214,28 @@ public class LineSegmentUtil2d {
         /**
          * Intersection point or begin of intersection segment.
          */
-        private Point2d intersect;
+        private Vector2dc intersect;
 
         /**
          * Intersection end.
          */
-        private Point2d intersectEnd;
+        private Vector2dc intersectEnd;
 
-        public IntersectPoints(Point2d intersect, Point2d intersectEnd) {
+        public IntersectPoints(Vector2dc intersect, Vector2dc intersectEnd) {
             super();
             this.intersect = intersect;
             this.intersectEnd = intersectEnd;
         }
-        public IntersectPoints(Point2d intersect) {
+        public IntersectPoints(Vector2dc intersect) {
             this(intersect, null);
         }
         public IntersectPoints() {
             this(null, null);
         }
-        public Point2d getIntersect() {
+        public Vector2dc getIntersect() {
             return intersect;
         }
-        public Point2d getIntersectEnd() {
+        public Vector2dc getIntersectEnd() {
             return intersectEnd;
         }
     }

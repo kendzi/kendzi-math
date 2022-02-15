@@ -9,8 +9,8 @@
 
 package kendzi.math.geometry;
 
-import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 public class NormalUtil {
 
@@ -33,8 +33,8 @@ public class NormalUtil {
      * @param c
      * @return normal vector
      */
-    public static Vector3d normal(Point3d a, Point3d b, Point3d c) {
-        return normal(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z);
+    public static Vector3d normal(Vector3dc a, Vector3dc b, Vector3dc c) {
+        return normal(a.x(), a.y(), a.z(), b.x(), b.y(), b.z(), c.x(), c.y(), c.z());
     }
 
     /**
@@ -49,7 +49,7 @@ public class NormalUtil {
      * @param c_z
      * @return normal
      * 
-     * @see kendzi.math.geometry.NormalUtil#normal(Point3d, Point3d, Point3d)
+     * @see kendzi.math.geometry.NormalUtil#normal(Vector3dc, Vector3dc, Vector3dc)
      */
     public static Vector3d normal(
             double a_x, double a_y, double a_z,

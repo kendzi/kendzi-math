@@ -9,8 +9,8 @@
 
 package kendzi.math.geometry.line;
 
-import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 /**
  *
@@ -31,30 +31,30 @@ public class LinePoints3d {
     /**
      * Start point A. XXX rename to A ?
      */
-    Point3d p1;
+    Vector3dc p1;
     /**
      * End point B. XXX rename to B ?
      */
-    Point3d p2;
+    Vector3dc p2;
 
-    public LinePoints3d(Point3d p1, Point3d p2) {
+    public LinePoints3d(Vector3dc p1, Vector3dc p2) {
         this.p1 = p1;
         this.p2 = p2;
     }
 
-    public Point3d getP1() {
+    public Vector3dc getP1() {
         return this.p1;
     }
 
-    public void setP1(Point3d p1) {
+    public void setP1(Vector3dc p1) {
         this.p1 = p1;
     }
 
-    public Point3d getP2() {
+    public Vector3dc getP2() {
         return this.p2;
     }
 
-    public void setP2(Point3d p2) {
+    public void setP2(Vector3dc p2) {
         this.p2 = p2;
     }
 
@@ -63,7 +63,7 @@ public class LinePoints3d {
      *
      * @return starting point A.
      */
-    Point3d getPointA() {
+    Vector3dc getPointA() {
         return this.p1;
     }
 
@@ -73,9 +73,7 @@ public class LinePoints3d {
      * @return direction vector U.
      */
     Vector3d getVectorU() {
-        Vector3d u = new Vector3d(this.p2);
-        u.sub(this.p1);
-        return u;
+        return new Vector3d(this.p2).sub(this.p1);
     }
 
 

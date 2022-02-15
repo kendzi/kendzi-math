@@ -1,7 +1,7 @@
 package kendzi.math.geometry.intersection;
 
-import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 import kendzi.math.geometry.point.Vector3dUtil;
 
@@ -12,6 +12,9 @@ import kendzi.math.geometry.point.Vector3dUtil;
  *
  */
 public class IntersectionUtil {
+    private IntersectionUtil() {
+        // Hide constructor
+    }
 
     /**
      * Check whatever ray intersect triangle.
@@ -31,16 +34,16 @@ public class IntersectionUtil {
      *            triangle third point
      * @return if ray intersect triangle.
      */
-    public static boolean rayIntersectsTriangle(Point3d p, Vector3d d, Point3d v0, Point3d v1, Point3d v2) {
+    public static boolean rayIntersectsTriangle(Vector3dc p, Vector3dc d, Vector3dc v0, Vector3dc v1, Vector3dc v2) {
+        double a;
+        double f;
+        double u;
+        double v;
 
-        double a, f, u, v;
+        Vector3dc e1 = Vector3dUtil.fromTo(v0, v1);
+        Vector3dc e2 = Vector3dUtil.fromTo(v0, v2);
 
-        Vector3d e1 = Vector3dUtil.fromTo(v0, v1);
-        Vector3d e2 = Vector3dUtil.fromTo(v0, v2);
-
-        Vector3d h = new Vector3d();
-
-        h.cross(d, e2);
+        Vector3d h = d.cross(e2, new Vector3d());
 
         a = e1.dot(h);
 
@@ -50,7 +53,7 @@ public class IntersectionUtil {
 
         f = 1 / a;
 
-        Vector3d s = Vector3dUtil.fromTo(v0, p);
+        Vector3dc s = Vector3dUtil.fromTo(v0, p);
 
         u = f * s.dot(h);
 
@@ -58,8 +61,7 @@ public class IntersectionUtil {
             return false;
         }
 
-        Vector3d q = new Vector3d();
-        q.cross(s, e1);
+        Vector3d q = s.cross(e1, new Vector3d());
 
         v = f * d.dot(q);
 
@@ -102,15 +104,17 @@ public class IntersectionUtil {
      *            triangle third point
      * @return if ray intersect triangle.
      */
-    public static Double rayIntersectsTriangleDistance(Point3d p, Vector3d d, Point3d v0, Point3d v1, Point3d v2) {
+    public static Double rayIntersectsTriangleDistance(Vector3dc p, Vector3dc d, Vector3dc v0, Vector3dc v1, Vector3dc v2) {
 
-        double a, f, u, v;
-        Vector3d h = new Vector3d();
+        double a;
+        double f;
+        double u;
+        double v;
 
-        Vector3d e1 = Vector3dUtil.fromTo(v0, v1);
-        Vector3d e2 = Vector3dUtil.fromTo(v0, v2);
+        Vector3dc e1 = Vector3dUtil.fromTo(v0, v1);
+        Vector3dc e2 = Vector3dUtil.fromTo(v0, v2);
 
-        h.cross(d, e2);
+        Vector3d h = d.cross(e2, new Vector3d());
 
         a = e1.dot(h);
 
@@ -120,7 +124,7 @@ public class IntersectionUtil {
 
         f = 1 / a;
 
-        Vector3d s = Vector3dUtil.fromTo(v0, p);
+        Vector3dc s = Vector3dUtil.fromTo(v0, p);
 
         u = f * s.dot(h);
 
@@ -128,8 +132,7 @@ public class IntersectionUtil {
             return null;
         }
 
-        Vector3d q = new Vector3d();
-        q.cross(s, e1);
+        Vector3d q = s.cross(e1, new Vector3d());
 
         v = f * d.dot(q);
 

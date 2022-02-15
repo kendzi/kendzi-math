@@ -1,6 +1,6 @@
 package kendzi.math.geometry.skeleton.events;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.skeleton.circular.Edge;
 import kendzi.math.geometry.skeleton.circular.Vertex;
@@ -11,7 +11,7 @@ import kendzi.math.geometry.skeleton.circular.Vertex;
  */
 public class SplitEvent extends SkeletonEvent {
 
-    public SplitEvent(Point2d point, double distance, Vertex parent, Edge oppositeEdge) {
+    public SplitEvent(Vector2dc point, double distance, Vertex parent, Edge oppositeEdge) {
         super(point, distance);
         this.parent = parent;
         this.oppositeEdge = oppositeEdge;
@@ -45,7 +45,7 @@ public class SplitEvent extends SkeletonEvent {
     }
 
     @Override
-    public Point2d getPoint() {
+    public Vector2dc getPoint() {
         return v;
     }
 }

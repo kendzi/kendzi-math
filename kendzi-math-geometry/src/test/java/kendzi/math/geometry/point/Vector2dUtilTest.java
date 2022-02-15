@@ -1,9 +1,8 @@
 package kendzi.math.geometry.point;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import javax.vecmath.Vector2d;
-
+import org.joml.Vector2d;
 import org.junit.Test;
 
 public class Vector2dUtilTest {

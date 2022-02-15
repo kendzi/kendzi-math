@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
@@ -24,7 +24,7 @@ public class DisplayLav2 extends DisplayObject {
     private Color color;
 
     /**
-     * @param LAV
+     * @param lav
      * @param pColor
      */
     public DisplayLav2(CircularList<Vertex> lav, Color pColor) {
@@ -45,8 +45,8 @@ public class DisplayLav2 extends DisplayObject {
         for (Vertex v2 : lav) {
             Vertex v1 = v2.previous();
 
-            Point2d p1 = v1.getPoint();
-            Point2d p2 = v2.getPoint();
+            Vector2dc p1 = v1.getPoint();
+            Vector2dc p2 = v2.getPoint();
 
             g2d.setColor(color);
             drawLine(p1, p2, selected, g2d, disp);
@@ -66,9 +66,9 @@ public class DisplayLav2 extends DisplayObject {
      * @param g2d
      * @param disp
      */
-    public void drawPoint(Point2d p, boolean selected, Graphics2D g2d, EquationDisplay disp) {
-        int x = (int) disp.xPositionToPixel(p.x);
-        int y = (int) disp.yPositionToPixel(p.y);
+    public void drawPoint(Vector2dc p, boolean selected, Graphics2D g2d, EquationDisplay disp) {
+        int x = (int) disp.xPositionToPixel(p.x());
+        int y = (int) disp.yPositionToPixel(p.y());
 
         if (selected) {
             g2d.setColor(Color.GREEN.brighter());
@@ -78,12 +78,12 @@ public class DisplayLav2 extends DisplayObject {
         g2d.fillOval(-10 + x, -10 + y, 20, 20);
     }
 
-    private void drawLine(Point2d current, Point2d previous, boolean selected, Graphics2D g2d, EquationDisplay disp) {
+    private void drawLine(Vector2dc current, Vector2dc previous, boolean selected, Graphics2D g2d, EquationDisplay disp) {
 
-        int x1 = (int) disp.xPositionToPixel(previous.x);
-        int y1 = (int) disp.yPositionToPixel(previous.y);
-        int x2 = (int) disp.xPositionToPixel(current.x);
-        int y2 = (int) disp.yPositionToPixel(current.y);
+        int x1 = (int) disp.xPositionToPixel(previous.x());
+        int y1 = (int) disp.yPositionToPixel(previous.y());
+        int x2 = (int) disp.xPositionToPixel(current.x());
+        int y2 = (int) disp.yPositionToPixel(current.y());
 
         if (selected) {
             Stroke stroke = g2d.getStroke();

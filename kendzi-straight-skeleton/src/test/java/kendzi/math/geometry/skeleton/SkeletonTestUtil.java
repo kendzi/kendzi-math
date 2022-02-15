@@ -1,15 +1,16 @@
 package kendzi.math.geometry.skeleton;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.TestUtil;
 import kendzi.math.geometry.bbox.Bbox2d;
@@ -21,15 +22,15 @@ public class SkeletonTestUtil {
 
     private static VisualDebugger vd = TestUtil.initVisualDebugger();
 
-    public static void assertOutlineInSkelet(List<Point2d> polygon, SkeletonOutput sk) {
-        Set<Point2d> outline = new HashSet<Point2d>(polygon);
+    public static void assertOutlineInSkelet(List<Vector2dc> polygon, SkeletonOutput sk) {
+        Set<Vector2dc> outline = new HashSet<>(polygon);
 
-        outPoint: for (Point2d out : outline) {
+        outPoint: for (Vector2dc out : outline) {
 
             for (EdgeOutput edgeOutput : sk.getEdgeOutputs()) {
                 PolygonList2d polygonList2d = edgeOutput.getPolygon();
-                List<Point2d> points = polygonList2d.getPoints();
-                for (Point2d point2d : points) {
+                List<Vector2dc> points = polygonList2d.getPoints();
+                for (Vector2dc point2d : points) {
                     if (point2d.equals(out)) {
                         continue outPoint;
                     }
@@ -38,39 +39,39 @@ public class SkeletonTestUtil {
         }
     }
 
-    public static void validate(List<Point2d> polygon, SkeletonOutput sk) {
+    public static void validate(List<Vector2dc> polygon, SkeletonOutput sk) {
         writeExpectedOutput(polygon, sk);
         assertInBbox(polygon, sk);
         assertOutlineInSkelet(polygon, sk);
     }
 
-    public static void assertInBbox(List<Point2d> polygon, SkeletonOutput sk) {
+    public static void assertInBbox(List<Vector2dc> polygon, SkeletonOutput sk) {
 
         Bbox2d bbox = new Bbox2d();
-        for (Point2d point2d : polygon) {
+        for (Vector2dc point2d : polygon) {
             bbox.addPoint(point2d);
         }
 
         for (EdgeOutput edgeOutput : sk.getEdgeOutputs()) {
 
-            List<Point2d> points = edgeOutput.getPolygon().getPoints();
-            for (Point2d point2d : points) {
+            List<Vector2dc> points = edgeOutput.getPolygon().getPoints();
+            for (Vector2dc point2d : points) {
                 assertTrue("point " + point2d + " not in bbox " + bbox, bbox.isInside(point2d));
             }
         }
     }
 
-    public static void assertExpectedPoints(List<Point2d> expectedList, List<Point2d> givenList) {
+    public static <V extends Vector2dc> void assertExpectedPoints(List<V> expectedList, List<V> givenList) {
         StringBuffer sb = new StringBuffer();
-        for (Point2d expected : expectedList) {
+        for (V expected : expectedList) {
             if (!containsEpsilon(givenList, expected)) {
-                sb.append(String.format("can't find expected point (%s, %s) in given list\n", expected.x, expected.y));
+                sb.append(String.format("can't find expected point (%s, %s) in given list\n", expected.x(), expected.y()));
             }
         }
 
-        for (Point2d given : givenList) {
+        for (V given : givenList) {
             if (!containsEpsilon(expectedList, given)) {
-                sb.append(String.format("can't find given point (%s, %s) in expected list\n", given.x, given.y));
+                sb.append(String.format("can't find given point (%s, %s) in expected list\n", given.x(), given.y()));
             }
         }
 
@@ -81,14 +82,14 @@ public class SkeletonTestUtil {
         System.out.println("assert ok");
     }
 
-    public static List<Point2d> getFacePoints(SkeletonOutput sk) {
+    public static List<Vector2dc> getFacePoints(SkeletonOutput sk) {
 
-        List<Point2d> ret = new ArrayList<Point2d>();
+        List<Vector2dc> ret = new ArrayList<>();
 
         for (EdgeOutput edgeOutput : sk.getEdgeOutputs()) {
 
-            List<Point2d> points = edgeOutput.getPolygon().getPoints();
-            for (Point2d point2d : points) {
+            List<Vector2dc> points = edgeOutput.getPolygon().getPoints();
+            for (Vector2dc point2d : points) {
 
                 if (!containsEpsilon(ret, point2d)) {
                     ret.add(point2d);
@@ -98,21 +99,21 @@ public class SkeletonTestUtil {
         return ret;
     }
 
-    public static void visualizeResults(List<Point2d> polygon, SkeletonOutput sk) {
+    public static void visualizeResults(List<Vector2dc> polygon, SkeletonOutput sk) {
         vd.debug(polygon);
         vd.debug(new DisplaySkeletonOut(sk));
 
         vd.block();
     }
 
-    public static void writeExpectedOutput(List<Point2d> polygon, SkeletonOutput sk) {
+    public static void writeExpectedOutput(List<Vector2dc> polygon, SkeletonOutput sk) {
         // to generate expected output
 
-        List<Point2d> ret = new ArrayList<Point2d>();
+        List<Vector2dc> ret = new ArrayList<>();
 
         for (EdgeOutput edgeOutput : sk.getEdgeOutputs()) {
             PolygonList2d polygonList2d = edgeOutput.getPolygon();
-            for (Point2d point2d : polygonList2d.getPoints()) {
+            for (Vector2dc point2d : polygonList2d.getPoints()) {
                 if (!containsEpsilon(polygon, point2d)) {
 
                     if (!containsEpsilon(ret, point2d)) {
@@ -122,28 +123,24 @@ public class SkeletonTestUtil {
             }
         }
 
-        Comparator<Point2d> c = new Comparator<Point2d>() {
-            @Override
-            public int compare(Point2d p1, Point2d p2) {
+        Comparator<Vector2dc> c = (p1, p2) -> {
 
-                if (p1.x == p2.x) {
-                    if (p1.y == p2.y) {
-                        return 0;
-                    } else {
-                        return p1.y < p2.y ? -1 : 1;
-                    }
+            if (p1.x() == p2.x()) {
+                if (p1.y() == p2.y()) {
+                    return 0;
                 } else {
-                    return p1.x < p2.x ? -1 : 1;
+                    return Double.compare(p1.y(), p2.y());
                 }
+            } else {
+                return Double.compare(p1.x(), p2.x());
             }
-
         };
 
-        Collections.sort(ret, c);
+        ret.sort(c);
 
-        System.out.println("List<Point2d> expected = new ArrayList<Point2d>();");
-        for (Point2d point2d : ret) {
-            System.out.println(String.format("expected.add(p(%.6f, %.6f));", point2d.x, point2d.y));
+        System.out.println("List<Vector2dc> expected = new ArrayList<Vector2dc>();");
+        for (Vector2dc point2d : ret) {
+            System.out.printf("expected.add(p(%.6f, %.6f));%n", point2d.x(), point2d.y());
         }
         System.out.println("expected.addAll(polygon);");
     }
@@ -156,9 +153,9 @@ public class SkeletonTestUtil {
         }
     }
 
-    public static boolean containsEpsilon(List<Point2d> list, Point2d p) {
-        for (Point2d l : list) {
-            if (equalEpsilon(l.x, p.x) && equalEpsilon(l.y, p.y)) {
+    public static <V extends Vector2dc> boolean containsEpsilon(List<V> list, V p) {
+        for (Vector2dc l : list) {
+            if (p.equals(l, 5e-6)) {
                 return true;
             }
         }
@@ -169,7 +166,7 @@ public class SkeletonTestUtil {
         return Math.abs(d1 - d2) < 5E-6;
     }
 
-    public static Point2d p(double x, double y) {
-        return new Point2d(x, y);
+    public static Vector2d p(double x, double y) {
+        return new Vector2d(x, y);
     }
 }

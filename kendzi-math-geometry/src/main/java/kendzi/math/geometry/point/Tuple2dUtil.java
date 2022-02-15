@@ -1,11 +1,11 @@
 package kendzi.math.geometry.point;
 
-import javax.vecmath.Tuple2d;
+import org.joml.Vector2dc;
 
 public final class Tuple2dUtil {
 
     private Tuple2dUtil() {
-        //
+        // Hide constructor
     }
 
     /**
@@ -16,13 +16,11 @@ public final class Tuple2dUtil {
      * @param p1
      *            the other point
      * @return
+     * @deprecated Use {@link Vector2dc#distance(Vector2dc)} instead
      */
-    public static double distance(Tuple2d p0, Tuple2d p1) {
-        double dx, dy;
-
-        dx = p0.x - p1.x;
-        dy = p0.y - p1.y;
-        return Math.sqrt(dx * dx + dy * dy);
+    @Deprecated
+    public static double distance(Vector2dc p0, Vector2dc p1) {
+        return p0.distance(p1);
     }
 
 }

@@ -1,8 +1,7 @@
 package kendzi.math.geometry.ray;
 
-import javax.vecmath.Point3d;
-import javax.vecmath.Tuple3d;
-import javax.vecmath.Vector3d;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 import kendzi.math.geometry.Sphere3d;
 
@@ -12,25 +11,24 @@ public class Ray3dUtil {
         return intersect(ray, sphere.getCenter(), sphere.getRadius());
     }
 
-    public static Double intersect(Ray3d ray, Point3d sphereCenter, double sphereRadius) {
+    public static Double intersect(Ray3d ray, Vector3dc sphereCenter, double sphereRadius) {
 
 //        double r = sphere.getRadius();
         double r = sphereRadius;
 
-        Vector3d ray_o = new Vector3d(ray.getPoint());
-        ray_o.sub(sphereCenter);
+        Vector3d ray_o = new Vector3d(ray.getPoint()).sub(sphereCenter);
 //        ray_o.sub(sphere.getCenter());
 
 
-        Vector3d ray_d = ray.getVector();
+        Vector3dc ray_d = ray.getVector();
 //        Point3d ray_o = ray.getPoint();
 
 
 
         // Compute A, B and C coefficients
-        double a = dot(ray_d, ray_d);
-        double b = 2 * dot(ray_d, ray_o);
-        double c = dot(ray_o, ray_o) - (r * r);
+        double a = ray_d.dot(ray_d);
+        double b = 2 * ray_d.dot(ray_o);
+        double c = ray_o.dot(ray_o) - r * r;
 
         double t;
 
@@ -89,7 +87,6 @@ public class Ray3dUtil {
      *  Test intersection of sphere with center in 0,0 radius r, and ray
      * @param ray
      * @param r
-     * @param t
      * @return
      *
      * @see {http://wiki.cgsociety.org/index.php/Ray_Sphere_Intersection}
@@ -98,13 +95,13 @@ public class Ray3dUtil {
 
         double t;
 
-        Vector3d ray_d = ray.getVector();
-        Point3d ray_o = ray.getPoint();
+        Vector3dc ray_d = ray.getVector();
+        Vector3dc ray_o = ray.getPoint();
 
         // Compute A, B and C coefficients
-        double a = dot(ray_d, ray_d);
-        double b = 2 * dot(ray_d, ray_o);
-        double c = dot(ray_o, ray_o) - (r * r);
+        double a = ray_d.dot(ray_d);
+        double b = 2 * ray_d.dot(ray_o);
+        double c = ray_o.dot(ray_o) - (r * r);
 
         // Find discriminant
         double disc = b * b - 4 * a * c;
@@ -163,13 +160,21 @@ public class Ray3dUtil {
      * @param v1
      *            the other vector
      * @return the dot product of this and v1
+     * @deprecated Use {@link Vector3dc#dot(Vector3dc)} instead
      */
-    public final static double dot(Tuple3d v, Tuple3d v1) {
-        return (v.x * v1.x + v.y * v1.y + v.z * v1.z);
+    public static double dot(Vector3dc v, Vector3dc v1) {
+        return v.dot(v1);
     }
 
-    public final static Vector3d sub(Tuple3d v, Tuple3d v1) {
-        return new Vector3d(v.x - v1.x, v.y - v1.y, v.z - v1.z);
+    /**
+     * Vector subtraction
+     * @param v
+     * @param v1
+     * @return A <i>new</i> vector
+     * @deprecated Use {@link Vector3d#sub(Vector3dc)} if at all possible.
+     */
+    public static Vector3d sub(Vector3dc v, Vector3dc v1) {
+        return v.sub(v1, new Vector3d());
     }
 
     /** Return closest point to ray, The point is lies on ray baseRay.
@@ -177,36 +182,36 @@ public class Ray3dUtil {
      * @param baseRay
      * @return
      */
-    public static Point3d closestPointOnBaseRay(Ray3d ray, Ray3d baseRay) {
+    public static Vector3dc closestPointOnBaseRay(Ray3d ray, Ray3d baseRay) {
         //http://geomalgorithms.com/a07-_distance.html
         Ray3d P = ray;
         Ray3d Q = baseRay;
 
-        Vector3d u = P.getVector();
-        Vector3d v = Q.getVector();
+        Vector3dc u = P.getVector();
+        Vector3dc v = Q.getVector();
 
-        Point3d Q0 = Q.getPoint();
-        Point3d P0 = P.getPoint();
+        Vector3dc Q0 = Q.getPoint();
+        Vector3dc P0 = P.getPoint();
 
-        Vector3d w0 = sub(P0, Q0);
+        Vector3d w0 = P0.sub(Q0, new Vector3d());
 
-        double a = dot(u, u);
-        double b = dot(u, v);
-        double c = dot(v, v);
-        double d = dot(u, w0);
-        double e = dot(v, w0);
+        double a = u.dot(u);
+        double b = u.dot(v);
+        double c = v.dot(v);
+        double d = u.dot(w0);
+        double e = v.dot(w0);
 
         double m = a * c - b * b;
         if (m == 0) {
-            return new Point3d(Q0);
+            return new Vector3d(Q0);
         }
 
         double tc = (a * e - b * d) / m;
 
-        return new Point3d(
-                Q0.x + v.x * tc,
-                Q0.y + v.y * tc,
-                Q0.z + v.z * tc
+        return new Vector3d(
+                Q0.x() + v.x() * tc,
+                Q0.y() + v.y() * tc,
+                Q0.z() + v.z() * tc
                 );
 
     }

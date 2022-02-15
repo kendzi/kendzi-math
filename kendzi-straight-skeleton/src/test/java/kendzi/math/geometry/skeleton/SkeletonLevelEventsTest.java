@@ -6,21 +6,26 @@
 
 package kendzi.math.geometry.skeleton;
 
-import static kendzi.math.geometry.skeleton.SkeletonTestUtil.*;
-import static org.junit.Assert.*;
+import static kendzi.math.geometry.skeleton.SkeletonTestUtil.assertExpectedPoints;
+import static kendzi.math.geometry.skeleton.SkeletonTestUtil.getFacePoints;
+import static kendzi.math.geometry.skeleton.SkeletonTestUtil.p;
+import static kendzi.math.geometry.skeleton.SkeletonTestUtil.validate;
+import static kendzi.math.geometry.skeleton.SkeletonTestUtil.visualizeResults;
+import static kendzi.math.geometry.skeleton.SkeletonTestUtil.writeExpectedOutput;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
+import org.junit.Before;
+import org.junit.Test;
 
 import kendzi.math.geometry.TestUtil;
 import kendzi.math.geometry.polygon.PolygonList2d;
 import kendzi.math.geometry.skeleton.debug.VisualDebugger;
-
-import org.junit.Before;
-import org.junit.Test;
 
 public class SkeletonLevelEventsTest {
 
@@ -36,14 +41,14 @@ public class SkeletonLevelEventsTest {
 
         vd.clear();
 
-        List<Point2d> outer = new ArrayList<Point2d>();
+        List<Vector2dc> outer = new ArrayList<>();
 
-        outer.add(new Point2d(-1, -1));
-        outer.add(new Point2d(1, -1));
-        outer.add(new Point2d(1, 1));
-        outer.add(new Point2d(-1, 1));
+        outer.add(new Vector2d(-1, -1));
+        outer.add(new Vector2d(1, -1));
+        outer.add(new Vector2d(1, 1));
+        outer.add(new Vector2d(-1, 1));
 
-        List<Point2d> expected = new ArrayList<Point2d>();
+        List<Vector2dc> expected = new ArrayList<>();
         expected.add(p(0, 0));
         expected.addAll(outer);
 
@@ -65,17 +70,17 @@ public class SkeletonLevelEventsTest {
 
         vd.clear();
 
-        List<Point2d> outer = new ArrayList<Point2d>();
+        List<Vector2dc> outer = new ArrayList<>();
 
-        outer.add(new Point2d(0, 1));
-        outer.add(new Point2d(-1, 0));
-        outer.add(new Point2d(0, -1));
+        outer.add(new Vector2d(0, 1));
+        outer.add(new Vector2d(-1, 0));
+        outer.add(new Vector2d(0, -1));
 
-        outer.add(new Point2d(5, -2));
-        outer.add(new Point2d(7, 0));
-        outer.add(new Point2d(5, 2));
+        outer.add(new Vector2d(5, -2));
+        outer.add(new Vector2d(7, 0));
+        outer.add(new Vector2d(5, 2));
 
-        List<Point2d> expected = new ArrayList<Point2d>();
+        List<Vector2dc> expected = new ArrayList<>();
         expected.add(p(0.53518, 0));
         expected.add(p(4.39444872, 0));
         expected.addAll(outer);
@@ -98,21 +103,19 @@ public class SkeletonLevelEventsTest {
 
         vd.clear();
 
-        List<Point2d> outer = new ArrayList<Point2d>();
+        List<Vector2dc> outer = new ArrayList<>();
 
-        outer.add(new Point2d(-3, -1));
-        outer.add(new Point2d(3, -1));
-        outer.add(new Point2d(3, 1));
+        outer.add(new Vector2d(-3, -1));
+        outer.add(new Vector2d(3, -1));
+        outer.add(new Vector2d(3, 1));
 
-        outer.add(new Point2d(1, 1));
-        outer.add(new Point2d(1, 3));
-        outer.add(new Point2d(-1, 3));
-        outer.add(new Point2d(-1, 1));
-        outer.add(new Point2d(-3, 1));
+        outer.add(new Vector2d(1, 1));
+        outer.add(new Vector2d(1, 3));
+        outer.add(new Vector2d(-1, 3));
+        outer.add(new Vector2d(-1, 1));
+        outer.add(new Vector2d(-3, 1));
 
-        List<Point2d> expected = new ArrayList<Point2d>();
-
-        expected.addAll(outer);
+        List<Vector2dc> expected = new ArrayList<>(outer);
         expected.add(p(-2, 0));
         expected.add(p(2, 0));
         expected.add(p(0, 0));
@@ -135,22 +138,22 @@ public class SkeletonLevelEventsTest {
 
         vd.clear();
 
-        List<Point2d> outer = new ArrayList<Point2d>();
+        List<Vector2dc> outer = new ArrayList<>();
 
-        outer.add(new Point2d(-3, -1));
-        outer.add(new Point2d(-1, -1));
-        outer.add(new Point2d(-1, -3));
-        outer.add(new Point2d(1, -3));
-        outer.add(new Point2d(1, -1));
-        outer.add(new Point2d(3, -1));
-        outer.add(new Point2d(3, 1));
-        outer.add(new Point2d(1, 1));
-        outer.add(new Point2d(1, 3));
-        outer.add(new Point2d(-1, 3));
-        outer.add(new Point2d(-1, 1));
-        outer.add(new Point2d(-3, 1));
+        outer.add(new Vector2d(-3, -1));
+        outer.add(new Vector2d(-1, -1));
+        outer.add(new Vector2d(-1, -3));
+        outer.add(new Vector2d(1, -3));
+        outer.add(new Vector2d(1, -1));
+        outer.add(new Vector2d(3, -1));
+        outer.add(new Vector2d(3, 1));
+        outer.add(new Vector2d(1, 1));
+        outer.add(new Vector2d(1, 3));
+        outer.add(new Vector2d(-1, 3));
+        outer.add(new Vector2d(-1, 1));
+        outer.add(new Vector2d(-3, 1));
 
-        List<Point2d> expected = new ArrayList<Point2d>(outer);
+        List<Vector2dc> expected = new ArrayList<>(outer);
 
         expected.add(p(0, 0));
         expected.add(p(0, 2));
@@ -176,16 +179,16 @@ public class SkeletonLevelEventsTest {
 
         vd.clear();
 
-        List<Point2d> outer = new ArrayList<Point2d>();
+        List<Vector2dc> outer = new ArrayList<>();
 
-        outer.add(new Point2d(-6, 0));
-        outer.add(new Point2d(-3, -6));
-        outer.add(new Point2d(-1, -2));
-        outer.add(new Point2d(1, -2));
-        outer.add(new Point2d(3, -6));
-        outer.add(new Point2d(6, 0));
+        outer.add(new Vector2d(-6, 0));
+        outer.add(new Vector2d(-3, -6));
+        outer.add(new Vector2d(-1, -2));
+        outer.add(new Vector2d(1, -2));
+        outer.add(new Vector2d(3, -6));
+        outer.add(new Vector2d(6, 0));
 
-        List<Point2d> expected = new ArrayList<Point2d>(outer);
+        List<Vector2dc> expected = new ArrayList<>(outer);
 
         expected.add(p(-3.0000000000000004, -1.854101966249685));
         expected.add(p(-1.6180339887498951, -1.0000000000000002));
@@ -210,17 +213,17 @@ public class SkeletonLevelEventsTest {
 
         vd.clear();
 
-        List<Point2d> outer = new ArrayList<Point2d>();
+        List<Vector2dc> outer = new ArrayList<>();
 
-        outer.add(new Point2d(-6, 0));
-        outer.add(new Point2d(-3, -6));
-        outer.add(new Point2d(-1, -2));
-        outer.add(new Point2d(0, -3));
-        outer.add(new Point2d(1, -2));
-        outer.add(new Point2d(3, -6));
-        outer.add(new Point2d(6, 0));
+        outer.add(new Vector2d(-6, 0));
+        outer.add(new Vector2d(-3, -6));
+        outer.add(new Vector2d(-1, -2));
+        outer.add(new Vector2d(0, -3));
+        outer.add(new Vector2d(1, -2));
+        outer.add(new Vector2d(3, -6));
+        outer.add(new Vector2d(6, 0));
 
-        List<Point2d> expected = new ArrayList<Point2d>(outer);
+        List<Vector2dc> expected = new ArrayList<>(outer);
 
         expected.add(p(-3.0000000000000004, -1.854101966249685));
         expected.add(p(-1.2038204263767998, -0.7440019398522527));
@@ -248,38 +251,38 @@ public class SkeletonLevelEventsTest {
 
         vd.clear();
 
-        List<Point2d> outer = new ArrayList<Point2d>();
+        List<Vector2dc> outer = new ArrayList<>();
 
-        outer.add(new Point2d(0, 0));
-        outer.add(new Point2d(5, 0));
-        outer.add(new Point2d(5, 5));
-        outer.add(new Point2d(0, 5));
+        outer.add(new Vector2d(0, 0));
+        outer.add(new Vector2d(5, 0));
+        outer.add(new Vector2d(5, 5));
+        outer.add(new Vector2d(0, 5));
 
-        List<Point2d> h1 = new ArrayList<Point2d>();
-        h1.add(new Point2d(1, 1));
-        h1.add(new Point2d(2, 1));
-        h1.add(new Point2d(2, 2));
-        h1.add(new Point2d(1, 2));
+        List<Vector2dc> h1 = new ArrayList<>();
+        h1.add(new Vector2d(1, 1));
+        h1.add(new Vector2d(2, 1));
+        h1.add(new Vector2d(2, 2));
+        h1.add(new Vector2d(1, 2));
 
-        List<Point2d> h2 = new ArrayList<Point2d>();
-        h2.add(new Point2d(3, 3));
-        h2.add(new Point2d(4, 3));
-        h2.add(new Point2d(4, 4));
-        h2.add(new Point2d(3, 4));
+        List<Vector2dc> h2 = new ArrayList<>();
+        h2.add(new Vector2d(3, 3));
+        h2.add(new Vector2d(4, 3));
+        h2.add(new Vector2d(4, 4));
+        h2.add(new Vector2d(3, 4));
 
-        List<Point2d> h3 = new ArrayList<Point2d>();
-        h3.add(new Point2d(1, 3));
-        h3.add(new Point2d(2, 3));
-        h3.add(new Point2d(2, 4));
-        h3.add(new Point2d(1, 4));
+        List<Vector2dc> h3 = new ArrayList<>();
+        h3.add(new Vector2d(1, 3));
+        h3.add(new Vector2d(2, 3));
+        h3.add(new Vector2d(2, 4));
+        h3.add(new Vector2d(1, 4));
 
-        List<Point2d> h4 = new ArrayList<Point2d>();
-        h4.add(new Point2d(3, 1));
-        h4.add(new Point2d(4, 1));
-        h4.add(new Point2d(4, 2));
-        h4.add(new Point2d(3, 2));
+        List<Vector2dc> h4 = new ArrayList<>();
+        h4.add(new Vector2d(3, 1));
+        h4.add(new Vector2d(4, 1));
+        h4.add(new Vector2d(4, 2));
+        h4.add(new Vector2d(3, 2));
 
-        List<Point2d> expected = new ArrayList<Point2d>(outer);
+        List<Vector2dc> expected = new ArrayList<>(outer);
 
         expected.add(p(4.5, 2.5));
         expected.add(p(4.5, 0.5));
@@ -326,7 +329,7 @@ public class SkeletonLevelEventsTest {
 
         for (EdgeOutput edgeOutput : sk.getEdgeOutputs()) {
             PolygonList2d polygonList2d = edgeOutput.getPolygon();
-            List<Point2d> points = polygonList2d.getPoints();
+            List<Vector2dc> points = polygonList2d.getPoints();
             if (points.size() == numOfEdges) {
                 return;
             }

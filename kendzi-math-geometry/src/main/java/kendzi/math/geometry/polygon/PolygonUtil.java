@@ -9,7 +9,8 @@ package kendzi.math.geometry.polygon;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 /**
  * Polygon util.
@@ -17,11 +18,14 @@ import javax.vecmath.Point2d;
  * @author Tomasz Kędziora (Kendzi)
  */
 public class PolygonUtil {
+    private PolygonUtil() {
+        // Hide constructor
+    }
 
     /**
-     * @see PolygonUtil#isPointInsidePolygon(Point2d, List)
+     * @see PolygonUtil#isPointInsidePolygon(Vector2dc, List)
      */
-    public static boolean isPointInsidePolygon(Point2d point, PolygonList2d polygon) {
+    public static boolean isPointInsidePolygon(Vector2dc point, PolygonList2d polygon) {
         return isPointInsidePolygon(point, polygon.getPoints());
     }
 
@@ -33,11 +37,11 @@ public class PolygonUtil {
      * @see "http://paulbourke.net/geometry/insidepoly/"
      * @param point
      *            point to test
-     * @param polygon
+     * @param points
      *            polygon
      * @return is point inside polygon
      */
-    public static boolean isPointInsidePolygon(Point2d point, List<Point2d> points) {
+    public static boolean isPointInsidePolygon(Vector2dc point, List<Vector2dc> points) {
         // PointType & point, PolygonType & polygon
         int numpoints = points.size();
 
@@ -47,13 +51,13 @@ public class PolygonUtil {
 
         // PointListType const_iterator
         int it = 0;
-        // ListIterator<Point2d> it = points.listIterator();// begin();
-        // ListIterator<Point2d> itend = points.listIterator();
+        // ListIterator<Vector2dc> it = points.listIterator();// begin();
+        // ListIterator<Vector2dc> itend = points.listIterator();
 
         // itend--;
 
-        Point2d first = points.get(it);
-        // Point2d last = (itend).GetPosition();
+        Vector2dc first = points.get(it);
+        // Vector2dc last = (itend).GetPosition();
 
         // / XXX
         // // If last point same as first, don't bother with it.
@@ -64,8 +68,8 @@ public class PolygonUtil {
 
         boolean oddNodes = false;
 
-        Point2d node1;
-        Point2d node2;
+        Vector2dc node1;
+        Vector2dc node2;
 
         for (int i = 0; i < numpoints; i++) {
             node1 = points.get(it);
@@ -76,11 +80,11 @@ public class PolygonUtil {
                 node2 = points.get(it);
             }
 
-            double x = point.x;
-            double y = point.y;
+            double x = point.x();
+            double y = point.y();
 
-            if (node1.y < y && node2.y >= y || node2.y < y && node1.y >= y) {
-                if (node1.x + (y - node1.y) / (node2.y - node1.y) * (node2.x - node1.x) < x) {
+            if (node1.y() < y && node2.y() >= y || node2.y() < y && node1.y() >= y) {
+                if (node1.x() + (y - node1.y()) / (node2.y() - node1.y()) * (node2.x() - node1.x()) < x) {
                     oddNodes = !oddNodes;
                 }
             }
@@ -96,21 +100,21 @@ public class PolygonUtil {
      *            polygon
      * @return minimal values
      */
-    public static Point2d minBound(PolygonList2d pPolygon) {
+    public static Vector2dc minBound(PolygonList2d pPolygon) {
 
         double minX = Double.MAX_VALUE;
         double minY = Double.MAX_VALUE;
 
-        for (Point2d p : pPolygon.getPoints()) {
-            if (p.x < minX) {
-                minX = p.x;
+        for (Vector2dc p : pPolygon.getPoints()) {
+            if (p.x() < minX) {
+                minX = p.x();
             }
-            if (p.y < minY) {
-                minY = p.y;
+            if (p.y() < minY) {
+                minY = p.y();
             }
         }
 
-        return new Point2d(minX, minY);
+        return new Vector2d(minX, minY);
     }
 
     /**
@@ -120,21 +124,21 @@ public class PolygonUtil {
      *            polygon
      * @return maximal values
      */
-    public static Point2d maxBound(PolygonList2d pPolygon) {
+    public static Vector2dc maxBound(PolygonList2d pPolygon) {
 
         double maxX = -Double.MAX_VALUE;
         double maxY = -Double.MAX_VALUE;
 
-        for (Point2d p : pPolygon.getPoints()) {
-            if (p.x > maxX) {
-                maxX = p.x;
+        for (Vector2dc p : pPolygon.getPoints()) {
+            if (p.x() > maxX) {
+                maxX = p.x();
             }
-            if (p.y > maxY) {
-                maxY = p.y;
+            if (p.y() > maxY) {
+                maxY = p.y();
             }
         }
 
-        return new Point2d(maxX, maxY);
+        return new Vector2d(maxX, maxY);
     }
 
     /**
@@ -145,14 +149,14 @@ public class PolygonUtil {
      *            list of polygon points
      * @return area
      */
-    public static float area(List<Point2d> polygon) {
+    public static float area(List<? extends Vector2dc> polygon) {
 
         int n = polygon.size();
 
         float A = 0.0f;
 
         for (int p = n - 1, q = 0; q < n; p = q++) {
-            A += polygon.get(p).x * polygon.get(q).y - polygon.get(q).x * polygon.get(p).y;
+            A += polygon.get(p).x() * polygon.get(q).y() - polygon.get(q).x() * polygon.get(p).y();
         }
         return A * 0.5f;
     }
@@ -164,7 +168,7 @@ public class PolygonUtil {
      *            list of polygon points
      * @return if polygon is clockwise
      */
-    public static boolean isClockwisePolygon(List<Point2d> polygon) {
+    public static boolean isClockwisePolygon(List<? extends Vector2dc> polygon) {
         return area(polygon) < 0;
     }
 
@@ -174,12 +178,12 @@ public class PolygonUtil {
      * @param polygon
      * @return
      */
-    public static List<Point2d> reverse(List<Point2d> polygon) {
+    public static <V extends Vector2dc> List<V> reverse(List<V> polygon) {
         if (polygon == null) {
             return null;
         }
 
-        List<Point2d> list = new ArrayList<Point2d>(polygon.size());
+        List<V> list = new ArrayList<>(polygon.size());
 
         for (int i = polygon.size() - 1; i >= 0; i--) {
             list.add(polygon.get(i));
@@ -194,7 +198,7 @@ public class PolygonUtil {
      *            polygon as list of points
      * @return counter clockwise polygon
      */
-    public static List<Point2d> makeCounterClockwise(List<Point2d> polygon) {
+    public static <V extends Vector2dc> List<V> makeCounterClockwise(List<V> polygon) {
         if (PolygonUtil.isClockwisePolygon(polygon)) {
             return PolygonUtil.reverse(polygon);
         }

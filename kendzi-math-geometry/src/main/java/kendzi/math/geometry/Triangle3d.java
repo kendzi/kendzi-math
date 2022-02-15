@@ -1,6 +1,6 @@
 package kendzi.math.geometry;
 
-import javax.vecmath.Point3d;
+import org.joml.Vector3dc;
 
 /**
  * The triangle.
@@ -10,11 +10,11 @@ import javax.vecmath.Point3d;
  */
 public class Triangle3d {
 
-    private Point3d point0;
+    private Vector3dc point0;
 
-    private Point3d point1;
+    private Vector3dc point1;
 
-    private Point3d point2;
+    private Vector3dc point2;
 
     /**
      * Triangle constructor.
@@ -26,7 +26,7 @@ public class Triangle3d {
      * @param point2
      *            point 2
      */
-    public Triangle3d(Point3d point0, Point3d point1, Point3d point2) {
+    public Triangle3d(Vector3dc point0, Vector3dc point1, Vector3dc point2) {
         this.point0 = point0;
         this.point1 = point1;
         this.point2 = point2;
@@ -35,7 +35,7 @@ public class Triangle3d {
     /**
      * @return the point0
      */
-    public Point3d getPoint0() {
+    public Vector3dc getPoint0() {
         return point0;
     }
 
@@ -43,14 +43,14 @@ public class Triangle3d {
      * @param point0
      *            the point0 to set
      */
-    public void setPoint0(Point3d point0) {
+    public void setPoint0(Vector3dc point0) {
         this.point0 = point0;
     }
 
     /**
      * @return the point1
      */
-    public Point3d getPoint1() {
+    public Vector3dc getPoint1() {
         return point1;
     }
 
@@ -58,14 +58,14 @@ public class Triangle3d {
      * @param point1
      *            the point1 to set
      */
-    public void setPoint1(Point3d point1) {
+    public void setPoint1(Vector3dc point1) {
         this.point1 = point1;
     }
 
     /**
      * @return the point2
      */
-    public Point3d getPoint2() {
+    public Vector3dc getPoint2() {
         return point2;
     }
 
@@ -73,7 +73,7 @@ public class Triangle3d {
      * @param point2
      *            the point2 to set
      */
-    public void setPoint2(Point3d point2) {
+    public void setPoint2(Vector3dc point2) {
         this.point2 = point2;
     }
 

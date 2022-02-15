@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.Stroke;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
@@ -24,7 +24,7 @@ public class DisplaySkeletonOut extends DisplayObject {
     private SkeletonOutput skeletonOut;
 
     /**
-     * @param polygon
+     * @param skeletonOut
      */
     public DisplaySkeletonOut(SkeletonOutput skeletonOut) {
         super();
@@ -42,9 +42,9 @@ public class DisplaySkeletonOut extends DisplayObject {
             PolygonList2d list = edgeOutput.getPolygon();
 
             Polygon polygon = new Polygon();
-            for (Point2d point : list.getPoints()) {
-                int x = (int) disp.xPositionToPixel(point.x);
-                int y = (int) disp.yPositionToPixel(point.y);
+            for (Vector2dc point : list.getPoints()) {
+                int x = (int) disp.xPositionToPixel(point.x());
+                int y = (int) disp.yPositionToPixel(point.y());
 
                 polygon.addPoint(x, y);
             }

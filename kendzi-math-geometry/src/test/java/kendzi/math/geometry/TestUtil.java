@@ -1,7 +1,6 @@
 package kendzi.math.geometry;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
 
 /**
  * import static kendzi.math.geometry.TestUtil.*;
@@ -14,7 +13,7 @@ public class TestUtil {
         return new Vector2d(x, y);
     }
 
-    public static Point2d p(double x, double y) {
-        return new Point2d(x, y);
+    public static Vector2d p(double x, double y) {
+        return new Vector2d(x, y);
     }
 }

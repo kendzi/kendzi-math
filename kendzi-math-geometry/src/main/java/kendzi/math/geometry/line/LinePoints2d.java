@@ -9,9 +9,8 @@
 
 package kendzi.math.geometry.line;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Tuple2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 /**
  *
@@ -32,30 +31,30 @@ public class LinePoints2d {
     /**
      * Start point A. XXX rename to A ?
      */
-    Point2d p1;
+    Vector2dc p1;
     /**
      * End point B. XXX rename to B ?
      */
-    Point2d p2;
+    Vector2dc p2;
 
-    public LinePoints2d(Point2d p1, Point2d p2) {
+    public LinePoints2d(Vector2dc p1, Vector2dc p2) {
         this.p1 = p1;
         this.p2 = p2;
     }
 
-    public Point2d getP1() {
+    public Vector2dc getP1() {
         return this.p1;
     }
 
-    public void setP1(Point2d p1) {
+    public void setP1(Vector2dc p1) {
         this.p1 = p1;
     }
 
-    public Point2d getP2() {
+    public Vector2dc getP2() {
         return this.p2;
     }
 
-    public void setP2(Point2d p2) {
+    public void setP2(Vector2dc p2) {
         this.p2 = p2;
     }
 
@@ -64,7 +63,7 @@ public class LinePoints2d {
      *
      * @return starting point A.
      */
-    Point2d getPointA() {
+    Vector2dc getPointA() {
         return this.p1;
     }
 
@@ -73,10 +72,8 @@ public class LinePoints2d {
      *
      * @return direction vector U.
      */
-    Vector2d getVectorU() {
-        Vector2d u = new Vector2d(this.p2);
-        u.sub(this.p1);
-        return u;
+    Vector2dc getVectorU() {
+        return this.p2.sub(this.p1, new Vector2d());
     }
 
     public LineParametric2d getLineParametric2d() {
@@ -89,7 +86,7 @@ public class LinePoints2d {
      * @return point is over line or on line
      * TODO RENAME TO POINT_IN_FRONT
      */
-    public boolean inFront(Tuple2d pPoint) {
+    public boolean inFront(Vector2dc pPoint) {
         return LineUtil.matrixDet(this.p1, this.p2, pPoint) >= 0;
     }
 

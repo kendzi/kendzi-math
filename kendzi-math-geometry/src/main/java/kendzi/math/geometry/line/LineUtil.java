@@ -9,9 +9,8 @@
 
 package kendzi.math.geometry.line;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Tuple2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.point.Vector2dUtil;
 
@@ -38,8 +37,8 @@ public class LineUtil {
      * @param lineSegmentB end of line segment
      * @return if line is crossing line segment
      */
-    public static boolean isLineCrossLineSegment(Point2d firstLinePoint, Point2d secondLinePoint, Point2d lineSegmentA,
-            Point2d lineSegmentB) {
+    public static boolean isLineCrossLineSegment(Vector2dc firstLinePoint, Vector2dc secondLinePoint, Vector2dc lineSegmentA,
+            Vector2dc lineSegmentB) {
         // TODO test if begin or end of Line Segment is exactly on line !!!
         // Thanks numerical error for now this should work ;)
         return matrixDet(firstLinePoint, secondLinePoint, lineSegmentA)
@@ -53,8 +52,8 @@ public class LineUtil {
      * @param Z third column of matrix
      * @return det of matrix
      */
-    public static double matrixDet(Point2d A, Point2d B, Tuple2d Z) {
-        return A.x * B.y + B.x * Z.y + Z.x * A.y - Z.x * B.y - A.x * Z.y - B.x * A.y;
+    public static double matrixDet(Vector2dc A, Vector2dc B, Vector2dc Z) {
+        return A.x() * B.y() + B.x() * Z.y() + Z.x() * A.y() - Z.x() * B.y() - A.x() * Z.y() - B.x() * A.y();
     }
 
     /**
@@ -97,12 +96,12 @@ public class LineUtil {
      * @param Dy line segment second point
      * @return Point of crossing line with Line Segment. Or null if they don't cross
      */
-    public static Point2d crossLineWithLineSegment(Point2d lA, Point2d lB, Point2d sC, Point2d sD) {
+    public static Vector2dc crossLineWithLineSegment(Vector2dc lA, Vector2dc lB, Vector2dc sC, Vector2dc sD) {
         // Sprawdzanie, czy jakis punkt nalezy do drugiego odcinka
         if (matrixDet(lA, lB, sC) == 0) {
-            return new Point2d(sC.x, sC.y);
+            return new Vector2d(sC.x(), sC.y());
         } else if (matrixDet(lA, lB, sD) == 0) {
-            return new Point2d(sD.x, sD.y);
+            return new Vector2d(sD.x(), sD.y());
         } else {
             // if none of Line Segment points lies on the line
             if (matrixDet(lA, lB, sC)
@@ -111,7 +110,7 @@ public class LineUtil {
                 return null;
             } else {
                 // there is crossing
-                return lineCrossPoint(lA.x, lA.y, lB.x, lB.y, sC.x, sC.y, sD.x, sD.y);
+                return lineCrossPoint(lA.x(), lA.y(), lB.x(), lB.y(), sC.x(), sC.y(), sD.x(), sD.y());
             }
         }
     }
@@ -127,21 +126,21 @@ public class LineUtil {
      * @param Dy
      * @return
      */
-    public static Point2d crossLineSegment(Point2d A, Point2d B, Point2d C, Point2d D) {
+    public static Vector2dc crossLineSegment(Vector2dc A, Vector2dc B, Vector2dc C, Vector2dc D) {
         // Sprawdzanie, czy jakis punkt nalezy do drugiego odcinka
-        if (pointLiesOnLineSegment(A.x, A.y, B.x, B.y, C.x, C.y)) {
+        if (pointLiesOnLineSegment(A.x(), A.y(), B.x(), B.y(), C.x(), C.y())) {
             // Line Segment end C lies on the Line Segment |AB|
-            return new Point2d(C.x, C.y);
-        } else if (pointLiesOnLineSegment(A.x, A.y, B.x, B.y, D.x, D.y)) {
+            return new Vector2d(C.x(), C.y());
+        } else if (pointLiesOnLineSegment(A.x(), A.y(), B.x(), B.y(), D.x(), D.y())) {
             // Line Segment end D lies on the Line Segment |AB|
-            return new Point2d(D.x, D.y);
-        } else if (pointLiesOnLineSegment(C.x, C.y, D.x, D.y, A.x, A.y)) {
+            return new Vector2d(D.x(), D.y());
+        } else if (pointLiesOnLineSegment(C.x(), C.y(), D.x(), D.y(), A.x(), A.y())) {
             // Line Segment end A lies on the Line Segment |CD|
-            return new Point2d(A.x, A.y);
-        } else if (pointLiesOnLineSegment(C.x, C.y, D.x, D.y, B.x, B.y)) {
+            return new Vector2d(A.x(), A.y());
+        } else if (pointLiesOnLineSegment(C.x(), C.y(), D.x(), D.y(), B.x(), B.y())) {
             //			System.out.println("Odcinki sie przecinaja- przynaleznosc");
             // Line Segment end B lies on the Line Segment |CD|
-            return new Point2d(B.x, B.y);
+            return new Vector2d(B.x(), B.y());
         } else {
             // if none of points lies on line segment
             // zaden punkt nie nalezy do drugego odcinka
@@ -157,7 +156,7 @@ public class LineUtil {
                 // znaki wyznacznikow sa rowne
                 //				System.out.println("Odcinki sie przecinaja- punkty leza po przeciwnych stronach");
 
-                return lineCrossPoint(A.x, A.y, B.x, B.y, C.x, C.y, D.x, D.y);
+                return lineCrossPoint(A.x(), A.y(), B.x(), B.y(), C.x(), C.y(), D.x(), D.y());
             }
         }
     }
@@ -172,31 +171,31 @@ public class LineUtil {
      *
      * @see {http://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect/565282#565282}
      */
-    public static Point2d intersectLineSegments(Point2d p1, Point2d p2, Vector2d v1, Vector2d v2) {
-        Point2d p = p1;
-        Vector2d r = v1;
-        Point2d q = p2;
-        Vector2d s = v2;
+    public static Vector2dc intersectLineSegments(Vector2dc p1, Vector2dc p2, Vector2dc v1, Vector2dc v2) {
+        Vector2dc p = p1;
+        Vector2dc r = v1;
+        Vector2dc q = p2;
+        Vector2dc s = v2;
 
-        Vector2d qp = new Vector2d(q.x - p.x, q.y - p.y);
+        Vector2d qp = new Vector2d(q.x() - p.x(), q.y() - p.y());
         double rs = Vector2dUtil.cross(r, s);
 
 
 
-        //double t = Vector2dUtil.cross(qp, s) / rs;
+        //double t = Vector2dcUtil.cross(qp, s) / rs;
         double u = Vector2dUtil.cross(qp, r) / rs;
 
         if (rs == 0) {
             if (u == 0) {
                 // lines are collinear
-                return new Point2d(p);
+                return new Vector2d(p);
             } else {
                 // never intersect
                 return null;
             }
         }
 
-        return new Point2d(q.x + u * s.x, q.y + u * s.y);
+        return new Vector2d(q.x() + u * s.x(), q.y() + u * s.y());
 
     }
 
@@ -212,7 +211,7 @@ public class LineUtil {
      * @return
      * XXX move to LineXXX
      */
-    public static Point2d lineCrossPoint(double Ax1, double Ay1, double Ax2,
+    public static Vector2dc lineCrossPoint(double Ax1, double Ay1, double Ax2,
             double Ay2, double Bx1, double By1, double Bx2, double By2) {
         //	calc A, B, C for line
         //	double

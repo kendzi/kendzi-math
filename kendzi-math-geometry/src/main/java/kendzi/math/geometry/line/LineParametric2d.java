@@ -9,8 +9,8 @@
 
 package kendzi.math.geometry.line;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.point.Vector2dUtil;
 
@@ -30,40 +30,38 @@ import kendzi.math.geometry.point.Vector2dUtil;
  *
  */
 public class LineParametric2d {
-    public Point2d A;
-    public Vector2d U;
+    public Vector2dc A;
+    public Vector2dc U;
 
-    public LineParametric2d(Point2d pA, Vector2d pU) {
+    public LineParametric2d(Vector2dc pA, Vector2dc pU) {
         this.A = pA;
         this.U = pU;
     }
 
     public LineLinear2d getLinearForm() {
 
-        double x = this.A.x;
-        double y = this.A.y;
+        double x = this.A.x();
+        double y = this.A.y();
 
-        double B = -this.U.x;
-        double A = this.U.y;
+        double B = -this.U.x();
+        double A = this.U.y();
 
         double C = - (A * x + B * y);
         return new LineLinear2d(A, B, C);
     }
 
-    public boolean isOnLeftSite(Point2d point, double epsilon) {
-        Vector2d direction = new Vector2d(point);
-        direction.sub(A);
+    public boolean isOnLeftSite(Vector2dc point, double epsilon) {
+        Vector2dc direction = point.sub(A, new Vector2d());
 
-        Vector2d ortagonalRight = Vector2dUtil.orthogonalRight(U);
+        Vector2dc ortagonalRight = Vector2dUtil.orthogonalRight(U);
 
         return ortagonalRight.dot(direction) < epsilon;
     }
 
-    public boolean isOnRightSite(Point2d point, double epsilon) {
-        Vector2d direction = new Vector2d(point);
-        direction.sub(A);
+    public boolean isOnRightSite(Vector2dc point, double epsilon) {
+        Vector2dc direction = point.sub(A, new Vector2d());
 
-        Vector2d ortagonalRight = Vector2dUtil.orthogonalRight(U);
+        Vector2dc ortagonalRight = Vector2dUtil.orthogonalRight(U);
 
         return ortagonalRight.dot(direction) > -epsilon;
     }

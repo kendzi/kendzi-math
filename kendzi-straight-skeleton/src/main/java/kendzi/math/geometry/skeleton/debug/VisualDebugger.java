@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.line.LineParametric2d;
@@ -37,13 +37,13 @@ public interface VisualDebugger {
 
     void debug(LineSegment2d pLineSegment2d);
 
-    void debug(Point2d pPoint2d);
+    <V extends Vector2dc> void debug(V pVector2dc);
 
     void debug(LineParametric2d pLineParametric2d);
 
-    void debug(List<Point2d> polygon);
+    <V extends Vector2dc> void debug(List<V> polygon);
 
-    void debugNames(List<Point2d> polygon);
+    <V extends Vector2dc> void debugNames(List<V> polygon);
 
     void debug(DisplayObject displayObject);
 

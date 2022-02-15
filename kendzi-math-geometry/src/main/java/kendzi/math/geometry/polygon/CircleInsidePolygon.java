@@ -3,7 +3,8 @@ package kendzi.math.geometry.polygon;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.line.LineSegment2d;
 
@@ -22,23 +23,23 @@ public class CircleInsidePolygon {
     public static Circle iterativeNonConvex(PolygonList2d poly, double epsilon) {
 
         double divide = 20;
-        Point2d maxBound = PolygonUtil.maxBound(poly);
-        Point2d minBound = PolygonUtil.minBound(poly);
+        Vector2dc maxBound = PolygonUtil.maxBound(poly);
+        Vector2dc minBound = PolygonUtil.minBound(poly);
 
-        double minX = minBound.x;
-        double minY = minBound.y;
-        double deltaX = (maxBound.x - minBound.x) / divide;
-        double deltaY = (maxBound.y - minBound.y) / divide;
+        double minX = minBound.x();
+        double minY = minBound.y();
+        double deltaX = (maxBound.x() - minBound.x()) / divide;
+        double deltaY = (maxBound.y() - minBound.y()) / divide;
 
         Circle best = null;
 
         do {
-            List<Point2d> insideList = new ArrayList<Point2d>();
+            List<Vector2dc> insideList = new ArrayList<>();
 
             for (double xi = 0; xi <= divide; xi++) {
                 for (double yi = 0; yi <= divide; yi++) {
 
-                    Point2d p = new Point2d(minX + xi * deltaX, minY + yi * deltaY);
+                    Vector2dc p = new Vector2d(minX + xi * deltaX, minY + yi * deltaY);
 
                     if (PolygonUtil.isPointInsidePolygon(p, poly)) {
                         insideList.add(p);
@@ -46,7 +47,7 @@ public class CircleInsidePolygon {
                 }
             }
 
-            if (insideList.size() == 0) {
+            if (insideList.isEmpty()) {
                 // ???
             }
 
@@ -55,35 +56,35 @@ public class CircleInsidePolygon {
             deltaX = deltaX / Math.sqrt(2); // ???
             deltaY = deltaY / Math.sqrt(2); // ???
 
-            minX = best.point.x - deltaX * divide / 2.0;
-            minY = best.point.y - deltaY * divide / 2.0;
+            minX = best.point.x() - deltaX * divide / 2.0;
+            minY = best.point.y() - deltaY * divide / 2.0;
 
         } while (Math.max(deltaX, deltaY) > epsilon);
 
         return best;
     }
 
-    private static Circle furthestFromAnyPointOnEdge(List<Point2d> insideList, PolygonList2d poly) {
+    private static Circle furthestFromAnyPointOnEdge(List<Vector2dc> insideList, PolygonList2d poly) {
 
-        if (insideList.size() == 0) {
+        if (insideList.isEmpty()) {
             return null;
         }
 
-        List<Point2d> points = poly.getPoints();
+        List<Vector2dc> points = poly.getPoints();
 
-        List<LineSegment2d> segmentList = new ArrayList<LineSegment2d>();
+        List<LineSegment2d> segmentList = new ArrayList<>();
 
-        Point2d begin = points.get(points.size() - 1);
-        for (Point2d end : points) {
+        Vector2dc begin = points.get(points.size() - 1);
+        for (Vector2dc end : points) {
             LineSegment2d segment = new LineSegment2d(begin, end);
             segmentList.add(segment);
             begin = end;
         }
 
         double maxDistance = -Double.MAX_VALUE;
-        Point2d maxDistancePoint = null;
+        Vector2dc maxDistancePoint = null;
 
-        for (Point2d p : insideList) {
+        for (Vector2dc p : insideList) {
 
             Double distance = distanceFromAnyPointOnEdge(p, segmentList);
             if (distance > maxDistance) {
@@ -97,10 +98,10 @@ public class CircleInsidePolygon {
     }
 
     public static class Circle {
-        Point2d point;
+        Vector2dc point;
         double radius;
 
-        public Circle(Point2d point, double radius) {
+        public Circle(Vector2dc point, double radius) {
             super();
             this.point = point;
             this.radius = radius;
@@ -109,7 +110,7 @@ public class CircleInsidePolygon {
         /**
          * @return the point
          */
-        public Point2d getPoint() {
+        public Vector2dc getPoint() {
             return this.point;
         }
 
@@ -117,7 +118,7 @@ public class CircleInsidePolygon {
          * @param point
          *            the point to set
          */
-        public void setPoint(Point2d point) {
+        public void setPoint(Vector2dc point) {
             this.point = point;
         }
 
@@ -138,9 +139,9 @@ public class CircleInsidePolygon {
 
     }
 
-    private static Double distanceFromAnyPointOnEdge(Point2d P, List<LineSegment2d> segmentList) {
+    private static Double distanceFromAnyPointOnEdge(Vector2dc P, List<LineSegment2d> segmentList) {
 
-        if (segmentList.size() == 0) {
+        if (segmentList.isEmpty()) {
             return null;
         }
 
