@@ -2,7 +2,7 @@ package kendzi.math.geometry.debug;
 
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 public class DisplayRectBounds {
     double minX = Double.MAX_VALUE;
@@ -13,31 +13,30 @@ public class DisplayRectBounds {
     boolean isBound = false;
 
 
-    public void addPoint(Point2d p) {
+    public void addPoint(Vector2dc p) {
+        if (this.minX > p.x()) {
+            this.minX = p.x();
+        }
+        if (this.minY > p.y()) {
+            this.minY = p.y();
+        }
 
-        if (this.minX > p.x) {
-            this.minX = p.x;
+        if (this.maxX < p.x()) {
+            this.maxX = p.x();
         }
-        if (this.minY > p.y) {
-            this.minY = p.y;
-        }
-
-        if (this.maxX < p.x) {
-            this.maxX = p.x;
-        }
-        if (this.maxY < p.y) {
-            this.maxY = p.y;
+        if (this.maxY < p.y()) {
+            this.maxY = p.y();
         }
 
         isBound = true;
     }
 
-    public void addList(List<Point2d> list) {
+    public void addList(List<? extends Vector2dc> list) {
         if (list == null ) {
             return;
         }
 
-        for (Point2d p : list) {
+        for (Vector2dc p : list) {
             addPoint(p);
         }
     }

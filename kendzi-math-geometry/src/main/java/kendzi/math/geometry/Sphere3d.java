@@ -8,7 +8,8 @@
  */
 package kendzi.math.geometry;
 
-import javax.vecmath.Point3d;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 /**
  * Shape geometry.
@@ -16,15 +17,15 @@ import javax.vecmath.Point3d;
  * @author Tomasz Kędziora (Kendzi)
  */
 public class Sphere3d {
-    private Point3d center;
+    private Vector3dc center;
     private double radius;
 
 
     public Sphere3d() {
-        this(new Point3d(), 1);
+        this(new Vector3d(), 1);
     }
 
-    public Sphere3d(Point3d center, double radius) {
+    public Sphere3d(Vector3dc center, double radius) {
         super();
         this.center = center;
         this.radius = radius;
@@ -34,13 +35,13 @@ public class Sphere3d {
     /**
      * @return the center
      */
-    public Point3d getCenter() {
+    public Vector3dc getCenter() {
         return center;
     }
     /**
      * @param center the center to set
      */
-    public void setCenter(Point3d center) {
+    public void setCenter(Vector3dc center) {
         this.center = center;
     }
     /**

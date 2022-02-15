@@ -1,6 +1,6 @@
 package kendzi.math.geometry.skeleton.events;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.skeleton.circular.Edge;
 import kendzi.math.geometry.skeleton.circular.Vertex;
@@ -11,7 +11,7 @@ import kendzi.math.geometry.skeleton.circular.Vertex;
  */
 public class VertexSplitEvent extends SplitEvent {
 
-    public VertexSplitEvent(Point2d point, double distance, Vertex parent) {
+    public VertexSplitEvent(Vector2dc point, double distance, Vertex parent) {
         super(point, distance, parent, null);
     }
 

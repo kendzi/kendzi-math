@@ -9,8 +9,8 @@
 
 package kendzi.math.geometry.rectangle;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 /**
  * Rectangle made from point, vector, width, height.
@@ -20,18 +20,18 @@ import javax.vecmath.Vector2d;
 public class RectanglePointVector2d {
     private double width;
     private double height;
-    private Point2d point;
+    private Vector2dc point;
     private Vector2d vector;
 
-    public RectanglePointVector2d(double width, double height, Point2d point, Vector2d vector) {
+    public RectanglePointVector2d(double width, double height, Vector2dc point, Vector2d vector) {
         this(width, height, point, vector, false);
     }
 
-    public RectanglePointVector2d(double width, double height, Point2d point, Vector2d vector, boolean normalized) {
+    public RectanglePointVector2d(double width, double height, Vector2dc point, Vector2dc vector, boolean normalized) {
         super();
         this.width = width;
         this.height = height;
-        this.point = new Point2d(point);
+        this.point = new Vector2d(point);
         this.vector = new Vector2d(vector);
 
         if (!normalized) {
@@ -70,14 +70,14 @@ public class RectanglePointVector2d {
     /**
      * @return the point
      */
-    public Point2d getPoint() {
+    public Vector2dc getPoint() {
         return point;
     }
 
     /**
      * @param point the point to set
      */
-    public void setPoint(Point2d point) {
+    public void setPoint(Vector2dc point) {
         this.point = point;
     }
 

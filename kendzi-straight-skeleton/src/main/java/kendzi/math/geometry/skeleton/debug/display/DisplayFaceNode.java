@@ -3,7 +3,7 @@ package kendzi.math.geometry.skeleton.debug.display;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.debug.DisplayRectBounds;
@@ -23,7 +23,7 @@ public class DisplayFaceNode extends DisplayObject {
     private Color color;
 
     /**
-     * @param LAV
+     * @param f (LAV)
      * @param pColor
      */
     public DisplayFaceNode(FaceQueue f, Color pColor) {
@@ -33,7 +33,7 @@ public class DisplayFaceNode extends DisplayObject {
     }
 
     /**
-     * @param LAV
+     * @param node (LAV)
      * @param pColor
      */
     public DisplayFaceNode(FaceNode node, Color pColor) {
@@ -58,8 +58,8 @@ public class DisplayFaceNode extends DisplayObject {
                 continue;
             }
 
-            Point2d p1 = v1.getVertex().getPoint();
-            Point2d p2 = v2.getVertex().getPoint();
+            Vector2dc p1 = v1.getVertex().getPoint();
+            Vector2dc p2 = v2.getVertex().getPoint();
 
             g2d.setColor(color);
             DrawUtil.drawLine(p1, p2, selected, g2d, disp);

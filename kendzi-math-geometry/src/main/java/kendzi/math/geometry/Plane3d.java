@@ -9,8 +9,7 @@
 
 package kendzi.math.geometry;
 
-import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
+import org.joml.Vector3dc;
 
 /**
  * Plane described by point and normal vector.
@@ -24,18 +23,18 @@ public class Plane3d {
     /**
      * Point on plane.
      */
-    private Point3d point;
+    private Vector3dc point;
 
     /**
      * Normal vector of plane.
      */
-    private Vector3d normal;
+    private Vector3dc normal;
 
     /** Default constructor.
      * @param point point on plane
      * @param normal normal vector of plane
      */
-    public Plane3d(Point3d point, Vector3d normal) {
+    public Plane3d(Vector3dc point, Vector3dc normal) {
         this.point = point;
         this.normal = normal;
     }
@@ -43,25 +42,25 @@ public class Plane3d {
     /**
      * @return the point
      */
-    public Point3d getPoint() {
+    public Vector3dc getPoint() {
         return this.point;
     }
     /**
      * @param point the point to set
      */
-    public void setPoint(Point3d point) {
+    public void setPoint(Vector3dc point) {
         this.point = point;
     }
     /**
      * @return the normal
      */
-    public Vector3d getNormal() {
+    public Vector3dc getNormal() {
         return this.normal;
     }
     /**
      * @param normal the normal to set
      */
-    public void setNormal(Vector3d normal) {
+    public void setNormal(Vector3dc normal) {
         this.normal = normal;
     }
 
@@ -74,10 +73,10 @@ public class Plane3d {
      * @return Y value of plane
      */
     public double calcYOfPlane(double x, double z) {
-        double a = this.normal.x;
-        double b = this.normal.y;
-        double c = this.normal.z;
-        double d = -a * this.point.x - b * this.point.y - c * this.point.z;
+        double a = this.normal.x();
+        double b = this.normal.y();
+        double c = this.normal.z();
+        double d = -a * this.point.x() - b * this.point.y() - c * this.point.z();
 
         return (-a * x - c * z - d) / b;
     }
@@ -90,10 +89,10 @@ public class Plane3d {
      * @return Z value of plane
      */
     public double calcZOfPlane(double x, double y) {
-        double a = this.normal.x;
-        double b = this.normal.y;
-        double c = this.normal.z;
-        double d = -a * this.point.x - b * this.point.y - c * this.point.z;
+        double a = this.normal.x();
+        double b = this.normal.y();
+        double c = this.normal.z();
+        double d = -a * this.point.x() - b * this.point.y() - c * this.point.z();
 
         return (-a * x - b * y - d) / c;
     }

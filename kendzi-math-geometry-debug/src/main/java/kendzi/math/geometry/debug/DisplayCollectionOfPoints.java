@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Collection;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
@@ -14,14 +14,14 @@ import kendzi.swing.ui.panel.equation.EquationDisplay;
  */
 public class DisplayCollectionOfPoints extends DisplayObject {
 
-    private Collection<Point2d> points;
+    private Collection<Vector2dc> points;
 
     private Color color;
 
     /**
      * @param points
      */
-    public DisplayCollectionOfPoints(Collection<Point2d> points) {
+    public DisplayCollectionOfPoints(Collection<Vector2dc> points) {
         this(points, Color.RED.brighter());
     }
 
@@ -29,7 +29,7 @@ public class DisplayCollectionOfPoints extends DisplayObject {
      * @param polygon
      * @param pColor
      */
-    public DisplayCollectionOfPoints(Collection<Point2d> polygon, Color pColor) {
+    public DisplayCollectionOfPoints(Collection<Vector2dc> polygon, Color pColor) {
         super();
         this.points = polygon;
         this.color = pColor;
@@ -42,12 +42,12 @@ public class DisplayCollectionOfPoints extends DisplayObject {
             return;
         }
 
-        for (Point2d p : this.points) {
+        for (Vector2dc p : this.points) {
 
             g2d.setColor(color);
 
-            int x = (int) disp.xPositionToPixel(p.x);
-            int y = (int) disp.yPositionToPixel(p.y);
+            int x = (int) disp.xPositionToPixel(p.x());
+            int y = (int) disp.yPositionToPixel(p.y());
 
             if (selected) {
                 g2d.setColor(Color.GREEN.brighter());
@@ -67,7 +67,7 @@ public class DisplayCollectionOfPoints extends DisplayObject {
     @Override
     public DisplayRectBounds getBounds() {
         DisplayRectBounds b = new DisplayRectBounds();
-        for (Point2d p : this.points) {
+        for (Vector2dc p : this.points) {
             b.addPoint(p);
         }
         return b.toBount();

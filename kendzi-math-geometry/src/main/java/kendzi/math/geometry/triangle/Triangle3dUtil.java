@@ -1,11 +1,14 @@
 package kendzi.math.geometry.triangle;
 
-import javax.vecmath.Point3d;
+import org.joml.Vector3dc;
 
 /**
  * Utils for 3d triangles.
  */
 public class Triangle3dUtil {
+    private Triangle3dUtil() {
+        // Hide constructor
+    }
 
     /**
      * Calculates area of triangle described by vertex point.
@@ -21,15 +24,15 @@ public class Triangle3dUtil {
      *
      *
      */
-    public static double area(Point3d a, Point3d b, Point3d c) {
+    public static double area(Vector3dc a, Vector3dc b, Vector3dc c) {
 
-        double abx = b.x - a.x;
-        double aby = b.y - a.y;
-        double abz = b.z - a.z;
+        double abx = b.x() - a.x();
+        double aby = b.y() - a.y();
+        double abz = b.z() - a.z();
 
-        double acx = c.x - a.x;
-        double acy = c.y - a.y;
-        double acz = c.z - a.z;
+        double acx = c.x() - a.x();
+        double acy = c.y() - a.y();
+        double acz = c.z() - a.z();
 
         double x1 = abx;
         double x2 = aby;

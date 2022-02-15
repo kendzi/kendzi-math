@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.swing.ui.panel.equation.EquationDisplay;
 
@@ -18,9 +18,9 @@ public class DrawUtil {
      * @param g2d
      * @param disp
      */
-    public static void drawPoint(Point2d p, boolean selected, Graphics2D g2d, EquationDisplay disp) {
-        int x = (int) disp.xPositionToPixel(p.x);
-        int y = (int) disp.yPositionToPixel(p.y);
+    public static void drawPoint(Vector2dc p, boolean selected, Graphics2D g2d, EquationDisplay disp) {
+        int x = (int) disp.xPositionToPixel(p.x());
+        int y = (int) disp.yPositionToPixel(p.y());
         // g2d.translate(x, y);
         Color color = g2d.getColor();
         if (selected) {
@@ -39,12 +39,12 @@ public class DrawUtil {
      * @param g2d
      * @param disp
      */
-    public static void drawLine(Point2d current, Point2d previous, boolean selected, Graphics2D g2d, EquationDisplay disp) {
+    public static void drawLine(Vector2dc current, Vector2dc previous, boolean selected, Graphics2D g2d, EquationDisplay disp) {
 
-        int x1 = (int) disp.xPositionToPixel(previous.x);
-        int y1 = (int) disp.yPositionToPixel(previous.y);
-        int x2 = (int) disp.xPositionToPixel(current.x);
-        int y2 = (int) disp.yPositionToPixel(current.y);
+        int x1 = (int) disp.xPositionToPixel(previous.x());
+        int y1 = (int) disp.yPositionToPixel(previous.y());
+        int x2 = (int) disp.xPositionToPixel(current.x());
+        int y2 = (int) disp.yPositionToPixel(current.y());
 
         if (selected) {
             Stroke stroke = g2d.getStroke();

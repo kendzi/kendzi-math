@@ -1,6 +1,6 @@
 package kendzi.math.geometry.skeleton.events;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 /**
  * @author kendzi
@@ -8,19 +8,19 @@ import javax.vecmath.Point2d;
  */
 public abstract class SkeletonEvent {
 
-    public Point2d v;
+    public Vector2dc v;
 
     protected double distance;
 
     public abstract boolean isObsolete();
 
-    public SkeletonEvent(Point2d point, double distance) {
+    public SkeletonEvent(Vector2dc point, double distance) {
         super();
         this.v = point;
         this.distance = distance;
     }
 
-    public Point2d getPoint() {
+    public Vector2dc getPoint() {
         return v;
     }
 

@@ -1,19 +1,19 @@
 package kendzi.math.geometry.ray;
 
-import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 public class Ray3d {
 
-    private Point3d point;
+    private Vector3dc point;
 
-    private Vector3d vector;
+    private Vector3dc vector;
 
     public Ray3d() {
-        this(new Point3d(), new Vector3d());
+        this(new Vector3d(), new Vector3d());
     }
 
-    public Ray3d(Point3d point, Vector3d vector) {
+    public Ray3d(Vector3dc point, Vector3dc vector) {
         super();
         this.point = point;
         this.vector = vector;
@@ -22,25 +22,25 @@ public class Ray3d {
     /**
      * @return the point
      */
-    public Point3d getPoint() {
+    public Vector3dc getPoint() {
         return point;
     }
     /**
      * @param point the point to set
      */
-    public void setPoint(Point3d point) {
+    public void setPoint(Vector3dc point) {
         this.point = point;
     }
     /**
      * @return the vector
      */
-    public Vector3d getVector() {
+    public Vector3dc getVector() {
         return vector;
     }
     /**
      * @param vector the vector to set
      */
-    public void setVector(Vector3d vector) {
+    public void setVector(Vector3dc vector) {
         this.vector = vector;
     }
 

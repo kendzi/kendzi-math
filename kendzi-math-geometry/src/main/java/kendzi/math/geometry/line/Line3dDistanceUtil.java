@@ -1,8 +1,7 @@
 package kendzi.math.geometry.line;
 
-import javax.vecmath.Tuple3d;
-import javax.vecmath.Vector3d;
-
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 /**
  *
@@ -14,13 +13,28 @@ public class Line3dDistanceUtil {
     // anything that avoids division overflow
     final static double EPSILON  =  0.00000001;
 
-
-    static double dot(Tuple3d v0, Tuple3d v1) {
-        return (v0.x*v1.x + v0.y*v1.y + v0.z*v1.z);
+    /**
+     * Get the dot product of two vectors
+     * @param v0 A vector
+     * @param v1 Another vector
+     * @return The dot product
+     * @deprecated Use {@link Vector3d#dot(Vector3dc)} instead
+     */
+    @Deprecated
+    static double dot(Vector3d v0, Vector3d v1) {
+        return v0.dot(v1);
     }
 
-    static Vector3d sub(Tuple3d t0, Tuple3d t1) {
-        return new Vector3d(t0.x - t1.x, t0.y - t1.y, t0.z - t0.z);
+    /**
+     * Get the difference between two vectors
+     * @param t0 The first vector
+     * @param t1 The second vector
+     * @return The difference between the vectors
+     * @deprecated Use {@link Vector3d#sub(Vector3dc)} instead
+     */
+    @Deprecated
+    static Vector3d sub(Vector3dc t0, Vector3dc t1) {
+        return t0.sub(t1, new Vector3d());
     }
 
     /**
@@ -66,8 +80,8 @@ public class Line3dDistanceUtil {
         // dP = L1(sc) - L2(tc)
         // dP = w + (sc * u) - (tc * v)
 
-        u.scale(sc);
-        v.scale(tc);
+        u.mul(sc);
+        v.mul(tc);
 
         Vector3d dP = w;
         dP.add(u);

@@ -9,25 +9,14 @@
 
 package kendzi.math.geometry.point;
 
-import javax.vecmath.Tuple2d;
-import javax.vecmath.Tuple3d;
-import javax.vecmath.Vector2d;
-import javax.vecmath.Vector3d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 public class PointUtil {
-
-    /**
-     * @see http://en.wikipedia.org/wiki/Transformation_matrix
-     * @param pTuple
-     * @param pAngle
-     * @return
-     */
-    public static Vector2d rotateCounterClockwise2d(Tuple2d pTuple, double pAngle) {
-        double cosA = Math.cos(pAngle);
-        double sinA = Math.sin(pAngle);
-        return new Vector2d(
-                pTuple.x * cosA - pTuple.y * sinA,
-                pTuple.x * sinA + pTuple.y * cosA);
+    private PointUtil() {
+        // Hide constructor
     }
 
     /**
@@ -36,80 +25,57 @@ public class PointUtil {
      * @param pAngle
      * @return
      */
-    public static Vector2d rotateClockwise2d(Tuple2d pTuple, double pAngle) {
+    public static Vector2d rotateCounterClockwise2d(Vector2dc pTuple, double pAngle) {
         double cosA = Math.cos(pAngle);
         double sinA = Math.sin(pAngle);
         return new Vector2d(
-                pTuple.x * cosA + pTuple.y * sinA,
-                - pTuple.x * sinA + pTuple.y * cosA);
+                pTuple.x() * cosA - pTuple.y() * sinA,
+                pTuple.x() * sinA + pTuple.y() * cosA);
     }
 
     /**
-     * @see http://pl.wikipedia.org/wiki/Elementarne_macierze_transformacji
-     * @param pTuple3d
+     * @see http://en.wikipedia.org/wiki/Transformation_matrix
+     * @param pTuple
      * @param pAngle
      * @return
      */
-    public static Vector3d rotateX3d(Tuple3d pTuple, double pAngle) {
-
-        double x = pTuple.x;
-        double y = pTuple.y;
-        double z = pTuple.z;
-
+    public static Vector2d rotateClockwise2d(Vector2dc pTuple, double pAngle) {
         double cosA = Math.cos(pAngle);
         double sinA = Math.sin(pAngle);
-
-        return new Vector3d(
-                x,
-                y * cosA - z * sinA,
-                y * sinA + z * cosA);
-
+        return new Vector2d(
+                pTuple.x() * cosA + pTuple.y() * sinA,
+                - pTuple.x() * sinA + pTuple.y() * cosA);
     }
 
     /**
      * @see http://pl.wikipedia.org/wiki/Elementarne_macierze_transformacji
-     * @param pTuple3d
+     * @param pTuple
      * @param pAngle
      * @return
      */
-    public static Vector3d rotateY3d(Tuple3d pTuple3d, double pAngle) {
-
-        double x = pTuple3d.x;
-        double y = pTuple3d.y;
-        double z = pTuple3d.z;
-
-        double cosB = Math.cos(pAngle);
-        double sinB = Math.sin(pAngle);
-
-        return new Vector3d(
-              x * cosB + z * sinB,
-              y,
-              -x * sinB + z * cosB);
-
+    public static Vector3d rotateX3d(Vector3dc pTuple, double pAngle) {
+        return pTuple.rotateX(pAngle, new Vector3d());
     }
 
     /**
-     * @see http://pl.wikipedia.org/wiki/Elementarne_macierze_transformacji
-     * @param pTuple3d
+     * @see <a href="http://pl.wikipedia.org/wiki/Elementarne_macierze_transformacji>Elementarne_macierze_transformacji</a>
+     * @param pVector3dc
      * @param pAngle
      * @return
      */
-    public static Vector3d rotateZ3d(Vector3d pTuple3d, double pAngle) {
-
-        double x = pTuple3d.x;
-        double y = pTuple3d.y;
-        double z = pTuple3d.z;
-
-        double cosR = Math.cos(pAngle);
-        double sinR = Math.sin(pAngle);
-
-        return new Vector3d(
-              x * cosR - y * sinR,
-              x * sinR + y * cosR,
-              z);
-
+    public static Vector3d rotateY3d(Vector3dc pVector3dc, double pAngle) {
+        return pVector3dc.rotateY(pAngle, new Vector3d());
     }
 
-
-
+    /**
+     * @see <a href="http://pl.wikipedia.org/wiki/Elementarne_macierze_transformacji">Transforms</a>
+     * @param pVector3dc
+     * @param pAngle
+     * @return A <i>new</i> {@link Vector3d} object.
+     * @deprecated Use {@link Vector3d#rotateZ(double)} instead.
+     */
+    @Deprecated
+    public static Vector3d rotateZ3d(Vector3dc pVector3dc, double pAngle) {
+        return pVector3dc.rotateZ(pAngle, new Vector3d());
+    }
 }

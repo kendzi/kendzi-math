@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
+import org.junit.Test;
 
 import kendzi.math.geometry.line.LinePoints2d;
 import kendzi.math.geometry.polygon.split.PlygonSplitUtil.SplitResult;
-
-import org.junit.Test;
 
 /**
  * Tests for polygon split util.
@@ -24,15 +24,15 @@ public class PlygonSplitUtilTest {
     @SuppressWarnings("javadoc")
     @Test
     public void rect() {
-        Point2d p0 = debugPoint(0, -1, -1);
-        Point2d p1 = debugPoint(1, 1, -1);
-        Point2d p2 = debugPoint(2, 1, 1);
-        Point2d p3 = debugPoint(3, -1, 1);
+        Vector2dc p0 = debugPoint(0, -1, -1);
+        Vector2dc p1 = debugPoint(1, 1, -1);
+        Vector2dc p2 = debugPoint(2, 1, 1);
+        Vector2dc p3 = debugPoint(3, -1, 1);
 
-        Point2d s0 = debugPoint("s0", -1, 0);
-        Point2d s1 = debugPoint("s1", 1, 0);
+        Vector2dc s0 = debugPoint("s0", -1, 0);
+        Vector2dc s1 = debugPoint("s1", 1, 0);
 
-        List<Point2d> polygon = new ArrayList<Point2d>();
+        List<Vector2dc> polygon = new ArrayList<>();
         polygon.add(p0);
         polygon.add(p1);
         polygon.add(p2);
@@ -52,12 +52,12 @@ public class PlygonSplitUtilTest {
     @SuppressWarnings("javadoc")
     @Test
     public void oneSiteOfLine() {
-        Point2d p0 = debugPoint(0, -1, -1);
-        Point2d p1 = debugPoint(1, 1, -1);
-        Point2d p2 = debugPoint(2, 1, 1);
-        Point2d p3 = debugPoint(3, -1, 1);
+        Vector2dc p0 = debugPoint(0, -1, -1);
+        Vector2dc p1 = debugPoint(1, 1, -1);
+        Vector2dc p2 = debugPoint(2, 1, 1);
+        Vector2dc p3 = debugPoint(3, -1, 1);
 
-        List<Point2d> polygon = new ArrayList<Point2d>();
+        List<Vector2dc> polygon = new ArrayList<Vector2dc>();
         polygon.add(p0);
         polygon.add(p1);
         polygon.add(p2);
@@ -85,18 +85,18 @@ public class PlygonSplitUtilTest {
     @Test
     public void polygon1() {
         // polygon points
-        Point2d p0 = debugPoint(0, -1, -1);
-        Point2d p1 = debugPoint(1, 0, 1);
-        Point2d p2 = debugPoint(2, 1, -1);
-        Point2d p3 = debugPoint(3, 0, 2);
+        Vector2dc p0 = debugPoint(0, -1, -1);
+        Vector2dc p1 = debugPoint(1, 0, 1);
+        Vector2dc p2 = debugPoint(2, 1, -1);
+        Vector2dc p3 = debugPoint(3, 0, 2);
 
         // generated splitting points
-        Point2d s0 = debugPoint("s0", -2d / 3d, 0);
-        Point2d s1 = debugPoint("s1", -0.5, 0);
-        Point2d s2 = debugPoint("s2", 0.5, 0);
-        Point2d s3 = debugPoint("s3", 2d / 3d, 0);
+        Vector2dc s0 = debugPoint("s0", -2d / 3d, 0);
+        Vector2dc s1 = debugPoint("s1", -0.5, 0);
+        Vector2dc s2 = debugPoint("s2", 0.5, 0);
+        Vector2dc s3 = debugPoint("s3", 2d / 3d, 0);
 
-        List<Point2d> polygon = new ArrayList<Point2d>();
+        List<Vector2dc> polygon = new ArrayList<Vector2dc>();
         polygon.add(p0);
         polygon.add(p1);
         polygon.add(p2);
@@ -118,7 +118,7 @@ public class PlygonSplitUtilTest {
     @SuppressWarnings("javadoc")
     @Test
     public void saw1() {
-        List<Point2d> polygon = saw();
+        List<Vector2dc> polygon = saw();
 
         LinePoints2d line = new LinePoints2d(debugPoint("l1", 0, 0), debugPoint("l2", 1, 0));
 
@@ -127,10 +127,10 @@ public class PlygonSplitUtilTest {
         assertEquals(1, split.getLeftPolygons().size());
         assertEquals(4, split.getRightPolygons().size());
 
-        Point2d p0 = polygon.get(0);
-        Point2d p8 = polygon.get(8);
-        Point2d p9 = polygon.get(9);
-        Point2d p10 = polygon.get(10);
+        Vector2dc p0 = polygon.get(0);
+        Vector2dc p8 = polygon.get(8);
+        Vector2dc p9 = polygon.get(9);
+        Vector2dc p10 = polygon.get(10);
 
         assertEqualsPolygon(polygon(p8, p9, p10, p0), split.getLeftPolygons().get(0));
 
@@ -144,7 +144,7 @@ public class PlygonSplitUtilTest {
     @Test
     public void sawLess1() {
         // the points on split lines
-        List<Point2d> polygon = sawLess();
+        List<Vector2dc> polygon = sawLess();
 
         LinePoints2d line = new LinePoints2d(debugPoint("l1", 0, 0), debugPoint("l2", 1, 0));
 
@@ -153,14 +153,14 @@ public class PlygonSplitUtilTest {
         assertEquals(1, split.getLeftPolygons().size());
         assertEquals(2, split.getRightPolygons().size());
 
-        Point2d p0 = polygon.get(0);
-        Point2d p1 = polygon.get(1);
-        Point2d p2 = polygon.get(2);
-        Point2d p3 = polygon.get(3);
-        Point2d p4 = polygon.get(4);
-        Point2d p8 = polygon.get(8);
-        Point2d p9 = polygon.get(9);
-        Point2d p10 = polygon.get(10);
+        Vector2dc p0 = polygon.get(0);
+        Vector2dc p1 = polygon.get(1);
+        Vector2dc p2 = polygon.get(2);
+        Vector2dc p3 = polygon.get(3);
+        Vector2dc p4 = polygon.get(4);
+        Vector2dc p8 = polygon.get(8);
+        Vector2dc p9 = polygon.get(9);
+        Vector2dc p10 = polygon.get(10);
 
         assertEqualsPolygon(polygon(p8, p9, p10, p0, p1, p2, p3, p4), split.getLeftPolygons().get(0));
 
@@ -172,49 +172,49 @@ public class PlygonSplitUtilTest {
     @Test
     public void spiral1() {
         // The points on split lines.
-        List<Point2d> polygon = spiral();
+        List<Vector2dc> polygon = spiral();
 
         LinePoints2d line = new LinePoints2d(debugPoint("l1", 0, 3.5), debugPoint("l2", 1, 3.5));
 
         SplitResult split = PlygonSplitUtil.split(polygon, line);
 
-        List<List<Point2d>> leftPolygons = split.getLeftPolygons();
+        List<List<Vector2dc>> leftPolygons = split.getLeftPolygons();
         assertEquals(3, leftPolygons.size());
 
-        List<List<Point2d>> rightPolygons = split.getRightPolygons();
+        List<List<Vector2dc>> rightPolygons = split.getRightPolygons();
         assertEquals(3, rightPolygons.size());
 
-        Point2d p0 = polygon.get(0);
-        Point2d p1 = polygon.get(1);
-        Point2d p2 = polygon.get(2);
-        Point2d p3 = polygon.get(3);
-        Point2d p4 = polygon.get(4);
-        Point2d p5 = polygon.get(5);
-        Point2d p6 = polygon.get(6);
-        Point2d p7 = polygon.get(7);
-        Point2d p8 = polygon.get(8);
-        Point2d p9 = polygon.get(9);
-        Point2d p10 = polygon.get(10);
-        Point2d p11 = polygon.get(11);
-        Point2d p12 = polygon.get(12);
-        Point2d p13 = polygon.get(13);
-        Point2d p14 = polygon.get(14);
-        Point2d p15 = polygon.get(15);
-        Point2d p16 = polygon.get(16);
-        Point2d p17 = polygon.get(17);
-        Point2d p18 = polygon.get(18);
-        Point2d p19 = polygon.get(19);
+        Vector2dc p0 = polygon.get(0);
+        Vector2dc p1 = polygon.get(1);
+        Vector2dc p2 = polygon.get(2);
+        Vector2dc p3 = polygon.get(3);
+        Vector2dc p4 = polygon.get(4);
+        Vector2dc p5 = polygon.get(5);
+        Vector2dc p6 = polygon.get(6);
+        Vector2dc p7 = polygon.get(7);
+        Vector2dc p8 = polygon.get(8);
+        Vector2dc p9 = polygon.get(9);
+        Vector2dc p10 = polygon.get(10);
+        Vector2dc p11 = polygon.get(11);
+        Vector2dc p12 = polygon.get(12);
+        Vector2dc p13 = polygon.get(13);
+        Vector2dc p14 = polygon.get(14);
+        Vector2dc p15 = polygon.get(15);
+        Vector2dc p16 = polygon.get(16);
+        Vector2dc p17 = polygon.get(17);
+        Vector2dc p18 = polygon.get(18);
+        Vector2dc p19 = polygon.get(19);
 
-        Point2d s0 = debugPoint("s0", 0.0, 3.5);
-        Point2d s1 = debugPoint("s1", 1.0, 3.5);
-        Point2d s2 = debugPoint("s2", 2.0, 3.5);
-        Point2d s3 = debugPoint("s3", 3.0, 3.5);
-        Point2d s4 = debugPoint("s4", 4.0, 3.5);
-        Point2d s5 = debugPoint("s5", 5.0, 3.5);
-        Point2d s6 = debugPoint("s6", 6.0, 3.5);
-        Point2d s7 = debugPoint("s7", 7.0, 3.5);
-        Point2d s8 = debugPoint("s8", 8.0, 3.5);
-        Point2d s9 = debugPoint("s9", 9.0, 3.5);
+        Vector2dc s0 = debugPoint("s0", 0.0, 3.5);
+        Vector2dc s1 = debugPoint("s1", 1.0, 3.5);
+        Vector2dc s2 = debugPoint("s2", 2.0, 3.5);
+        Vector2dc s3 = debugPoint("s3", 3.0, 3.5);
+        Vector2dc s4 = debugPoint("s4", 4.0, 3.5);
+        Vector2dc s5 = debugPoint("s5", 5.0, 3.5);
+        Vector2dc s6 = debugPoint("s6", 6.0, 3.5);
+        Vector2dc s7 = debugPoint("s7", 7.0, 3.5);
+        Vector2dc s8 = debugPoint("s8", 8.0, 3.5);
+        Vector2dc s9 = debugPoint("s9", 9.0, 3.5);
 
         assertEqualsPolygon(polygon(p2, p3, s8, s9, p18, p19, s0, s1), findPolygonWithPoint(p19, leftPolygons));
         assertEqualsPolygon(polygon(p6, p7, s6, s7, p14, p15, s2, s3), findPolygonWithPoint(p15, leftPolygons));
@@ -225,10 +225,10 @@ public class PlygonSplitUtilTest {
         assertEqualsPolygon(polygon(p12, p13, s7, s6, p8, p9, s5, s4), findPolygonWithPoint(p12, rightPolygons));
     }
 
-    private List<Point2d> findPolygonWithPoint(Point2d find, List<List<Point2d>> polygons) {
-        for (List<Point2d> polygon : polygons) {
+    private List<Vector2dc> findPolygonWithPoint(Vector2dc find, List<List<Vector2dc>> polygons) {
+        for (List<Vector2dc> polygon : polygons) {
 
-            for (Point2d point : polygon) {
+            for (Vector2dc point : polygon) {
                 if (find.equals(point)) {
                     return polygon;
                 }
@@ -238,8 +238,8 @@ public class PlygonSplitUtilTest {
         return null;
     }
 
-    private List<Point2d> saw() {
-        List<Point2d> p = new ArrayList<Point2d>();
+    private List<Vector2dc> saw() {
+        List<Vector2dc> p = new ArrayList<Vector2dc>();
 
         p.add(debugPoint(0, 0, 0));
         p.add(debugPoint(1, 1, -1));
@@ -257,9 +257,9 @@ public class PlygonSplitUtilTest {
         return p;
     }
 
-    private List<Point2d> sawLess() {
+    private List<Vector2dc> sawLess() {
 
-        List<Point2d> p = new ArrayList<Point2d>();
+        List<Vector2dc> p = new ArrayList<Vector2dc>();
 
         p.add(debugPoint(0, 0, 0));
         p.add(debugPoint(1, 1, 0));
@@ -277,9 +277,9 @@ public class PlygonSplitUtilTest {
         return p;
     }
 
-    private List<Point2d> spiral() {
+    private List<Vector2dc> spiral() {
 
-        List<Point2d> p = new ArrayList<Point2d>();
+        List<Vector2dc> p = new ArrayList<Vector2dc>();
 
         p.add(debugPoint(0, 0, 0));
         p.add(debugPoint(1, 1, 0));
@@ -307,12 +307,12 @@ public class PlygonSplitUtilTest {
         return p;
     }
 
-    private Point2d debugPoint(int name, double x, double y) {
+    private Vector2dc debugPoint(int name, double x, double y) {
         return debugPoint("p" + name, x, y);
     }
 
-    private Point2d debugPoint(final String name, double x, double y) {
-        return new Point2d(x, y) {
+    private Vector2dc debugPoint(final String name, double x, double y) {
+        return new Vector2d(x, y) {
 
             private static final long serialVersionUID = 1L;
 
@@ -323,7 +323,7 @@ public class PlygonSplitUtilTest {
         };
     }
 
-    private void assertEqualsPolygon(List<Point2d> expected, List<Point2d> actual) {
+    private void assertEqualsPolygon(List<Vector2dc> expected, List<Vector2dc> actual) {
 
         int expectedListSize = expected.size();
 
@@ -331,7 +331,7 @@ public class PlygonSplitUtilTest {
 
         permute: for (int p = 0; p < expectedListSize; p++) {
             for (int i = 0; i < expectedListSize; i++) {
-                if (!expected.get((i + p) % expectedListSize).epsilonEquals(actual.get(i), EPSILON)) {
+                if (!expected.get((i + p) % expectedListSize).equals(actual.get(i), EPSILON)) {
                     continue permute;
                 }
             }
@@ -340,7 +340,7 @@ public class PlygonSplitUtilTest {
         fail("polygons don't equals" + "expected:<" + expected + "> but was:<" + actual + ">");
     }
 
-    private List<Point2d> polygon(Point2d... points) {
+    private List<Vector2dc> polygon(Vector2dc... points) {
         return Arrays.asList(points);
     }
 }

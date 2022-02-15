@@ -2,7 +2,7 @@ package kendzi.math.geometry.skeleton.events;
 
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.skeleton.events.chains.Chain;
 
@@ -12,7 +12,7 @@ public class MultiSplitEvent extends SkeletonEvent {
 
     private boolean obsolete;
 
-    public MultiSplitEvent(Point2d point, double distance, List<Chain> chains) {
+    public MultiSplitEvent(Vector2dc point, double distance, List<Chain> chains) {
         super(point, distance);
         this.chains = chains;
     }

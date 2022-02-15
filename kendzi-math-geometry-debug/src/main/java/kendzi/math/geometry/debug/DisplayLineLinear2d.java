@@ -7,7 +7,7 @@ import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.line.LineLinear2d;
 import kendzi.math.geometry.line.LineSegment2d;
@@ -22,7 +22,7 @@ public class DisplayLineLinear2d extends DisplayObject {
     private LineLinear2d lineLinear2d;
 
     /**
-     * @param polygon
+     * @param lineLinear2d
      */
     public DisplayLineLinear2d(LineLinear2d lineLinear2d) {
         super();
@@ -57,9 +57,9 @@ public class DisplayLineLinear2d extends DisplayObject {
         double maxX = disp.getMaxX();
         double maxY = disp.getMaxY();
 
-        List<Point2d> prosta = new ArrayList<Point2d>();
+        List<Vector2dc> prosta = new ArrayList<Vector2dc>();
 
-        Point2d p = LineSegment2d.collide(minX, minY, maxX, minY, pLine.A, pLine.B, pLine.C);
+        Vector2dc p = LineSegment2d.collide(minX, minY, maxX, minY, pLine.A, pLine.B, pLine.C);
         if (p != null) {
             prosta.add(p);
         }
@@ -80,13 +80,13 @@ public class DisplayLineLinear2d extends DisplayObject {
         }
 
         if (prosta.size() == 2) {
-            Point2d p1 = prosta.get(0);
-            Point2d p2 = prosta.get(1);
+            Vector2dc p1 = prosta.get(0);
+            Vector2dc p2 = prosta.get(1);
 
-            int x1 = (int) disp.xPositionToPixel(p1.x);
-            int y1 = (int) disp.yPositionToPixel(p1.y);
-            int x2 = (int) disp.xPositionToPixel(p2.x);
-            int y2 = (int) disp.yPositionToPixel(p2.y);
+            int x1 = (int) disp.xPositionToPixel(p1.x());
+            int y1 = (int) disp.yPositionToPixel(p1.y());
+            int x2 = (int) disp.xPositionToPixel(p2.x());
+            int y2 = (int) disp.yPositionToPixel(p2.y());
 
             g2d.drawLine(x1, y1, x2, y2);
 

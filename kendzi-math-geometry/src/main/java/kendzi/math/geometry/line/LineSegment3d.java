@@ -1,13 +1,13 @@
 package kendzi.math.geometry.line;
 
-import javax.vecmath.Point3d;
+import org.joml.Vector3dc;
 
 public class LineSegment3d {
 
-    Point3d begin;
-    Point3d end;
+    Vector3dc begin;
+    Vector3dc end;
 
-    public LineSegment3d(Point3d begin, Point3d end) {
+    public LineSegment3d(Vector3dc begin, Vector3dc end) {
         super();
         this.begin = begin;
         this.end = end;
@@ -16,28 +16,28 @@ public class LineSegment3d {
     /**
      * @return the begin
      */
-    public Point3d getBegin() {
+    public Vector3dc getBegin() {
         return begin;
     }
 
     /**
      * @param begin the begin to set
      */
-    public void setBegin(Point3d begin) {
+    public void setBegin(Vector3dc begin) {
         this.begin = begin;
     }
 
     /**
      * @return the end
      */
-    public Point3d getEnd() {
+    public Vector3dc getEnd() {
         return end;
     }
 
     /**
      * @param end the end to set
      */
-    public void setEnd(Point3d end) {
+    public void setEnd(Vector3dc end) {
         this.end = end;
     }
 

@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
+import org.junit.Test;
 
 import kendzi.math.geometry.line.LinePoints2d;
 import kendzi.math.geometry.polygon.split.PlygonSplitUtil.Close;
 import kendzi.math.geometry.polygon.split.PlygonSplitUtil.Node;
-
-import org.junit.Test;
 
 /**
  * Tests for internals of polygon split util.
@@ -26,10 +26,10 @@ public class PlygonSplitUtilInternalTest {
     @Test
     public void closePolygonsSingleSquare() {
 
-        Point2d p1 = debugPoint(0, 1, -0);
-        Point2d p2 = debugPoint(1, 1, -1);
-        Point2d p3 = debugPoint(2, 1, 1);
-        Point2d p4 = debugPoint(4, -1, -0);
+        Vector2dc p1 = debugPoint(0, 1, -0);
+        Vector2dc p2 = debugPoint(1, 1, -1);
+        Vector2dc p3 = debugPoint(2, 1, 1);
+        Vector2dc p4 = debugPoint(4, -1, -0);
 
         Node n0 = debugNode("n0", p1, 0);
         Node n1 = debugNode("n1", p2, 1);
@@ -108,13 +108,13 @@ public class PlygonSplitUtilInternalTest {
     @Test
     public void close1() {
 
-        Point2d p0 = debugPoint(0, -0.5, 0.0);
-        Point2d p1 = debugPoint(1, 0, 1);
-        Point2d p2 = debugPoint(2, 0.5, -0.0);
+        Vector2dc p0 = debugPoint(0, -0.5, 0.0);
+        Vector2dc p1 = debugPoint(1, 0, 1);
+        Vector2dc p2 = debugPoint(2, 0.5, -0.0);
 
-        Point2d p3 = debugPoint(3, 0.6666666666666666, -0.0);
-        Point2d p4 = debugPoint(4, 0, 2);
-        Point2d p5 = debugPoint(5, -0.6666666666666666, -0.0);
+        Vector2dc p3 = debugPoint(3, 0.6666666666666666, -0.0);
+        Vector2dc p4 = debugPoint(4, 0, 2);
+        Vector2dc p5 = debugPoint(5, -0.6666666666666666, -0.0);
 
         Node n0 = debugNode("n0", p0, 0);
         Node n1 = debugNode("n1", p1, 1);
@@ -157,13 +157,13 @@ public class PlygonSplitUtilInternalTest {
 
     public void closePolygons1() {
 
-        Point2d p0 = debugPoint(0, -0.5, 0.0);
-        Point2d p1 = debugPoint(1, 0, 1);
-        Point2d p2 = debugPoint(2, 0.5, -0.0);
+        Vector2dc p0 = debugPoint(0, -0.5, 0.0);
+        Vector2dc p1 = debugPoint(1, 0, 1);
+        Vector2dc p2 = debugPoint(2, 0.5, -0.0);
 
-        Point2d p3 = debugPoint(3, 0.6666666666666666, -0.0);
-        Point2d p4 = debugPoint(4, 0, 2);
-        Point2d p5 = debugPoint(5, -0.6666666666666666, -0.0);
+        Vector2dc p3 = debugPoint(3, 0.6666666666666666, -0.0);
+        Vector2dc p4 = debugPoint(4, 0, 2);
+        Vector2dc p5 = debugPoint(5, -0.6666666666666666, -0.0);
 
         Node n0 = debugNode("n0", p0, 0);
         Node n1 = debugNode("n1", p1, 1);
@@ -185,7 +185,7 @@ public class PlygonSplitUtilInternalTest {
         assertEquals(Arrays.asList(n0, n1, n2, n3, n4, n5), polygons.get(0).chain);
     }
 
-    private Node debugNode(final String name, Point2d point, double det) {
+    private Node debugNode(final String name, Vector2dc point, double det) {
         Node n = new Node(point, det) {
             @Override
             public String toString() {
@@ -232,12 +232,12 @@ public class PlygonSplitUtilInternalTest {
         return n;
     }
 
-    private Point2d debugPoint(int name, double x, double y) {
+    private Vector2dc debugPoint(int name, double x, double y) {
         return debugPoint("p" + name, x, y);
     }
 
-    private Point2d debugPoint(final String name, double x, double y) {
-        return new Point2d(x, y) {
+    private Vector2dc debugPoint(final String name, double x, double y) {
+        return new Vector2d(x, y) {
 
             private static final long serialVersionUID = 1L;
 

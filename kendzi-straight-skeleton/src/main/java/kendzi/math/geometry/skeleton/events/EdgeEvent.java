@@ -1,6 +1,6 @@
 package kendzi.math.geometry.skeleton.events;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.skeleton.circular.Vertex;
 
@@ -9,7 +9,7 @@ public class EdgeEvent extends SkeletonEvent {
     private Vertex previousVertex;
     private Vertex nextVertex;
 
-    public EdgeEvent(Point2d point, double distance, Vertex previousVertex, Vertex nextVertex) {
+    public EdgeEvent(Vector2dc point, double distance, Vertex previousVertex, Vertex nextVertex) {
         super(point, distance);
         this.previousVertex = previousVertex;
         this.nextVertex = nextVertex;

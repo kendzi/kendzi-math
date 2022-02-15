@@ -1,7 +1,7 @@
 package kendzi.math.geometry.skeleton.circular;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.line.LineLinear2d;
 import kendzi.math.geometry.line.LineParametric2d;
@@ -13,8 +13,8 @@ import kendzi.math.geometry.ray.Ray2d;
  */
 public class Edge extends CircularNode {
 
-    private Point2d begin;
-    private Point2d end;
+    private Vector2dc begin;
+    private Vector2dc end;
 
     private Ray2d bisectorPrevious;
     private Ray2d bisectorNext;
@@ -23,7 +23,7 @@ public class Edge extends CircularNode {
 
     private Vector2d norm;
 
-    public Edge(Point2d begin, Point2d end) {
+    public Edge(Vector2dc begin, Vector2dc end) {
         this.begin = begin;
         this.end = end;
 
@@ -66,11 +66,11 @@ public class Edge extends CircularNode {
         return "EdgeEntry [p1=" + this.begin + ", p2=" + this.end + "]";
     }
 
-    public Point2d getBegin() {
+    public Vector2dc getBegin() {
         return begin;
     }
 
-    public Point2d getEnd() {
+    public Vector2dc getEnd() {
         return end;
     }
 

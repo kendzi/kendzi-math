@@ -9,8 +9,8 @@
 
 package kendzi.math.geometry.line;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Tuple2d;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 /**
  * Geometry line in linear form.
@@ -19,8 +19,8 @@ import javax.vecmath.Tuple2d;
  *
  * TODO
  *
- * @see http://pl.wikipedia.org/wiki/Prosta
- * @see http://en.wikipedia.org/wiki/Linear_equation
+ * @see <a href="http://pl.wikipedia.org/wiki/Prosta">Prosta</a>
+ * @see <a href="http://en.wikipedia.org/wiki/Linear_equation">Linear_equation</a>
  *
  * @author kendzi
  *
@@ -46,10 +46,10 @@ public class LineLinear2d {
      * @param pP1 first point
      * @param pP2 second point
      */
-    public LineLinear2d(Point2d pP1, Point2d pP2) {
-        this.A = pP1.y - pP2.y;
-        this.B = pP2.x - pP1.x;
-        this.C = pP1.x * pP2.y - pP2.x * pP1.y;
+    public LineLinear2d(Vector2dc pP1, Vector2dc pP2) {
+        this.A = pP1.y() - pP2.y();
+        this.B = pP2.x() - pP1.x();
+        this.C = pP1.x() * pP2.y() - pP2.x() * pP1.y();
     }
 
 
@@ -58,7 +58,7 @@ public class LineLinear2d {
      * @param pLine line to collision
      * @return collision point
      */
-    public Point2d collide(LineLinear2d pLine) {
+    public Vector2dc collide(LineLinear2d pLine) {
         return collide(this, pLine);
     }
 
@@ -73,7 +73,7 @@ public class LineLinear2d {
      * @param C2
      * @return collision point
      */
-    public static Point2d collide(double A1, double B1, double C1, double A2, double B2, double C2) {
+    public static Vector2dc collide(double A1, double B1, double C1, double A2, double B2, double C2) {
 
         double WAB = A1*B2 - A2*B1;
         double WBC = B1*C2 - B2*C1;
@@ -83,7 +83,7 @@ public class LineLinear2d {
             return null;
         }
 
-        return new Point2d(WBC / WAB, WCA / WAB);
+        return new Vector2d(WBC / WAB, WCA / WAB);
     }
 
     /** Collision point of two lines.
@@ -91,7 +91,7 @@ public class LineLinear2d {
      * @param pLine2 line 2 in linear form
      * @return collision point
      */
-    public static Point2d collide(LineLinear2d pLine1, LineLinear2d pLine2) {
+    public static Vector2dc collide(LineLinear2d pLine1, LineLinear2d pLine2) {
         return collide(pLine1.A, pLine1.B, pLine1.C, pLine2.A, pLine2.B, pLine2.C);
     }
 
@@ -104,9 +104,9 @@ public class LineLinear2d {
      * @param pPoint point
      * @return point is under line
      */
-    public boolean pointIsUnder(Tuple2d pPoint) {
+    public boolean pointIsUnder(Vector2dc pPoint) {
         // XXX veryfy if it have sense
-        return A * pPoint.x + B * pPoint.y + C > 0;
+        return A * pPoint.x() + B * pPoint.y() + C > 0;
     }
 
     /** Determinate if point is over line.
@@ -114,9 +114,9 @@ public class LineLinear2d {
      * @param pPoint point
      * @return point is over line
      */
-    public boolean pointIsOver(Tuple2d pPoint) {
+    public boolean pointIsOver(Vector2dc pPoint) {
         // XXX veryfy if it have sense
-        return A * pPoint.x + B * pPoint.y + C < 0;
+        return A * pPoint.x() + B * pPoint.y() + C < 0;
     }
 
     /** Determinate if point is on line.
@@ -125,8 +125,8 @@ public class LineLinear2d {
      * @param pPoint point
      * @return point is on line
      */
-    public boolean pointIsOn(Tuple2d pPoint) {
-        return A * pPoint.x + B * pPoint.y + C == 0;
+    public boolean pointIsOn(Vector2dc pPoint) {
+        return A * pPoint.x() + B * pPoint.y() + C == 0;
     }
 
     /** Determinate if point is over line or on line.
@@ -134,9 +134,9 @@ public class LineLinear2d {
      * @param pPoint point
      * @return point is over line or on line
      */
-    public boolean pointInFront(Tuple2d pPoint) {
+    public boolean pointInFront(Vector2dc pPoint) {
         // XXX veryfy if it have sense
-        return A * pPoint.x + B * pPoint.y + C >= 0;
+        return A * pPoint.x() + B * pPoint.y() + C >= 0;
     }
 
     /** Determinate if point is under line or on line.
@@ -144,8 +144,8 @@ public class LineLinear2d {
      * @param pPoint point
      * @return point is under line or on line
      */
-    public boolean pointInBack(Tuple2d pPoint) {
+    public boolean pointInBack(Vector2dc pPoint) {
         // XXX veryfy if it have sense
-        return A * pPoint.x + B * pPoint.y + C <= 0;
+        return A * pPoint.x() + B * pPoint.y() + C <= 0;
     }
 }

@@ -1,14 +1,19 @@
 package kendzi.math.geometry.skeleton;
 
-import static kendzi.math.geometry.TestUtil.*;
-import static org.junit.Assert.*;
+import static kendzi.math.geometry.TestUtil.p;
+import static kendzi.math.geometry.TestUtil.v;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
+import org.joml.Vector2d;
+import org.junit.Test;
 
 import kendzi.math.geometry.line.LineLinear2d;
 import kendzi.math.geometry.ray.Ray2d;
@@ -20,8 +25,6 @@ import kendzi.math.geometry.skeleton.events.PickEvent;
 import kendzi.math.geometry.skeleton.events.SkeletonEvent;
 import kendzi.math.geometry.skeleton.utils.LavUtil;
 import kendzi.math.geometry.skeleton.utils.LavUtil.SplitSlavs;
-
-import org.junit.Test;
 
 public class SkeletonInternalTest {
 
@@ -77,7 +80,7 @@ public class SkeletonInternalTest {
         Vertex v3 = debugVertex("v3");
         Vertex v4 = debugVertex("v4");
 
-        CircularList<Vertex> lav1 = new CircularList<Vertex>();
+        CircularList<Vertex> lav1 = new CircularList<>();
         lav1.addLast(v1);
         lav1.addLast(v2);
         lav1.addLast(v3);
@@ -88,7 +91,7 @@ public class SkeletonInternalTest {
         Vertex e3 = debugVertex("e3");
         Vertex e4 = debugVertex("e4");
 
-        CircularList<Vertex> lav2 = new CircularList<Vertex>();
+        CircularList<Vertex> lav2 = new CircularList<>();
         lav2.addLast(e1);
         lav2.addLast(e2);
         lav2.addLast(e3);
@@ -111,7 +114,7 @@ public class SkeletonInternalTest {
         Vertex v4 = debugVertex("v4", anyEdge, anyEdge);
         Vertex v5 = debugVertex("v5", anyEdge, anyEdge);
 
-        CircularList<Vertex> lav1 = new CircularList<Vertex>();
+        CircularList<Vertex> lav1 = new CircularList<>();
         lav1.addLast(v1);
         lav1.addLast(v2);
         lav1.addLast(v3);
@@ -135,7 +138,7 @@ public class SkeletonInternalTest {
         Vertex v4 = debugVertex("v4", anyEdge, anyEdge);
         Vertex v5 = debugVertex("v5", anyEdge, anyEdge);
 
-        CircularList<Vertex> lav1 = new CircularList<Vertex>();
+        CircularList<Vertex> lav1 = new CircularList<>();
         lav1.addLast(v1);
         lav1.addLast(v2);
         lav1.addLast(v3);
@@ -159,7 +162,7 @@ public class SkeletonInternalTest {
         Vertex v4 = debugVertex("v4", anyEdge, anyEdge);
         Vertex v5 = debugVertex("v5", anyEdge, anyEdge);
 
-        CircularList<Vertex> lav1 = new CircularList<Vertex>();
+        CircularList<Vertex> lav1 = new CircularList<>();
         lav1.addLast(v1);
         lav1.addLast(v2);
         lav1.addLast(v3);
@@ -183,7 +186,7 @@ public class SkeletonInternalTest {
         Vertex v4 = debugVertex("v4", anyEdge, anyEdge);
         Vertex v5 = debugVertex("v5", anyEdge, oppositeEdge);
 
-        CircularList<Vertex> lav1 = new CircularList<Vertex>();
+        CircularList<Vertex> lav1 = new CircularList<>();
         lav1.addLast(v1);
         lav1.addLast(v2);
         lav1.addLast(v3);
@@ -204,7 +207,7 @@ public class SkeletonInternalTest {
         Vertex v4 = debugVertex("v4");
         Vertex v5 = debugVertex("v5");
 
-        CircularList<Vertex> lav1 = new CircularList<Vertex>();
+        CircularList<Vertex> lav1 = new CircularList<>();
         lav1.addLast(v1);
         lav1.addLast(v2);
         lav1.addLast(v3);
@@ -226,7 +229,7 @@ public class SkeletonInternalTest {
         Vertex v4 = debugVertex("v4");
         Vertex v5 = debugVertex("v5");
 
-        CircularList<Vertex> lav1 = new CircularList<Vertex>();
+        CircularList<Vertex> lav1 = new CircularList<>();
         lav1.addLast(v1);
         lav1.addLast(v2);
         lav1.addLast(v3);
@@ -241,7 +244,7 @@ public class SkeletonInternalTest {
     @Test()
     public void testVertexOpositeEdge_1() {
 
-        Point2d point = new Point2d(0, 2);
+        Vector2d point = p(0, 2);
 
         Edge edge = debugEdge("edge");
         Edge edgePrevious = debugEdge("edgePrevious");
@@ -249,8 +252,8 @@ public class SkeletonInternalTest {
 
         edgesCircularList(edge, edgeNext, edgePrevious);
 
-        edge.setBisectorPrevious(new Ray2d(new Point2d(-2, 0), new Vector2d(1, 1)));
-        edge.setBisectorNext(new Ray2d(new Point2d(2, 0), new Vector2d(1, 1)));
+        edge.setBisectorPrevious(new Ray2d(p(-2, 0), v(1, 1)));
+        edge.setBisectorNext(new Ray2d(p(2, 0), v(1, 1)));
 
         Edge vertexOppositeEdge = Skeleton.vertexOpositeEdge(point, edge);
 
@@ -260,7 +263,7 @@ public class SkeletonInternalTest {
     @Test()
     public void testVertexOpositeEdge_2() {
 
-        Point2d point = new Point2d(0, 2);
+        Vector2d point = p(0, 2);
 
         Edge edge = debugEdge("edge");
         Edge edgePrevious = debugEdge("edgePrevious");
@@ -268,8 +271,8 @@ public class SkeletonInternalTest {
 
         edgesCircularList(edge, edgeNext, edgePrevious);
 
-        edge.setBisectorPrevious(new Ray2d(new Point2d(-3, 0), new Vector2d(1, 1)));
-        edge.setBisectorNext(new Ray2d(new Point2d(2, 0), new Vector2d(-1, 1)));
+        edge.setBisectorPrevious(new Ray2d(p(-3, 0), v(1, 1)));
+        edge.setBisectorNext(new Ray2d(p(2, 0), v(-1, 1)));
 
         Edge vertexOppositeEdge = Skeleton.vertexOpositeEdge(point, edge);
 
@@ -279,7 +282,7 @@ public class SkeletonInternalTest {
     @Test()
     public void testVertexOpositeEdge_3() {
 
-        Point2d point = new Point2d(0, 2);
+        Vector2d point = p(0, 2);
 
         Edge edge = debugEdge("edge");
         Edge edgePrevious = debugEdge("edgePrevious");
@@ -287,8 +290,8 @@ public class SkeletonInternalTest {
 
         edgesCircularList(edge, edgeNext, edgePrevious);
 
-        edge.setBisectorPrevious(new Ray2d(new Point2d(-2, 0), new Vector2d(1, 1)));
-        edge.setBisectorNext(new Ray2d(new Point2d(2, 0), new Vector2d(-1, 1)));
+        edge.setBisectorPrevious(new Ray2d(p(-2, 0), v(1, 1)));
+        edge.setBisectorNext(new Ray2d(p(2, 0), v(-1, 1)));
 
         Edge vertexOppositeEdge = Skeleton.vertexOpositeEdge(point, edge);
 
@@ -308,7 +311,7 @@ public class SkeletonInternalTest {
         EdgeEvent e2 = debugEdgeEvent("e2", v3, v4);
         EdgeEvent e3 = debugEdgeEvent("e3", v2, v5);
 
-        List<EdgeEvent> edgeCluster = new ArrayList<EdgeEvent>();
+        List<EdgeEvent> edgeCluster = new ArrayList<>();
         edgeCluster.add(e1);
         edgeCluster.add(e2);
         edgeCluster.add(e3);
@@ -330,7 +333,7 @@ public class SkeletonInternalTest {
         EdgeEvent e2 = debugEdgeEvent("e2", v3, v1);
         EdgeEvent e3 = debugEdgeEvent("e3", v2, v4);
 
-        List<EdgeEvent> edgeCluster = new ArrayList<EdgeEvent>();
+        List<EdgeEvent> edgeCluster = new ArrayList<>();
         edgeCluster.add(e1);
         edgeCluster.add(e2);
         edgeCluster.add(e3);
@@ -347,14 +350,14 @@ public class SkeletonInternalTest {
         Vertex v2 = debugVertex("v2");
         Vertex v3 = debugVertex("v3");
         Vertex v4 = debugVertex("v4");
-        Point2d p1 = debugPoint2d("p1", 0, 0);
+        Vector2d p1 = debugVector2d("p1", 0, 0);
 
         EdgeEvent e1 = debugEdgeEvent("e1", v1, v2, p1);
         EdgeEvent e2 = debugEdgeEvent("e2", v2, v3, p1);
         EdgeEvent e3 = debugEdgeEvent("e3", v3, v4, p1);
         EdgeEvent e4 = debugEdgeEvent("e4", v4, v1, p1);
 
-        List<SkeletonEvent> edgeCluster = new ArrayList<SkeletonEvent>();
+        List<SkeletonEvent> edgeCluster = new ArrayList<>();
         edgeCluster.add(e1);
         edgeCluster.add(e2);
         edgeCluster.add(e3);
@@ -374,7 +377,7 @@ public class SkeletonInternalTest {
         Vertex v4 = debugVertex("v4");
         Vertex v5 = debugVertex("v5");
 
-        CircularList<Vertex> lav1 = new CircularList<Vertex>();
+        CircularList<Vertex> lav1 = new CircularList<>();
         lav1.addLast(v1);
         lav1.addLast(v2);
         lav1.addLast(v3);
@@ -395,7 +398,7 @@ public class SkeletonInternalTest {
         Vertex v4 = debugVertex("v4");
         Vertex v5 = debugVertex("v5");
 
-        CircularList<Vertex> lav1 = new CircularList<Vertex>();
+        CircularList<Vertex> lav1 = new CircularList<>();
         lav1.addLast(v1);
         lav1.addLast(v2);
         lav1.addLast(v3);
@@ -410,20 +413,20 @@ public class SkeletonInternalTest {
     @Test()
     public void choseOppositeEdgeLav() {
 
-        Point2d p1 = debugPoint2d("p0", 0, 0);
-        Point2d p2 = debugPoint2d("p1", 1, 0);
+        Vector2d p1 = debugVector2d("p0", 0, 0);
+        Vector2d p2 = debugVector2d("p1", 1, 0);
         Edge oppositeEdge = new Edge(p1, p2);
 
         Vertex v1 = debugVertex("v1", p1);
         Vertex v2 = debugVertex("v2", p2);
 
-        CircularList<Vertex> lav1 = new CircularList<Vertex>();
+        CircularList<Vertex> lav1 = new CircularList<>();
         lav1.addLast(v1);
         lav1.addLast(v2);
 
         List<Vertex> edgeLavs = Arrays.asList(v1, v1);
 
-        Point2d center = debugPoint2d("c", 0.5, 1);
+        Vector2d center = debugVector2d("c", 0.5, 1);
 
         Vertex vertex = Skeleton.choseOppositeEdgeLav(edgeLavs, oppositeEdge, center);
 
@@ -433,30 +436,30 @@ public class SkeletonInternalTest {
     @Test()
     public void choseOppositeEdgeLav_2() {
 
-        Point2d p1 = debugPoint2d("p1", 0, 0);
-        Point2d p2 = debugPoint2d("p2", 0.2, 0);
-        Point2d p3 = debugPoint2d("p3", 0.2, 0);
-        Point2d p4 = debugPoint2d("p4", 1, 0);
+        Vector2d p1 = debugVector2d("p1", 0, 0);
+        Vector2d p2 = debugVector2d("p2", 0.2, 0);
+        Vector2d p3 = debugVector2d("p3", 0.2, 0);
+        Vector2d p4 = debugVector2d("p4", 1, 0);
 
         Edge oppositeEdge = new Edge(p1, p3);
 
         Vertex v1 = debugVertex("v1", p1);
         Vertex v2 = debugVertex("v2", p2);
 
-        CircularList<Vertex> lav1 = new CircularList<Vertex>();
+        CircularList<Vertex> lav1 = new CircularList<>();
         lav1.addLast(v1);
         lav1.addLast(v2);
 
         Vertex v3 = debugVertex("v3", p3);
         Vertex v4 = debugVertex("v4", p4);
 
-        CircularList<Vertex> lav2 = new CircularList<Vertex>();
+        CircularList<Vertex> lav2 = new CircularList<>();
         lav2.addLast(v3);
         lav2.addLast(v4);
 
         List<Vertex> edgeLavs = Arrays.asList(v1, v3);
 
-        Point2d center = debugPoint2d("c", 0.5, 1);
+        Vector2d center = debugVector2d("c", 0.5, 1);
 
         Vertex vertex = Skeleton.choseOppositeEdgeLav(edgeLavs, oppositeEdge, center);
 
@@ -474,7 +477,7 @@ public class SkeletonInternalTest {
         return event;
     }
 
-    private EdgeEvent debugEdgeEvent(final String name, Vertex v1, Vertex v2, Point2d point) {
+    private EdgeEvent debugEdgeEvent(final String name, Vertex v1, Vertex v2, Vector2d point) {
         EdgeEvent event = new EdgeEvent(point, 0, v1, v2) {
             @Override
             public String toString() {
@@ -486,7 +489,7 @@ public class SkeletonInternalTest {
     }
 
     private void edgesCircularList(Edge... edges) {
-        CircularList<Edge> edgesList = new CircularList<Edge>();
+        CircularList<Edge> edgesList = new CircularList<>();
 
         for (Edge edgeEntry : edges) {
             edgesList.addLast(edgeEntry);
@@ -494,7 +497,7 @@ public class SkeletonInternalTest {
     }
 
     private Edge debugEdge(final String string) {
-        return new Edge(new Point2d(), new Point2d()) {
+        return new Edge(new Vector2d(), new Vector2d()) {
             @Override
             public String toString() {
                 return string;
@@ -526,7 +529,7 @@ public class SkeletonInternalTest {
         return v;
     }
 
-    private Vertex debugVertex(final String name1, Point2d p) {
+    private Vertex debugVertex(final String name1, Vector2d p) {
 
         Vertex v = new Vertex(p, 0, null, null, null) {
             @Override
@@ -558,8 +561,8 @@ public class SkeletonInternalTest {
 
     }
 
-    public static Point2d debugPoint2d(final String name, double x, double y) {
-        return new Point2d(x, y) {
+    public static Vector2d debugVector2d(final String name, double x, double y) {
+        return new Vector2d(x, y) {
             @Override
             public String toString() {
                 return name;

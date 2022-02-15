@@ -11,14 +11,12 @@ package kendzi.math.geometry;
 
 import java.util.List;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Tuple2d;
-import javax.vecmath.Vector2d;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.joml.Vector2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.rectangle.RectanglePointVector2d;
-
-import org.apache.log4j.Logger;
-
 
 /**
  * Basic function on rectangles.
@@ -26,10 +24,13 @@ import org.apache.log4j.Logger;
  * @author Tomasz Kędziora (Kendzi)
  */
 public class RectangleUtil {
+    private RectangleUtil() {
+        // Hide constructor
+    }
 
     /** Log. */
     @SuppressWarnings("unused")
-    private static final Logger log = Logger.getLogger(RectangleUtil.class);
+    private static final Logger log = LogManager.getLogger(RectangleUtil.class);
 
 
     /**
@@ -40,7 +41,7 @@ public class RectangleUtil {
      * @param direction direction vector
      * @return smallest rectangle for given direction
      */
-    public static RectanglePointVector2d findRectangleContur(List<Point2d> points, Vector2d direction) {
+    public static RectanglePointVector2d findRectangleContur(List<Vector2dc> points, Vector2dc direction) {
 
         Vector2d vector = new Vector2d(direction);
         vector.normalize();
@@ -52,9 +53,9 @@ public class RectangleUtil {
         double minOrtagonal = Double.MAX_VALUE;
         double maxOrtagonal = -Double.MAX_VALUE;
 
-        for (Point2d point : points) {
+        for (Vector2dc point : points) {
 
-            double dot = dot(vector, point);
+            double dot = vector.dot(point);
             if (dot < minVector) {
                 minVector = dot;
             }
@@ -62,7 +63,7 @@ public class RectangleUtil {
                 maxVector = dot;
             }
 
-            dot = dot(orthogonal, point);
+            dot = orthogonal.dot(point);
             if (dot < minOrtagonal) {
                 minOrtagonal = dot;
             }
@@ -74,7 +75,7 @@ public class RectangleUtil {
         double height = maxOrtagonal - minOrtagonal;
         double width = maxVector - minVector;
 
-        Point2d point = new Point2d(
+        Vector2dc point = new Vector2d(
                 vector.x * minVector + orthogonal.x * minOrtagonal,
                 vector.y * minVector + orthogonal.y * minOrtagonal
                 );
@@ -83,33 +84,20 @@ public class RectangleUtil {
     }
 
     /**
-     * Computes the dot product of the v1 vector and vector v2. Parameter can be
-     * point then vector will start from origin and to point.
-     * 
-     * @param v1 first vector
-     * @param v2 second vector
-     * @return dot product
-     * XXX
-     */
-    private final static double dot(Tuple2d v1, Tuple2d v2) {
-        return v1.x*v2.x + v1.y*v2.y;
-    }
-
-    /**
      * Finds minimal area rectangle containing set of points.
      * 
      * @param points set of points
      * @return vertex of rectangle or null if less then 3 points
      */
-    public static RectanglePointVector2d findRectangleContur(List<Point2d> points) {
+    public static RectanglePointVector2d findRectangleContur(List<Vector2dc> points) {
 
-        List<Point2d> graham = Graham.grahamScan(points);
+        List<Vector2dc> graham = Graham.grahamScan(points);
 
         double smalestArea = Double.MAX_VALUE;
         RectanglePointVector2d smalestRectangle = null;
 
-        Point2d begin = graham.get(graham.size() - 1);
-        for (Point2d end : graham) {
+        Vector2dc begin = graham.get(graham.size() - 1);
+        for (Vector2dc end : graham) {
 
             Vector2d direction = new Vector2d(end);
             direction.sub(begin);

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2dc;
 
 import kendzi.math.geometry.debug.DisplayObject;
 import kendzi.math.geometry.line.LineParametric2d;
@@ -68,7 +68,7 @@ public class EmptyDebugger implements VisualDebugger {
     }
 
     @Override
-    public void debug(Point2d pPoint2d) {
+    public <V extends Vector2dc> void debug(V pVector2dc) {
         //
 
     }
@@ -80,13 +80,13 @@ public class EmptyDebugger implements VisualDebugger {
     }
 
     @Override
-    public void debug(List<Point2d> polygon) {
+    public <V extends Vector2dc> void debug(List<V> polygon) {
         //
 
     }
 
     @Override
-    public void debugNames(List<Point2d> polygon) {
+    public <V extends Vector2dc> void debugNames(List<V> polygon) {
         //
 
     }

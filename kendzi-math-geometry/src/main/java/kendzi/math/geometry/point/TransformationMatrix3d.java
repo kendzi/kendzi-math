@@ -9,10 +9,9 @@
 
 package kendzi.math.geometry.point;
 
-import javax.vecmath.Point3d;
-import javax.vecmath.Vector3d;
-
 import org.ejml.simple.SimpleMatrix;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 /**
  *
@@ -120,10 +119,6 @@ public class TransformationMatrix3d {
                 });
     }
 
-    /**
-     * @param alpha
-     * @return
-     */
     public static SimpleMatrix tranA(double x, double y, double z) {
 
         return new SimpleMatrix(
@@ -151,27 +146,13 @@ public class TransformationMatrix3d {
                 });
     }
 
-    public static Point3d transform(Point3d pPoint, SimpleMatrix pSimpleMatrix) {
+    public static Vector3dc transform(Vector3dc pVector, SimpleMatrix pSimpleMatrix, boolean isPoint) {
         SimpleMatrix sm = new SimpleMatrix(
                 new double [][] {
-                        {pPoint.x},
-                        {pPoint.y},
-                        {pPoint.z},
-                        {1}
-                });
-
-        SimpleMatrix mult = pSimpleMatrix.mult(sm);
-
-        return new Point3d(mult.get(0), mult.get(1), mult.get(2));
-    }
-
-    public static Vector3d transform(Vector3d pVector, SimpleMatrix pSimpleMatrix) {
-        SimpleMatrix sm = new SimpleMatrix(
-                new double [][] {
-                        {pVector.x},
-                        {pVector.y},
-                        {pVector.z},
-                        {0}
+                        {pVector.x()},
+                        {pVector.y()},
+                        {pVector.z()},
+                        {isPoint ? 1 : 0}
                 });
 
         SimpleMatrix mult = pSimpleMatrix.mult(sm);

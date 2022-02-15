@@ -3,15 +3,16 @@ package kendzi.math.geometry.skeleton.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import kendzi.math.geometry.skeleton.circular.CircularList;
 import kendzi.math.geometry.skeleton.circular.Vertex;
-
-import org.apache.log4j.Logger;
 
 public class LavUtil {
 
     /** Log. */
-    private static final Logger log = Logger.getLogger(LavUtil.class);
+    private static final Logger log = LogManager.getLogger(LavUtil.class);
 
     /**
      * Check if two vertex are in the same lav.

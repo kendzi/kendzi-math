@@ -1,12 +1,14 @@
 package kendzi.math.geometry.skeleton.path;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import javax.vecmath.Point2d;
+import org.joml.Vector2d;
+import org.junit.Test;
 
 import kendzi.math.geometry.skeleton.circular.Edge;
-
-import org.junit.Test;
 
 public class FaceQueueUtilTest {
 
@@ -98,7 +100,7 @@ public class FaceQueueUtilTest {
         };
         fq.addFirst(fn);
         if (edge) {
-            fq.setEdge(new Edge(new Point2d(), new Point2d()));
+            fq.setEdge(new Edge(new Vector2d(), new Vector2d()));
         }
         return fn;
     }
