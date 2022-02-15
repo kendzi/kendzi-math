@@ -32,8 +32,8 @@
     </dependency>
     <dependency>
       <groupId>org.ejml</groupId>
-      <artifactId>ejml-simple</artifactId>
-      <version>0.41</version>
+      <artifactId>ejml-all</artifactId>
+      <version>0.43.1</version>
       <!-- EJML is provided by the ejml plugin -->
       <scope>provided</scope>
     </dependency>

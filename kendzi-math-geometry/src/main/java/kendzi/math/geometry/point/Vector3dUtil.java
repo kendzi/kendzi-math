@@ -15,7 +15,7 @@ public class Vector3dUtil {
      * @deprecated Use {@link Vector3d#sub(Vector3dc)} ({@code to.sub(from)}) instead.
      */
     @Deprecated
-    public static Vector3d fromTo(Vector3dc from, Vector3dc to) {
+    public static Vector3dc fromTo(Vector3dc from, Vector3dc to) {
         return new Vector3d(to).sub(from);
     }
 

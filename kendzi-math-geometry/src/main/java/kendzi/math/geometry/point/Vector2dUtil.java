@@ -21,7 +21,7 @@ public class Vector2dUtil {
         // Hide constructor
     }
 
-    public static Vector2d orthogonalLeft(Vector2dc v) {
+    public static Vector2dc orthogonalLeft(Vector2dc v) {
         return new Vector2d(-v.y(), v.x());
     }
 
