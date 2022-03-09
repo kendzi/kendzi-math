@@ -6,8 +6,8 @@
   <dependencies>
     <dependency>
       <groupId>org.ejml</groupId>
-      <artifactId>simple</artifactId>
-      <version>0.27</version>
+      <artifactId>ejml-simple</artifactId>
+      <version>0.41</version>
     </dependency>
   </dependencies>
   <parent>
